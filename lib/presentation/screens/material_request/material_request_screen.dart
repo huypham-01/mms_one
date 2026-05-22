@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,13 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
   final _scrollController = ScrollController();
   String _selectedFilter = 'All';
 
-  static const _filters = ['All', 'Pending', 'Approved', 'In Progress', 'Rejected'];
+  static const _filters = [
+    'All',
+    'Pending',
+    'Approved',
+    'In Progress',
+    'Rejected',
+  ];
 
   @override
   void initState() {
@@ -42,15 +48,78 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+
+      appBar: AppBar(
+        backgroundColor: AppColors.surface,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          onPressed: () => context.go(RouteNames.homePath),
+          icon: const Icon(Icons.arrow_back_rounded),
+          color: AppColors.textPrimary,
+        ),
+
+        titleSpacing: 0,
+
+        title: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Material Request',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary,
+                letterSpacing: -0.3,
+              ),
+            ),
+            SizedBox(height: 2),
+            Text(
+              'Manage material requisitions',
+              style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+            ),
+          ],
+        ),
+
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Center(
+              child: Consumer<MrRequestProvider>(
+                builder: (_, p, __) => Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.primarySurface,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColors.primaryBorder),
+                  ),
+                  child: Text(
+                    '${p.total} items',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(context),
             _buildSearchAndFilter(),
-            _buildFilterChips(),
             Expanded(child: _buildList()),
           ],
         ),
@@ -58,65 +127,9 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return Container(
-      color: AppColors.surface,
-      padding: const EdgeInsets.fromLTRB(4, 8, 16, 12),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => context.go(RouteNames.homePath),
-            icon: const Icon(Icons.arrow_back_rounded),
-            color: AppColors.textPrimary,
-          ),
-          const SizedBox(width: 4),
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Material Request',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  'Manage material requisitions',
-                  style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-                ),
-              ],
-            ),
-          ),
-          Consumer<MrRequestProvider>(
-            builder: (_, p, __) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppColors.primarySurface,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColors.primaryBorder),
-              ),
-              child: Text(
-                '${p.total} items',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildSearchAndFilter() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+      padding: const EdgeInsets.fromLTRB(16, 5, 16, 5),
       child: AppSearchBar(
         hintText: 'Search request number, material...',
         trailing: IconButton(
@@ -181,9 +194,16 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.inbox_outlined, size: 64, color: AppColors.textTertiary.withValues(alpha: 0.4)),
+                Icon(
+                  Icons.inbox_outlined,
+                  size: 64,
+                  color: AppColors.textTertiary.withValues(alpha: 0.4),
+                ),
                 const SizedBox(height: 16),
-                const Text('No requests found', style: TextStyle(color: AppColors.textSecondary)),
+                const Text(
+                  'No requests found',
+                  style: TextStyle(color: AppColors.textSecondary),
+                ),
               ],
             ),
           );
@@ -202,8 +222,12 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
                   padding: EdgeInsets.all(16),
                   child: Center(
                     child: SizedBox(
-                      width: 24, height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                 );
@@ -220,6 +244,7 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
                 currentStatus: item.currentStatus,
                 currentStep: item.currentStep,
                 requestDate: item.requestDate,
+                onTap: () => context.pushNamed(RouteNames.materialRequestDetail, extra: item),
               );
             },
           ),

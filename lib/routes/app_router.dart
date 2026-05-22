@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../presentation/screens/home/home_screen.dart';
 import '../presentation/screens/material_request/material_request_screen.dart';
+import '../presentation/screens/material_request/material_request_detail_screen.dart';
+import '../domain/entities/mr_request_entity.dart';
 import 'route_names.dart';
 
 /// Application router configuration using go_router.
@@ -32,6 +34,19 @@ class AppRouter {
           key: state.pageKey,
           child: const MaterialRequestScreen(),
         ),
+        routes: [
+          GoRoute(
+            name: RouteNames.materialRequestDetail,
+            path: RouteNames.materialRequestDetailPath,
+            pageBuilder: (context, state) {
+              final request = state.extra as MrRequestEntity?;
+              return _buildPage(
+                key: state.pageKey,
+                child: MaterialRequestDetailScreen(request: request),
+              );
+            },
+          ),
+        ],
       ),
 
       // ── WAREHOUSE (placeholder) ────────────────────────────────────

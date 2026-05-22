@@ -6,6 +6,7 @@ class RouteNames {
   // ── ROUTE NAMES ──────────────────────────────────────────────────────
   static const String home = 'home';
   static const String materialRequest = 'material-request';
+  static const String materialRequestDetail = 'material-request-detail';
   static const String warehouse = 'warehouse';
   static const String toProduction = 'to-production';
   static const String labelControl = 'label-control';
@@ -13,6 +14,7 @@ class RouteNames {
   // ── ROUTE PATHS ──────────────────────────────────────────────────────
   static const String homePath = '/home';
   static const String materialRequestPath = '/material-request';
+  static const String materialRequestDetailPath = 'detail';
   static const String warehousePath = '/warehouse';
   static const String toProductionPath = '/to-production';
   static const String labelControlPath = '/label-control';

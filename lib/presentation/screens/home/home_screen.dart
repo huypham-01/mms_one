@@ -6,9 +6,7 @@ import '../../../core/widgets/section_label.dart';
 import '../../../routes/route_names.dart';
 import 'widgets/home_top_bar.dart';
 import 'widgets/home_menu_card.dart';
-import 'widgets/home_bottom_nav.dart';
 import 'widgets/home_drawer.dart';
-import 'widgets/to_production_button.dart';
 
 /// Home dashboard screen showing module cards in a grid layout.
 /// Entry point of the application with navigation to all modules.
@@ -186,12 +184,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildModuleGrid3() {
     return GridView.count(
-      crossAxisCount: 2,
+      crossAxisCount: 4,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 8,
       crossAxisSpacing: 8,
-      childAspectRatio: 1.6,
+      childAspectRatio: 0.78,
       children: _modules3.map((module) {
         return HomeMenuCard(
           title: module.title,

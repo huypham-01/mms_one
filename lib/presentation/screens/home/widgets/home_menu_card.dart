@@ -181,30 +181,30 @@ class _HomeMenuCardState extends State<HomeMenuCard>
                 ),
 
               // Active indicator bar
-              if (widget.isActive)
-                Positioned(
-                  bottom: 0,
-                  left: 20,
-                  child: Container(
-                    width: 28,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
+              // if (widget.isActive)
+              //   Positioned(
+              //     bottom: 0,
+              //     left: 20,
+              //     child: Container(
+              //       width: 28,
+              //       height: 3,
+              //       decoration: BoxDecoration(
+              //         color: AppColors.primary,
+              //         borderRadius: BorderRadius.circular(2),
+              //       ),
+              //     ),
+              //   ),
 
               // Arrow icon
-              Positioned(
-                bottom: 16,
-                right: 16,
-                child: Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 16,
-                  color: AppColors.textTertiary.withValues(alpha: 0.5),
-                ),
-              ),
+              // Positioned(
+              //   bottom: 16,
+              //   right: 16,
+              //   child: Icon(
+              //     Icons.arrow_forward_rounded,
+              //     size: 16,
+              //     color: AppColors.textTertiary.withValues(alpha: 0.5),
+              //   ),
+              // ),
             ],
           ),
         ),
