@@ -70,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: context.l10n.materialReceiver,
         icon: Icons.move_to_inbox_outlined,
         isActive: true,
+        route: RouteNames.materialReceiverPath,
         requiredPermission: AppPermissions.mrStepReceiver,
       ),
       _ModuleItem(

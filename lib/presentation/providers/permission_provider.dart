@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import '../../domain/usecases/get_my_permissions_usecase.dart';
 import '../../core/storage/storage_service.dart';
+import '../../core/mock/mock_mode_provider.dart';
+import '../../core/permissions/app_permissions.dart';
 
 class PermissionProvider extends ChangeNotifier {
   final GetMyPermissionsUseCase _useCase;
   final StorageService _storageService;
+  final MockModeProvider _mockModeProvider;
 
   PermissionProvider({
     required GetMyPermissionsUseCase useCase,
     required StorageService storageService,
+    required MockModeProvider mockModeProvider,
   })  : _useCase = useCase,
-        _storageService = storageService;
+        _storageService = storageService,
+        _mockModeProvider = mockModeProvider;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -28,11 +33,18 @@ class PermissionProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final serverPermissions = await _useCase.call();
-      _permissions = serverPermissions;
-      _hasLoaded = true;
-      await savePermissions();
-      debugPrint('[PermissionProvider] Successfully loaded permissions from server');
+      if (_mockModeProvider.isMockMode) {
+        _permissions = AppPermissions.allPermissions.toSet();
+        _hasLoaded = true;
+        await savePermissions();
+        debugPrint('[PermissionProvider] Mock mode enabled, granted FULL permissions');
+      } else {
+        final serverPermissions = await _useCase.call();
+        _permissions = serverPermissions;
+        _hasLoaded = true;
+        await savePermissions();
+        debugPrint('[PermissionProvider] Successfully loaded permissions from server');
+      }
     } catch (e) {
       debugPrint('[PermissionProvider] Error loading permissions from server: $e');
       // On error, we fallback to cache if available

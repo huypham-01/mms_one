@@ -29,4 +29,19 @@ class AppPermissions {
   static const materialManage = 'mms.material.manage';
   static const lockManage = 'mms.lock.manage';
   static const workflowStepManage = 'mms.workflowstep.manage';
+
+  static List<String> get allPermissions => [
+        mmsView,
+        mrPlanner,
+        mrImport,
+        mrActions,
+        mrStepPreparer,
+        mrStepWarehouse,
+        mrStepReceiver,
+        mrStepLineLeader,
+        mrStepProduction,
+        materialManage,
+        lockManage,
+        workflowStepManage,
+      ];
 }

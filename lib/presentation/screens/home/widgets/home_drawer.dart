@@ -8,6 +8,7 @@ import '../../../../core/permissions/app_permissions.dart';
 import '../../../../core/permissions/permission_extensions.dart';
 import '../../../../core/localization/app_locale.dart';
 import '../../../../presentation/providers/locale_provider.dart';
+import '../../../../core/mock/mock_mode_provider.dart';
 
 /// Side drawer navigation with gradient header,
 /// module listing, and version info.
@@ -172,6 +173,7 @@ class _DrawerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     final localeProvider = context.watch<LocaleProvider>();
+    final mockModeProvider = context.watch<MockModeProvider>();
     final username = authProvider.username;
     final currentLanguage = localeProvider.getLanguageName(
       localeProvider.locale,
@@ -206,6 +208,23 @@ class _DrawerHeader extends StatelessWidget {
               color: Colors.white,
             ),
           ),
+          if (mockModeProvider.isMockMode)
+            Container(
+              margin: const EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.orange,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                '🧪 MOCK MODE',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           const SizedBox(height: 12),
           Text(
             'Language: $currentLanguage',

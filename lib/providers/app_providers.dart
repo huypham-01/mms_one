@@ -11,6 +11,8 @@ import '../core/auth/token_manager.dart';
 import '../core/network/dio_client.dart';
 import '../core/network/api_client.dart';
 import '../core/localization/locale_storage.dart';
+import '../core/mock/mock_storage.dart';
+import '../core/mock/mock_mode_provider.dart';
 
 // --- Auth Feature ---
 import '../data/datasources/mr_workflow_reject_remote_datasource.dart';
@@ -41,6 +43,8 @@ import '../data/datasources/mr_request_remote_datasource.dart';
 import '../data/datasources/mr_workflow_remote_datasource.dart';
 import '../data/datasources/mr_workflow_submit_remote_datasource.dart';
 import '../data/datasources/upload_remote_datasource.dart';
+import '../data/mock/material_request/mock_material_request_datasource.dart';
+import '../data/mock/workflow/mock_mr_workflow_datasource.dart';
 import '../data/repositories/mr_request_repository_impl.dart';
 import '../data/repositories/mr_workflow_repository_impl.dart';
 import '../data/repositories/mr_workflow_submit_repository_impl.dart';
@@ -96,6 +100,7 @@ class AppProviders {
     final storageService = StorageService(prefs);
     final tokenManager = TokenManager(prefs);
     final localeStorage = LocaleStorage(prefs);
+    final mockStorage = MockStorage(prefs);
 
     // 2. Networking (Dio & ApiClient)
     final dioClient = DioClient(
@@ -112,6 +117,10 @@ class AppProviders {
         Provider<StorageService>.value(value: storageService),
         Provider<TokenManager>.value(value: tokenManager),
         Provider<LocaleStorage>.value(value: localeStorage),
+        Provider<MockStorage>.value(value: mockStorage),
+        ChangeNotifierProvider<MockModeProvider>(
+          create: (_) => MockModeProvider(mockStorage),
+        ),
         Provider<ApiClient>.value(value: apiClient),
         Provider<WorkflowService>.value(value: workflowService),
 
@@ -139,6 +148,7 @@ class AppProviders {
           create: (context) => PermissionProvider(
             useCase: context.read<GetMyPermissionsUseCase>(),
             storageService: context.read<StorageService>(),
+            mockModeProvider: context.read<MockModeProvider>(),
           )..restorePermissions(),
         ),
 
@@ -150,6 +160,7 @@ class AppProviders {
           create: (context) => AuthRepositoryImpl(
             context.read<AuthRemoteDataSource>(),
             context.read<TokenManager>(),
+            context.read<MockModeProvider>(),
           ),
         ),
         Provider<LoginUseCase>(
@@ -279,9 +290,16 @@ class AppProviders {
         create: (context) =>
             MrRequestRemoteDataSource(context.read<ApiClient>()),
       ),
+      Provider<MockMaterialRequestDataSource>(
+        create: (_) => MockMaterialRequestDataSource(),
+      ),
       Provider<MrRequestRepository>(
         create: (context) =>
-            MrRequestRepositoryImpl(context.read<MrRequestRemoteDataSource>()),
+            MrRequestRepositoryImpl(
+          context.read<MrRequestRemoteDataSource>(),
+          context.read<MockMaterialRequestDataSource>(),
+          context.read<MockModeProvider>(),
+        ),
       ),
       Provider<GetMrRequestsUseCase>(
         create: (context) =>
@@ -305,9 +323,14 @@ class AppProviders {
         create: (context) =>
             MrWorkflowRemoteDataSource(context.read<ApiClient>()),
       ),
+      Provider<MockMrWorkflowDataSource>(
+        create: (_) => MockMrWorkflowDataSource(),
+      ),
       Provider<MrWorkflowRepository>(
         create: (context) => MrWorkflowRepositoryImpl(
           context.read<MrWorkflowRemoteDataSource>(),
+          context.read<MockMrWorkflowDataSource>(),
+          context.read<MockModeProvider>(),
         ),
       ),
       Provider<GetMrWorkflowUseCase>(

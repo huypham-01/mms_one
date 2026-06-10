@@ -1,6 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/mock/mock_mode_provider.dart';
 
 class HomeTopBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeTopBar({super.key, required this.onMenuTap});
@@ -12,6 +14,8 @@ class HomeTopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMockMode = context.watch<MockModeProvider>().isMockMode;
+    
     return AppBar(
       automaticallyImplyLeading: false,
       elevation: 0,
@@ -38,13 +42,13 @@ class HomeTopBar extends StatelessWidget implements PreferredSizeWidget {
                 // Logo/Icon
 
                 // TEXT
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'MMS',
-                      style: TextStyle(
+                      isMockMode ? 'MMS [MOCK]' : 'MMS',
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
@@ -53,9 +57,9 @@ class HomeTopBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ),
 
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
 
-                    Text(
+                    const Text(
                       'Material Management System',
                       style: TextStyle(
                         fontSize: 11,
