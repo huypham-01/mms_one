@@ -63,8 +63,7 @@ import 'app_localizations_zh.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,8 +71,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,13 +83,12 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -99,7 +96,7 @@ abstract class AppLocalizations {
     Locale('vi'),
     Locale('zh'),
     Locale('zh', 'CN'),
-    Locale('zh', 'TW'),
+    Locale('zh', 'TW')
   ];
 
   /// No description provided for @home.
@@ -522,6 +519,12 @@ abstract class AppLocalizations {
   /// **'Scan Locker'**
   String get scanLocker;
 
+  /// No description provided for @scanPreparerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan PreparerName'**
+  String get scanPreparerName;
+
   /// No description provided for @preparerName.
   ///
   /// In en, this message translates to:
@@ -549,7 +552,7 @@ abstract class AppLocalizations {
   /// No description provided for @scanWarehouseLockerQr.
   ///
   /// In en, this message translates to:
-  /// **'Scan Warehouse Locker QR'**
+  /// **'Scan QR'**
   String get scanWarehouseLockerQr;
 
   /// No description provided for @productionLocker.
@@ -561,14 +564,14 @@ abstract class AppLocalizations {
   /// No description provided for @scanProductionLockerQr.
   ///
   /// In en, this message translates to:
-  /// **'Scan Production Locker QR'**
+  /// **'Scan QR'**
   String get scanProductionLockerQr;
 
-  /// No description provided for @receivedBy.
+  /// No description provided for @warehouseKeeper.
   ///
   /// In en, this message translates to:
-  /// **'Received By'**
-  String get receivedBy;
+  /// **'Warehouse Keeper'**
+  String get warehouseKeeper;
 
   /// No description provided for @mrName.
   ///
@@ -815,6 +818,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OTP code is invalid. Please check again'**
   String get otpInvalid;
+
+  /// No description provided for @otpEmptyError.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP cannot be empty'**
+  String get otpEmptyError;
+
+  /// No description provided for @otpLengthError.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP must have exactly 6 digits'**
+  String get otpLengthError;
+
+  /// No description provided for @verifyOtpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify OTP'**
+  String get verifyOtpTitle;
+
+  /// No description provided for @otpCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP Code'**
+  String get otpCodeLabel;
 
   /// No description provided for @submitError.
   ///
@@ -1067,10 +1094,387 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quantity'**
   String get quantity;
+
+  /// No description provided for @materialRequestInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Request'**
+  String get materialRequestInformation;
+
+  /// No description provided for @requestStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Request Status'**
+  String get requestStatus;
+
+  /// No description provided for @workflowInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Workflow Information'**
+  String get workflowInformation;
+
+  /// No description provided for @currentStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Status'**
+  String get currentStatus;
+
+  /// No description provided for @actionDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Action Date'**
+  String get actionDate;
+
+  /// No description provided for @quantityInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity Information'**
+  String get quantityInformation;
+
+  /// No description provided for @preparedMaterialReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Prepared Material Received'**
+  String get preparedMaterialReceived;
+
+  /// No description provided for @totalToProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Total To Production'**
+  String get totalToProduction;
+
+  /// No description provided for @currentMaterialBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Material Balance'**
+  String get currentMaterialBalance;
+
+  /// No description provided for @lotInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Lot Information'**
+  String get lotInformation;
+
+  /// No description provided for @specPictures.
+  ///
+  /// In en, this message translates to:
+  /// **'Spec Pictures'**
+  String get specPictures;
+
+  /// No description provided for @verificationMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Method'**
+  String get verificationMethod;
+
+  /// No description provided for @logHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log History'**
+  String get logHistoryTitle;
+
+  /// No description provided for @stepPlanner.
+  ///
+  /// In en, this message translates to:
+  /// **'PLANNER'**
+  String get stepPlanner;
+
+  /// No description provided for @stepPreparer.
+  ///
+  /// In en, this message translates to:
+  /// **'PREPARER'**
+  String get stepPreparer;
+
+  /// No description provided for @stepWarehouse.
+  ///
+  /// In en, this message translates to:
+  /// **'WAREHOUSE'**
+  String get stepWarehouse;
+
+  /// No description provided for @stepReceiver.
+  ///
+  /// In en, this message translates to:
+  /// **'RECEIVER'**
+  String get stepReceiver;
+
+  /// No description provided for @stepLineLeader.
+  ///
+  /// In en, this message translates to:
+  /// **'LINE LEADER'**
+  String get stepLineLeader;
+
+  /// No description provided for @stepProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'PRODUCTION'**
+  String get stepProduction;
+
+  /// No description provided for @rolePlanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Planner'**
+  String get rolePlanner;
+
+  /// No description provided for @rolePreparer.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparer'**
+  String get rolePreparer;
+
+  /// No description provided for @roleWarehouse.
+  ///
+  /// In en, this message translates to:
+  /// **'Warehouse'**
+  String get roleWarehouse;
+
+  /// No description provided for @roleReceiver.
+  ///
+  /// In en, this message translates to:
+  /// **'Receiver'**
+  String get roleReceiver;
+
+  /// No description provided for @roleLineLeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Leader'**
+  String get roleLineLeader;
+
+  /// No description provided for @systemActor.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get systemActor;
+
+  /// No description provided for @payloadHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'PAYLOAD'**
+  String get payloadHeader;
+
+  /// No description provided for @boolTrue.
+  ///
+  /// In en, this message translates to:
+  /// **'true'**
+  String get boolTrue;
+
+  /// No description provided for @boolFalse.
+  ///
+  /// In en, this message translates to:
+  /// **'false'**
+  String get boolFalse;
+
+  /// No description provided for @errorLoadHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load history'**
+  String get errorLoadHistory;
+
+  /// No description provided for @emptyHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No history yet'**
+  String get emptyHistoryTitle;
+
+  /// No description provided for @emptyHistoryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'This Material Request has no logs recorded yet.'**
+  String get emptyHistoryDesc;
+
+  /// No description provided for @retryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryButton;
+
+  /// No description provided for @drawerModuleMaterialRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Request'**
+  String get drawerModuleMaterialRequest;
+
+  /// No description provided for @drawerModulePreparer.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparer'**
+  String get drawerModulePreparer;
+
+  /// No description provided for @drawerModuleWarehouse.
+  ///
+  /// In en, this message translates to:
+  /// **'Warehouse'**
+  String get drawerModuleWarehouse;
+
+  /// No description provided for @drawerModuleMaterialReceiver.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Receiver'**
+  String get drawerModuleMaterialReceiver;
+
+  /// No description provided for @drawerModuleLineLeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Leader'**
+  String get drawerModuleLineLeader;
+
+  /// No description provided for @reportMaterialRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Request Report'**
+  String get reportMaterialRequestTitle;
+
+  /// No description provided for @reportPreparerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparer Report'**
+  String get reportPreparerTitle;
+
+  /// No description provided for @reportWarehouseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Warehouse Report'**
+  String get reportWarehouseTitle;
+
+  /// No description provided for @reportMaterialReceiverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Receiver Report'**
+  String get reportMaterialReceiverTitle;
+
+  /// No description provided for @reportLineLeaderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Leader Report'**
+  String get reportLineLeaderTitle;
+
+  /// No description provided for @workflowReportList.
+  ///
+  /// In en, this message translates to:
+  /// **'Workflow report list'**
+  String get workflowReportList;
+
+  /// No description provided for @noReportData.
+  ///
+  /// In en, this message translates to:
+  /// **'No report data'**
+  String get noReportData;
+
+  /// No description provided for @noWorkflowReportDataAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No workflow report data available for this step.'**
+  String get noWorkflowReportDataAvailable;
+
+  /// No description provided for @drawerReportHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'REPORT'**
+  String get drawerReportHeader;
+
+  /// No description provided for @drawerLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get drawerLogout;
+
+  /// No description provided for @drawerLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get drawerLanguage;
+
+  /// No description provided for @drawerMockMode.
+  ///
+  /// In en, this message translates to:
+  /// **'🧪 MOCK MODE'**
+  String get drawerMockMode;
+
+  /// No description provided for @drawerLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language: '**
+  String get drawerLanguageLabel;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'MMS Login'**
+  String get loginTitle;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @usernameEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter username'**
+  String get usernameEmpty;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @passwordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter password'**
+  String get passwordEmpty;
+
+  /// No description provided for @otpEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter OTP'**
+  String get otpEmpty;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @materialRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Material Request'**
+  String get materialRequestTitle;
+
+  /// No description provided for @manageRequisitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage material requisitions'**
+  String get manageRequisitions;
+
+  /// No description provided for @items.
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get items;
+
+  /// No description provided for @searchByRequestNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Search request number, material...'**
+  String get searchByRequestNumber;
+
+  /// No description provided for @noRequestsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests found'**
+  String get noRequestsFound;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -1079,42 +1483,36 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'vi', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'vi', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
   // Lookup logic when language+country codes are specified.
   switch (locale.languageCode) {
-    case 'zh':
-      {
-        switch (locale.countryCode) {
-          case 'CN':
-            return AppLocalizationsZhCn();
-          case 'TW':
-            return AppLocalizationsZhTw();
-        }
-        break;
-      }
+    case 'zh': {
+  switch (locale.countryCode) {
+    case 'CN': return AppLocalizationsZhCn();
+case 'TW': return AppLocalizationsZhTw();
+   }
+  break;
+   }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
-    case 'vi':
-      return AppLocalizationsVi();
-    case 'zh':
-      return AppLocalizationsZh();
+    case 'en': return AppLocalizationsEn();
+    case 'vi': return AppLocalizationsVi();
+    case 'zh': return AppLocalizationsZh();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

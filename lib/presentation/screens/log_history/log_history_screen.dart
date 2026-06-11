@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../domain/entities/log_history_entity.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../providers/log_history_provider.dart';
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -53,6 +54,7 @@ class _LogHistoryScreenState extends State<LogHistoryScreen> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AppBar(
       backgroundColor: AppColors.surface,
       elevation: 0,
@@ -68,9 +70,9 @@ class _LogHistoryScreenState extends State<LogHistoryScreen> {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Log History',
-            style: TextStyle(
+          Text(
+            l10n.logHistoryTitle,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
@@ -86,7 +88,6 @@ class _LogHistoryScreenState extends State<LogHistoryScreen> {
               Icons.refresh_rounded,
               color: AppColors.textSecondary,
             ),
-            tooltip: 'Tải lại',
             onPressed: provider.isLoading
                 ? null
                 : () => provider.refresh(widget.mrId),
@@ -406,6 +407,7 @@ class _StepBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (bg, fg) = _stepColors(step);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -414,7 +416,7 @@ class _StepBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        _stepLabel(step),
+        _stepLabel(step, l10n),
         style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w700,
@@ -425,20 +427,20 @@ class _StepBadge extends StatelessWidget {
     );
   }
 
-  String _stepLabel(String s) {
+  String _stepLabel(String s, AppLocalizations l10n) {
     switch (s) {
       case 'planner':
-        return 'PLANNER';
+        return l10n.stepPlanner;
       case 'preparer':
-        return 'PREPARER';
+        return l10n.stepPreparer;
       case 'warehouse':
-        return 'WAREHOUSE';
+        return l10n.stepWarehouse;
       case 'receiver':
-        return 'RECEIVER';
+        return l10n.stepReceiver;
       case 'line_leader':
-        return 'LINE LEADER';
+        return l10n.stepLineLeader;
       case 'production':
-        return 'PRODUCTION';
+        return l10n.stepProduction;
       default:
         return s.toUpperCase();
     }
@@ -546,7 +548,8 @@ class _ActorRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = item.actorName ?? 'System';
+    final l10n = AppLocalizations.of(context)!;
+    final name = item.actorName ?? l10n.systemActor;
     final role = item.actorRole;
 
     return Row(
@@ -571,7 +574,7 @@ class _ActorRow extends StatelessWidget {
                 ),
                 if (role != null)
                   TextSpan(
-                    text: ' · ${_roleLabel(role)}',
+                    text: ' · ${_roleLabel(role, l10n)}',
                     style: const TextStyle(
                       fontSize: 11,
                       color: AppColors.textTertiary,
@@ -585,18 +588,18 @@ class _ActorRow extends StatelessWidget {
     );
   }
 
-  String _roleLabel(String role) {
+  String _roleLabel(String role, AppLocalizations l10n) {
     switch (role) {
       case 'planner':
-        return 'Planner';
+        return l10n.rolePlanner;
       case 'preparer':
-        return 'Preparer';
+        return l10n.rolePreparer;
       case 'warehouse':
-        return 'Warehouse';
+        return l10n.roleWarehouse;
       case 'receiver':
-        return 'Receiver';
+        return l10n.roleReceiver;
       case 'line_leader':
-        return 'Line Leader';
+        return l10n.roleLineLeader;
       default:
         return role;
     }
@@ -626,15 +629,17 @@ class _PayloadRenderer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header
-          const Padding(
-            padding: EdgeInsets.fromLTRB(10, 8, 10, 4),
-            child: Text(
-              'PAYLOAD',
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textTertiary,
-                letterSpacing: 0.8,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 8, 10, 4),
+            child: Consumer<LogHistoryProvider>(
+              builder: (context, _, __) => Text(
+                AppLocalizations.of(context)!.payloadHeader,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textTertiary,
+                  letterSpacing: 0.8,
+                ),
               ),
             ),
           ),
@@ -744,6 +749,7 @@ class _BoolChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
       decoration: BoxDecoration(
@@ -753,7 +759,7 @@ class _BoolChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
-        value ? 'true' : 'false',
+        value ? l10n.boolTrue : l10n.boolFalse,
         style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w700,
@@ -1033,6 +1039,7 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -1053,9 +1060,9 @@ class _ErrorState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Không tải được lịch sử',
-              style: TextStyle(
+            Text(
+              l10n.errorLoadHistory,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -1085,9 +1092,9 @@ class _ErrorState extends StatelessWidget {
                 ),
               ),
               icon: const Icon(Icons.refresh_rounded, size: 18),
-              label: const Text(
-                'Thử lại',
-                style: TextStyle(fontWeight: FontWeight.w600),
+              label: Text(
+                l10n.retryButton,
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
           ],
@@ -1104,6 +1111,7 @@ class _ErrorState extends StatelessWidget {
 class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -1122,19 +1130,22 @@ class _EmptyState extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
-            'Chưa có lịch sử xử lý',
-            style: TextStyle(
+          Text(
+            l10n.emptyHistoryTitle,
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Material Request này chưa có\nbất kỳ log nào được ghi nhận.',
+          Text(
+            l10n.emptyHistoryDesc,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+            style: const TextStyle(
+              fontSize: 13,
+              color: AppColors.textSecondary,
+            ),
           ),
         ],
       ),

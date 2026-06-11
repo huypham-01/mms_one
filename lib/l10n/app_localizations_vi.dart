@@ -219,6 +219,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get scanLocker => 'Quét tủ khóa';
 
   @override
+  String get scanPreparerName => 'Quét người chuẩn bị';
+
+  @override
   String get preparerName => 'Tên người chuẩn bị';
 
   @override
@@ -231,16 +234,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String get warehouseLocker => 'Tủ khóa kho';
 
   @override
-  String get scanWarehouseLockerQr => 'Quét mã QR tủ khóa kho';
+  String get scanWarehouseLockerQr => 'Quét mã';
 
   @override
   String get productionLocker => 'Tủ khóa sản xuất';
 
   @override
-  String get scanProductionLockerQr => 'Quét mã QR tủ khóa sản xuất';
+  String get scanProductionLockerQr => 'Quét mã';
 
   @override
-  String get receivedBy => 'Người nhận';
+  String get warehouseKeeper => 'Thủ kho';
 
   @override
   String get mrName => 'Tên';
@@ -285,12 +288,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get anErrorOccurred => 'Đã xảy ra lỗi';
 
   @override
-  String get selectMaterialRequest =>
-      'Vui lòng chọn Material Request trước khi submit';
+  String get selectMaterialRequest => 'Vui lòng chọn Material Request trước khi submit';
 
   @override
-  String get pictureVerificationRequired =>
-      'Phương pháp xác minh là Picture — vui lòng chụp ít nhất 1 ảnh';
+  String get pictureVerificationRequired => 'Phương pháp xác minh là Picture — vui lòng chụp ít nhất 1 ảnh';
 
   @override
   String get scanBarcodeRequired => 'Vui lòng quét mã vạch trước khi submit';
@@ -356,8 +357,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get submitFailed => 'Gửi thất bại. Vui lòng thử lại';
 
   @override
-  String get networkError =>
-      'Không có kết nối mạng. Vui lòng kiểm tra và thử lại';
+  String get networkError => 'Không có kết nối mạng. Vui lòng kiểm tra và thử lại';
 
   @override
   String get timeoutError => 'Kết nối quá thời gian. Vui lòng thử lại';
@@ -367,6 +367,18 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get otpInvalid => 'Mã OTP không hợp lệ. Vui lòng kiểm tra lại';
+
+  @override
+  String get otpEmptyError => 'OTP không được để trống';
+
+  @override
+  String get otpLengthError => 'OTP phải đủ 6 chữ số';
+
+  @override
+  String get verifyOtpTitle => 'Xác thực OTP';
+
+  @override
+  String get otpCodeLabel => 'Mã OTP';
 
   @override
   String get submitError => 'Đã xảy ra lỗi khi gửi. Vui lòng thử lại';
@@ -393,8 +405,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get rejectCurrentStep => 'Từ chối bước hiện tại';
 
   @override
-  String get rejectCurrentStepDescription =>
-      'Trả workflow này về bước xác minh trước đó.';
+  String get rejectCurrentStepDescription => 'Trả workflow này về bước xác minh trước đó.';
 
   @override
   String get rejectReason => 'Lý do từ chối';
@@ -417,12 +428,10 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get firstStepCannotReturnFurther =>
-      'Đây là bước đầu tiên. Không thể quay lại thêm.';
+  String get firstStepCannotReturnFurther => 'Đây là bước đầu tiên. Không thể quay lại thêm.';
 
   @override
-  String get materialOvertimeSubtitle =>
-      'Quản lý và theo dõi vật tư tồn quá hạn';
+  String get materialOvertimeSubtitle => 'Quản lý và theo dõi vật tư tồn quá hạn';
 
   @override
   String get refresh => 'Làm mới';
@@ -459,12 +468,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get overtimeAt => 'Quá hạn lúc';
 
   @override
-  String get storageAreaSubtitle =>
-      'Theo dõi vị trí và tồn kho vật tư trong khu vực lưu trữ sản xuất';
+  String get storageAreaSubtitle => 'Theo dõi vị trí và tồn kho vật tư trong khu vực lưu trữ sản xuất';
 
   @override
-  String get searchStorageAreaHint =>
-      'Tìm yêu cầu, vật tư, PCN, lệnh công việc...';
+  String get searchStorageAreaHint => 'Tìm yêu cầu, vật tư, PCN, lệnh công việc...';
 
   @override
   String get noStorageAreaData => 'Không có dữ liệu khu vực lưu trữ';
@@ -504,4 +511,193 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get quantity => 'Số lượng';
+
+  @override
+  String get materialRequestInformation => 'Thông tin Yêu cầu Vật liệu';
+
+  @override
+  String get requestStatus => 'Trạng thái Yêu cầu';
+
+  @override
+  String get workflowInformation => 'Thông tin Quy trình';
+
+  @override
+  String get currentStatus => 'Trạng thái Hiện tại';
+
+  @override
+  String get actionDate => 'Ngày Hành động';
+
+  @override
+  String get quantityInformation => 'Thông tin Số lượng';
+
+  @override
+  String get preparedMaterialReceived => 'Vật liệu Chuẩn bị Đã nhận';
+
+  @override
+  String get totalToProduction => 'Tổng Cộng cho Sản xuất';
+
+  @override
+  String get currentMaterialBalance => 'Số dư Vật liệu Hiện tại';
+
+  @override
+  String get lotInformation => 'Thông tin Lô';
+
+  @override
+  String get specPictures => 'Hình ảnh Quy cách';
+
+  @override
+  String get verificationMethod => 'Phương pháp Xác minh';
+
+  @override
+  String get logHistoryTitle => 'Lịch sử xử lý';
+
+  @override
+  String get stepPlanner => 'PLANNER';
+
+  @override
+  String get stepPreparer => 'PREPARER';
+
+  @override
+  String get stepWarehouse => 'WAREHOUSE';
+
+  @override
+  String get stepReceiver => 'RECEIVER';
+
+  @override
+  String get stepLineLeader => 'LINE LEADER';
+
+  @override
+  String get stepProduction => 'PRODUCTION';
+
+  @override
+  String get rolePlanner => 'Planner';
+
+  @override
+  String get rolePreparer => 'Preparer';
+
+  @override
+  String get roleWarehouse => 'Warehouse';
+
+  @override
+  String get roleReceiver => 'Receiver';
+
+  @override
+  String get roleLineLeader => 'Line Leader';
+
+  @override
+  String get systemActor => 'System';
+
+  @override
+  String get payloadHeader => 'PAYLOAD';
+
+  @override
+  String get boolTrue => 'true';
+
+  @override
+  String get boolFalse => 'false';
+
+  @override
+  String get errorLoadHistory => 'Không tải được lịch sử';
+
+  @override
+  String get emptyHistoryTitle => 'Chưa có lịch sử xử lý';
+
+  @override
+  String get emptyHistoryDesc => 'Material Request này chưa có bất kỳ log nào được ghi nhận.';
+
+  @override
+  String get retryButton => 'Thử lại';
+
+  @override
+  String get drawerModuleMaterialRequest => 'Yêu cầu vật liệu';
+
+  @override
+  String get drawerModulePreparer => 'Người chuẩn bị';
+
+  @override
+  String get drawerModuleWarehouse => 'Nhà kho';
+
+  @override
+  String get drawerModuleMaterialReceiver => 'Người nhận vật liệu';
+
+  @override
+  String get drawerModuleLineLeader => 'Trưởng dây chuyền';
+
+  @override
+  String get reportMaterialRequestTitle => 'Báo cáo yêu cầu vật liệu';
+
+  @override
+  String get reportPreparerTitle => 'Báo cáo người chuẩn bị';
+
+  @override
+  String get reportWarehouseTitle => 'Báo cáo nhà kho';
+
+  @override
+  String get reportMaterialReceiverTitle => 'Báo cáo người nhận vật liệu';
+
+  @override
+  String get reportLineLeaderTitle => 'Báo cáo trưởng dây chuyền';
+
+  @override
+  String get workflowReportList => 'Danh sách báo cáo quy trình';
+
+  @override
+  String get noReportData => 'Không có dữ liệu báo cáo';
+
+  @override
+  String get noWorkflowReportDataAvailable => 'Không có dữ liệu báo cáo quy trình có săn cho bước này.';
+
+  @override
+  String get drawerReportHeader => 'BÁO CÁO';
+
+  @override
+  String get drawerLogout => 'Đăng xuất';
+
+  @override
+  String get drawerLanguage => 'Ngôn ngữ';
+
+  @override
+  String get drawerMockMode => '🧪 CHẾ ĐỘ MOCK';
+
+  @override
+  String get drawerLanguageLabel => 'Ngôn ngữ: ';
+
+  @override
+  String get loginTitle => 'Đăng Nhập MMS';
+
+  @override
+  String get username => 'Tài khoản';
+
+  @override
+  String get usernameEmpty => 'Vui lòng nhập tài khoản';
+
+  @override
+  String get password => 'Mật khẩu';
+
+  @override
+  String get passwordEmpty => 'Vui lòng nhập mật khẩu';
+
+  @override
+  String get otpEmpty => 'Vui lòng nhập mã OTP';
+
+  @override
+  String get login => 'Đăng Nhập';
+
+  @override
+  String get materialRequestTitle => 'Yêu cầu vật liệu';
+
+  @override
+  String get manageRequisitions => 'Quản lý các yêu cầu vật liệu';
+
+  @override
+  String get items => 'mục';
+
+  @override
+  String get searchByRequestNumber => 'Tìm kiếm số yêu cầu, vật liệu...';
+
+  @override
+  String get noRequestsFound => 'Không tìm thấy yêu cầu';
+
+  @override
+  String get all => 'Tất cả';
 }

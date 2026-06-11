@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Dialog nhập OTP 6 chữ số.
 /// Trả về String OTP nếu người dùng nhấn Confirm, null nếu Cancel.
@@ -42,12 +43,13 @@ class _OtpDialogState extends State<OtpDialog> {
 
   void _onConfirm() {
     final otp = _otpCtrl.text.trim();
+    final l10n = AppLocalizations.of(context)!;
     if (otp.isEmpty) {
-      setState(() => _errorText = 'OTP không được để trống');
+      setState(() => _errorText = l10n.otpEmptyError);
       return;
     }
     if (otp.length != 6) {
-      setState(() => _errorText = 'OTP phải đủ 6 chữ số');
+      setState(() => _errorText = l10n.otpLengthError);
       return;
     }
     Navigator.of(context).pop(otp);
@@ -59,6 +61,7 @@ class _OtpDialogState extends State<OtpDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AlertDialog(
       backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -92,12 +95,12 @@ class _OtpDialogState extends State<OtpDialog> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Xác thực OTP',
-                      style: TextStyle(
+                      l10n.verifyOtpTitle,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -115,9 +118,9 @@ class _OtpDialogState extends State<OtpDialog> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'Mã OTP',
-                  style: TextStyle(
+                Text(
+                  l10n.otpCodeLabel,
+                  style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textSecondary,
@@ -204,9 +207,9 @@ class _OtpDialogState extends State<OtpDialog> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        child: const Text(
-                          'Huỷ',
-                          style: TextStyle(
+                        child: Text(
+                          l10n.cancel,
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
@@ -226,9 +229,9 @@ class _OtpDialogState extends State<OtpDialog> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
-                        child: const Text(
-                          'Xác nhận',
-                          style: TextStyle(
+                        child: Text(
+                          l10n.confirm,
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                           ),

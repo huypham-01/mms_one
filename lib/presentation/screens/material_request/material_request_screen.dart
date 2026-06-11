@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/app_search_bar.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../routes/route_names.dart';
 import '../../providers/mr_request_provider.dart';
 import 'widgets/mr_request_card.dart';
@@ -19,15 +20,21 @@ class MaterialRequestScreen extends StatefulWidget {
 class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
   final _scrollController = ScrollController();
   final _searchController = TextEditingController();
-  String _selectedFilter = 'All';
+  String _selectedFilter = '';
   String _searchQuery = '';
-
-  static const _filters = ['All', 'In Use', 'Open', 'In Progress', 'Rejected'];
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    // Initialize with first filter after build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_selectedFilter.isEmpty) {
+        setState(() {
+          _selectedFilter = AppLocalizations.of(context)!.all;
+        });
+      }
+    });
   }
 
   void _onScroll() {
@@ -35,6 +42,16 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
         _scrollController.position.maxScrollExtent - 200) {
       context.read<MrRequestProvider>().loadMore();
     }
+  }
+
+  List<String> _getLocalizedFilters(AppLocalizations l10n) {
+    return [
+      l10n.all,
+      l10n.statusInUse,
+      l10n.statusOpen,
+      l10n.inProgress,
+      l10n.reject,
+    ];
   }
 
   @override
@@ -45,8 +62,8 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -64,23 +81,26 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
 
           titleSpacing: 0,
 
-          title: const Column(
+          title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Material Request',
-                style: TextStyle(
+                l10n.materialRequestTitle,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textPrimary,
                   letterSpacing: -0.3,
                 ),
               ),
-              SizedBox(height: 2),
+              const SizedBox(height: 2),
               Text(
-                'Manage material requisitions',
-                style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                l10n.manageRequisitions,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                ),
               ),
             ],
           ),
@@ -101,7 +121,7 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
                       border: Border.all(color: AppColors.primaryBorder),
                     ),
                     child: Text(
-                      '${p.total} items',
+                      '${p.total} ${l10n.items}',
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -118,7 +138,7 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              _buildSearchAndFilter(),
+              _buildSearchAndFilter(context),
               // _buildFilterChips(),
               Expanded(child: _buildList()),
             ],
@@ -128,12 +148,13 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
     );
   }
 
-  Widget _buildSearchAndFilter() {
+  Widget _buildSearchAndFilter(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
       child: AppSearchBar(
         controller: _searchController,
-        hintText: 'Search request number, material...',
+        hintText: l10n.searchByRequestNumber,
         onChanged: (value) {
           setState(() {
             _searchQuery = value;
@@ -160,18 +181,19 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
     );
   }
 
-  Widget _buildFilterChips() {
+  Widget _buildFilterChips(AppLocalizations l10n) {
+    final filters = _getLocalizedFilters(l10n);
     return SizedBox(
       height: 52,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        itemCount: _filters.length,
+        itemCount: filters.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),
         itemBuilder: (_, i) {
-          final selected = _filters[i] == _selectedFilter;
+          final selected = filters[i] == _selectedFilter;
           return GestureDetector(
-            onTap: () => setState(() => _selectedFilter = _filters[i]),
+            onTap: () => setState(() => _selectedFilter = filters[i]),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -184,7 +206,7 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
               ),
               child: Center(
                 child: Text(
-                  _filters[i],
+                  filters[i],
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -202,6 +224,7 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
   Widget _buildList() {
     return Consumer<MrRequestProvider>(
       builder: (context, provider, _) {
+        final l10n = AppLocalizations.of(context)!;
         var filteredList = provider.requests;
 
         if (_searchQuery.isNotEmpty) {
@@ -214,7 +237,7 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
           }).toList();
         }
 
-        if (_selectedFilter != 'All') {
+        if (_selectedFilter.isNotEmpty && _selectedFilter != l10n.all) {
           filteredList = filteredList.where((item) {
             return item.requestStatus.toLowerCase() ==
                     _selectedFilter.toLowerCase() ||
@@ -240,9 +263,9 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
                   color: AppColors.textTertiary.withValues(alpha: 0.4),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'No requests found',
-                  style: TextStyle(color: AppColors.textSecondary),
+                Text(
+                  l10n.noRequestsFound,
+                  style: const TextStyle(color: AppColors.textSecondary),
                 ),
               ],
             ),

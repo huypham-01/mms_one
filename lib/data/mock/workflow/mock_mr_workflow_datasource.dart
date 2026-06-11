@@ -132,6 +132,7 @@ class MockMrWorkflowDataSource {
       specCheck: 'OK',
       quantityCheck: 'OK',
       locker: 'Locker A1',
+      personName: 'test user',
       specPictures: [],
       preparedQuantity: 500,
       difference: 0,

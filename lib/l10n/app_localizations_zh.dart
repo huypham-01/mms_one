@@ -219,6 +219,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get scanLocker => '扫描储物柜';
 
   @override
+  String get scanPreparerName => '扫描备料人员';
+
+  @override
   String get preparerName => '准备员名称';
 
   @override
@@ -231,16 +234,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get warehouseLocker => '仓库储物柜';
 
   @override
-  String get scanWarehouseLockerQr => '扫描仓库储物柜二维码';
+  String get scanWarehouseLockerQr => '扫描二维码';
 
   @override
   String get productionLocker => '生产储物柜';
 
   @override
-  String get scanProductionLockerQr => '扫描生产储物柜二维码';
+  String get scanProductionLockerQr => '扫描二维码';
 
   @override
-  String get receivedBy => '接收人';
+  String get warehouseKeeper => '仓库管理员';
 
   @override
   String get mrName => 'MR名称';
@@ -364,6 +367,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get otpInvalid => 'OTP代码无效。请再次检查';
+
+  @override
+  String get otpEmptyError => 'OTP不能为空';
+
+  @override
+  String get otpLengthError => 'OTP必须正好6位数字';
+
+  @override
+  String get verifyOtpTitle => '验证OTP';
+
+  @override
+  String get otpCodeLabel => 'OTP代码';
 
   @override
   String get submitError => '提交时发生错误。请重试';
@@ -496,11 +511,200 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get quantity => '数量';
+
+  @override
+  String get materialRequestInformation => '物料需求信息';
+
+  @override
+  String get requestStatus => '需求状态';
+
+  @override
+  String get workflowInformation => '工作流信息';
+
+  @override
+  String get currentStatus => '当前状态';
+
+  @override
+  String get actionDate => '操作日期';
+
+  @override
+  String get quantityInformation => '数量信息';
+
+  @override
+  String get preparedMaterialReceived => '准备的物料已接收';
+
+  @override
+  String get totalToProduction => '生产总数';
+
+  @override
+  String get currentMaterialBalance => '当前物料余额';
+
+  @override
+  String get lotInformation => '批次信息';
+
+  @override
+  String get specPictures => '规格图片';
+
+  @override
+  String get verificationMethod => '验证方法';
+
+  @override
+  String get logHistoryTitle => '日志历史';
+
+  @override
+  String get stepPlanner => '规划者';
+
+  @override
+  String get stepPreparer => '准备员';
+
+  @override
+  String get stepWarehouse => '仓库';
+
+  @override
+  String get stepReceiver => '接收员';
+
+  @override
+  String get stepLineLeader => '产线长';
+
+  @override
+  String get stepProduction => '生产';
+
+  @override
+  String get rolePlanner => '规划者';
+
+  @override
+  String get rolePreparer => '准备员';
+
+  @override
+  String get roleWarehouse => '仓库';
+
+  @override
+  String get roleReceiver => '接收员';
+
+  @override
+  String get roleLineLeader => '产线长';
+
+  @override
+  String get systemActor => '系统';
+
+  @override
+  String get payloadHeader => '载荷数据';
+
+  @override
+  String get boolTrue => '真';
+
+  @override
+  String get boolFalse => '假';
+
+  @override
+  String get errorLoadHistory => '未能加载历史';
+
+  @override
+  String get emptyHistoryTitle => '暂无历史';
+
+  @override
+  String get emptyHistoryDesc => '此物料请求尚无记录的日志。';
+
+  @override
+  String get retryButton => '重试';
+
+  @override
+  String get drawerModuleMaterialRequest => '物料请求';
+
+  @override
+  String get drawerModulePreparer => '准备员';
+
+  @override
+  String get drawerModuleWarehouse => '仓库';
+
+  @override
+  String get drawerModuleMaterialReceiver => '物料接收员';
+
+  @override
+  String get drawerModuleLineLeader => '产线长';
+
+  @override
+  String get reportMaterialRequestTitle => '物料请求报告';
+
+  @override
+  String get reportPreparerTitle => '准备员报告';
+
+  @override
+  String get reportWarehouseTitle => '仓库报告';
+
+  @override
+  String get reportMaterialReceiverTitle => '物料接收员报告';
+
+  @override
+  String get reportLineLeaderTitle => '产线长报告';
+
+  @override
+  String get workflowReportList => '工作流报告列表';
+
+  @override
+  String get noReportData => '没有报告数据';
+
+  @override
+  String get noWorkflowReportDataAvailable => '该步骤没有可用的工作流报告数据。';
+
+  @override
+  String get drawerReportHeader => '报告';
+
+  @override
+  String get drawerLogout => '登出';
+
+  @override
+  String get drawerLanguage => '语言';
+
+  @override
+  String get drawerMockMode => '🧪 模拟模式';
+
+  @override
+  String get drawerLanguageLabel => '语言：';
+
+  @override
+  String get loginTitle => 'MMS登录';
+
+  @override
+  String get username => '用户名';
+
+  @override
+  String get usernameEmpty => '请输入用户名';
+
+  @override
+  String get password => '密码';
+
+  @override
+  String get passwordEmpty => '请输入密码';
+
+  @override
+  String get otpEmpty => '请输入OTP';
+
+  @override
+  String get login => '登录';
+
+  @override
+  String get materialRequestTitle => '物料需求';
+
+  @override
+  String get manageRequisitions => '管理物料需求';
+
+  @override
+  String get items => '项目';
+
+  @override
+  String get searchByRequestNumber => '按请求编号、物料搜索...';
+
+  @override
+  String get noRequestsFound => '没有找到请求';
+
+  @override
+  String get all => '全部';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
 class AppLocalizationsZhCn extends AppLocalizationsZh {
-  AppLocalizationsZhCn() : super('zh_CN');
+  AppLocalizationsZhCn(): super('zh_CN');
 
   @override
   String get home => '主页';
@@ -713,6 +917,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get scanLocker => '扫描储物柜';
 
   @override
+  String get scanPreparerName => '扫描备料人员';
+
+  @override
   String get preparerName => '准备员名称';
 
   @override
@@ -725,16 +932,16 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get warehouseLocker => '仓库储物柜';
 
   @override
-  String get scanWarehouseLockerQr => '扫描仓库储物柜二维码';
+  String get scanWarehouseLockerQr => '扫描二维码';
 
   @override
   String get productionLocker => '生产储物柜';
 
   @override
-  String get scanProductionLockerQr => '扫描生产储物柜二维码';
+  String get scanProductionLockerQr => '扫描二维码';
 
   @override
-  String get receivedBy => '接收人';
+  String get warehouseKeeper => '仓库管理员';
 
   @override
   String get mrName => 'MR名称';
@@ -990,11 +1197,152 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get quantity => '数量';
+
+  @override
+  String get materialRequestInformation => '物料需求信息';
+
+  @override
+  String get requestStatus => '需求状态';
+
+  @override
+  String get workflowInformation => '工作流信息';
+
+  @override
+  String get currentStatus => '当前状态';
+
+  @override
+  String get actionDate => '操作日期';
+
+  @override
+  String get quantityInformation => '数量信息';
+
+  @override
+  String get preparedMaterialReceived => '准备的物料已接收';
+
+  @override
+  String get totalToProduction => '生产总数';
+
+  @override
+  String get currentMaterialBalance => '当前物料余额';
+
+  @override
+  String get lotInformation => '批次信息';
+
+  @override
+  String get specPictures => '规格图片';
+
+  @override
+  String get verificationMethod => '验证方法';
+
+  @override
+  String get logHistoryTitle => '日志历史';
+
+  @override
+  String get stepPlanner => '规划者';
+
+  @override
+  String get stepPreparer => '准备员';
+
+  @override
+  String get stepWarehouse => '仓库';
+
+  @override
+  String get stepReceiver => '接收员';
+
+  @override
+  String get stepLineLeader => '产线长';
+
+  @override
+  String get stepProduction => '生产';
+
+  @override
+  String get rolePlanner => '规划者';
+
+  @override
+  String get rolePreparer => '准备员';
+
+  @override
+  String get roleWarehouse => '仓库';
+
+  @override
+  String get roleReceiver => '接收员';
+
+  @override
+  String get roleLineLeader => '产线长';
+
+  @override
+  String get systemActor => '系统';
+
+  @override
+  String get payloadHeader => '载荷数据';
+
+  @override
+  String get boolTrue => '真';
+
+  @override
+  String get boolFalse => '假';
+
+  @override
+  String get errorLoadHistory => '未能加载历史';
+
+  @override
+  String get emptyHistoryTitle => '暂无历史';
+
+  @override
+  String get emptyHistoryDesc => '此物料请求尚无记录的日志。';
+
+  @override
+  String get retryButton => '重试';
+
+  @override
+  String get drawerModuleMaterialRequest => '物料请求';
+
+  @override
+  String get drawerModulePreparer => '准备员';
+
+  @override
+  String get drawerModuleWarehouse => '仓库';
+
+  @override
+  String get drawerModuleMaterialReceiver => '物料接收员';
+
+  @override
+  String get drawerModuleLineLeader => '产线长';
+
+  @override
+  String get reportMaterialRequestTitle => '物料请求报告';
+
+  @override
+  String get reportPreparerTitle => '准备员报告';
+
+  @override
+  String get reportWarehouseTitle => '仓库报告';
+
+  @override
+  String get reportMaterialReceiverTitle => '物料接收员报告';
+
+  @override
+  String get reportLineLeaderTitle => '产线长报告';
+
+  @override
+  String get drawerReportHeader => '报告';
+
+  @override
+  String get drawerLogout => '登出';
+
+  @override
+  String get drawerLanguage => '语言';
+
+  @override
+  String get drawerMockMode => '🧪 模拟模式';
+
+  @override
+  String get drawerLanguageLabel => '语言：';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
 class AppLocalizationsZhTw extends AppLocalizationsZh {
-  AppLocalizationsZhTw() : super('zh_TW');
+  AppLocalizationsZhTw(): super('zh_TW');
 
   @override
   String get home => '主頁';
@@ -1207,6 +1555,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get scanLocker => '掃描儲物櫃';
 
   @override
+  String get scanPreparerName => '掃描備料人員';
+
+  @override
   String get preparerName => '準備員名稱';
 
   @override
@@ -1219,16 +1570,16 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get warehouseLocker => '倉庫儲物櫃';
 
   @override
-  String get scanWarehouseLockerQr => '掃描倉庫儲物櫃二維碼';
+  String get scanWarehouseLockerQr => '掃描二維碼';
 
   @override
   String get productionLocker => '生產儲物櫃';
 
   @override
-  String get scanProductionLockerQr => '掃描生產儲物櫃二維碼';
+  String get scanProductionLockerQr => '掃描二維碼';
 
   @override
-  String get receivedBy => '接收人';
+  String get warehouseKeeper => '倉庫管理員';
 
   @override
   String get mrName => 'MR名稱';
@@ -1352,6 +1703,18 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get otpInvalid => 'OTP代碼無效。請再次檢查';
+
+  @override
+  String get otpEmptyError => 'OTP不能為空';
+
+  @override
+  String get otpLengthError => 'OTP必須正好6位數字';
+
+  @override
+  String get verifyOtpTitle => '驗證OTP';
+
+  @override
+  String get otpCodeLabel => 'OTP代碼';
 
   @override
   String get submitError => '提交時發生錯誤。請重試';
@@ -1484,4 +1847,193 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get quantity => '數量';
+
+  @override
+  String get materialRequestInformation => '物料需求資訊';
+
+  @override
+  String get requestStatus => '需求狀態';
+
+  @override
+  String get workflowInformation => '工作流程資訊';
+
+  @override
+  String get currentStatus => '目前狀態';
+
+  @override
+  String get actionDate => '操作日期';
+
+  @override
+  String get quantityInformation => '數量資訊';
+
+  @override
+  String get preparedMaterialReceived => '準備的物料已接收';
+
+  @override
+  String get totalToProduction => '生產總數';
+
+  @override
+  String get currentMaterialBalance => '目前物料餘額';
+
+  @override
+  String get lotInformation => '批次資訊';
+
+  @override
+  String get specPictures => '規格圖片';
+
+  @override
+  String get verificationMethod => '驗證方法';
+
+  @override
+  String get logHistoryTitle => '日誌歷史';
+
+  @override
+  String get stepPlanner => '規劃者';
+
+  @override
+  String get stepPreparer => '準備員';
+
+  @override
+  String get stepWarehouse => '倉庫';
+
+  @override
+  String get stepReceiver => '接收員';
+
+  @override
+  String get stepLineLeader => '產線長';
+
+  @override
+  String get stepProduction => '生產';
+
+  @override
+  String get rolePlanner => '規劃者';
+
+  @override
+  String get rolePreparer => '準備員';
+
+  @override
+  String get roleWarehouse => '倉庫';
+
+  @override
+  String get roleReceiver => '接收員';
+
+  @override
+  String get roleLineLeader => '產線長';
+
+  @override
+  String get systemActor => '系統';
+
+  @override
+  String get payloadHeader => '載荷數據';
+
+  @override
+  String get boolTrue => '真';
+
+  @override
+  String get boolFalse => '假';
+
+  @override
+  String get errorLoadHistory => '未能加載歷史';
+
+  @override
+  String get emptyHistoryTitle => '暫無歷史';
+
+  @override
+  String get emptyHistoryDesc => '此物料請求尚無記錄的日誌。';
+
+  @override
+  String get retryButton => '重試';
+
+  @override
+  String get drawerModuleMaterialRequest => '物料請求';
+
+  @override
+  String get drawerModulePreparer => '準備員';
+
+  @override
+  String get drawerModuleWarehouse => '倉庫';
+
+  @override
+  String get drawerModuleMaterialReceiver => '物料接收員';
+
+  @override
+  String get drawerModuleLineLeader => '產線長';
+
+  @override
+  String get reportMaterialRequestTitle => '物料請求報告';
+
+  @override
+  String get reportPreparerTitle => '準備員報告';
+
+  @override
+  String get reportWarehouseTitle => '倉庫報告';
+
+  @override
+  String get reportMaterialReceiverTitle => '物料接收員報告';
+
+  @override
+  String get reportLineLeaderTitle => '產線長報告';
+
+  @override
+  String get workflowReportList => '工作流報告清單';
+
+  @override
+  String get noReportData => '沒有報告數據';
+
+  @override
+  String get noWorkflowReportDataAvailable => '此步驟不可用工作流報告數據。';
+
+  @override
+  String get drawerReportHeader => '報告';
+
+  @override
+  String get drawerLogout => '登出';
+
+  @override
+  String get drawerLanguage => '語言';
+
+  @override
+  String get drawerMockMode => '🧪 模擬模式';
+
+  @override
+  String get drawerLanguageLabel => '語言：';
+
+  @override
+  String get loginTitle => 'MMS登入';
+
+  @override
+  String get username => '用戶名';
+
+  @override
+  String get usernameEmpty => '請輸入用戶名';
+
+  @override
+  String get password => '密碼';
+
+  @override
+  String get passwordEmpty => '請輸入密碼';
+
+  @override
+  String get otpEmpty => '請輸入OTP';
+
+  @override
+  String get login => '登入';
+
+  @override
+  String get materialRequestTitle => '物料需求';
+
+  @override
+  String get manageRequisitions => '管理物料需求';
+
+  @override
+  String get items => '項目';
+
+  @override
+  String get searchByRequestNumber => '按請求編號、物料搜索...';
+
+  @override
+  String get noRequestsFound => '沒有找到請求';
+
+  @override
+  String get all => '全部';
 }

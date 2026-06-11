@@ -26,6 +26,7 @@ class WorkflowReportModel extends WorkflowReportEntity {
     required super.specCheck,
     required super.quantityCheck,
     required super.locker,
+    required super.personName,
     required super.specPictures,
     required super.preparedQuantity,
     required super.difference,
@@ -93,6 +94,7 @@ class WorkflowReportModel extends WorkflowReportEntity {
       specCheck: json['spec_check']?.toString() ?? '',
       quantityCheck: json['quantity_check']?.toString() ?? '',
       locker: json['locker']?.toString() ?? '',
+      personName: json['person_name']?.toString() ?? '',
 
       specPictures: specPictures,
 

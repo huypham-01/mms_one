@@ -45,6 +45,7 @@ import '../data/datasources/mr_workflow_submit_remote_datasource.dart';
 import '../data/datasources/upload_remote_datasource.dart';
 import '../data/mock/material_request/mock_material_request_datasource.dart';
 import '../data/mock/workflow/mock_mr_workflow_datasource.dart';
+import '../data/mock/workflow/mock_mr_workflow_submit_datasource.dart';
 import '../data/repositories/mr_request_repository_impl.dart';
 import '../data/repositories/mr_workflow_repository_impl.dart';
 import '../data/repositories/mr_workflow_submit_repository_impl.dart';
@@ -63,12 +64,14 @@ import '../routes/app_router.dart';
 
 // --- Storage Area Module ---
 import '../data/datasources/storage_area_remote_datasource.dart';
+import '../data/mock/storage_area/mock_storage_area_datasource.dart';
 import '../data/repositories/storage_area_repository_impl.dart';
 import '../domain/repositories/storage_area_repository.dart';
 import '../domain/usecases/get_storage_areas_usecase.dart';
 
 // --- Transaction Log Module ---
 import '../data/datasources/transaction_log_remote_datasource.dart';
+import '../data/mock/transaction_log/mock_transaction_log_datasource.dart';
 import '../data/repositories/transaction_log_repository_impl.dart';
 import '../domain/repositories/transaction_log_repository.dart';
 import '../domain/usecases/get_transaction_logs_usecase.dart';
@@ -76,6 +79,7 @@ import '../presentation/providers/transaction_log_provider.dart';
 
 // --- Log History Module ---
 import '../data/datasources/log_history_remote_datasource.dart';
+import '../data/mock/log_history/mock_log_history_datasource.dart';
 import '../data/repositories/log_history_repository_impl.dart';
 import '../domain/repositories/log_history_repository.dart';
 import '../domain/usecases/get_log_history_usecase.dart';
@@ -83,6 +87,7 @@ import '../presentation/providers/log_history_provider.dart';
 
 // --- Overtime Module ---
 import '../data/datasources/overtime_remote_datasource.dart';
+import '../data/mock/overtime/mock_overtime_datasource.dart';
 import '../data/repositories/overtime_repository_impl.dart';
 import '../domain/repositories/overtime_repository.dart';
 import '../domain/usecases/get_overtimes_usecase.dart';
@@ -200,9 +205,14 @@ class AppProviders {
           create: (context) =>
               StorageAreaRemoteDataSourceImpl(context.read<ApiClient>()),
         ),
+        Provider<MockStorageAreaDataSource>(
+          create: (_) => MockStorageAreaDataSource(),
+        ),
         Provider<StorageAreaRepository>(
           create: (context) => StorageAreaRepositoryImpl(
             context.read<StorageAreaRemoteDataSource>(),
+            context.read<MockStorageAreaDataSource>(),
+            context.read<MockModeProvider>(),
           ),
         ),
         Provider<GetStorageAreasUseCase>(
@@ -219,9 +229,14 @@ class AppProviders {
           create: (context) =>
               TransactionLogRemoteDataSourceImpl(context.read<ApiClient>()),
         ),
+        Provider<MockTransactionLogDataSource>(
+          create: (_) => MockTransactionLogDataSource(),
+        ),
         Provider<TransactionLogRepository>(
           create: (context) => TransactionLogRepositoryImpl(
             context.read<TransactionLogRemoteDataSource>(),
+            context.read<MockTransactionLogDataSource>(),
+            context.read<MockModeProvider>(),
           ),
         ),
         Provider<GetTransactionLogsUseCase>(
@@ -239,9 +254,14 @@ class AppProviders {
           create: (context) =>
               LogHistoryRemoteDataSourceImpl(context.read<ApiClient>()),
         ),
+        Provider<MockLogHistoryDataSource>(
+          create: (_) => MockLogHistoryDataSource(),
+        ),
         Provider<LogHistoryRepository>(
           create: (context) => LogHistoryRepositoryImpl(
             context.read<LogHistoryRemoteDataSource>(),
+            context.read<MockLogHistoryDataSource>(),
+            context.read<MockModeProvider>(),
           ),
         ),
         Provider<GetLogHistoryUseCase>(
@@ -258,9 +278,15 @@ class AppProviders {
           create: (context) =>
               OvertimeRemoteDataSourceImpl(context.read<ApiClient>()),
         ),
+        Provider<MockOvertimeDataSource>(
+          create: (_) => MockOvertimeDataSource(),
+        ),
         Provider<OvertimeRepository>(
-          create: (context) =>
-              OvertimeRepositoryImpl(context.read<OvertimeRemoteDataSource>()),
+          create: (context) => OvertimeRepositoryImpl(
+            context.read<OvertimeRemoteDataSource>(),
+            context.read<MockOvertimeDataSource>(),
+            context.read<MockModeProvider>(),
+          ),
         ),
         Provider<GetOvertimesUseCase>(
           create: (context) =>
@@ -294,8 +320,7 @@ class AppProviders {
         create: (_) => MockMaterialRequestDataSource(),
       ),
       Provider<MrRequestRepository>(
-        create: (context) =>
-            MrRequestRepositoryImpl(
+        create: (context) => MrRequestRepositoryImpl(
           context.read<MrRequestRemoteDataSource>(),
           context.read<MockMaterialRequestDataSource>(),
           context.read<MockModeProvider>(),
@@ -355,11 +380,16 @@ class AppProviders {
         create: (context) =>
             MrWorkflowRejectRemoteDataSource(context.read<ApiClient>()),
       ),
+      Provider<MockMrWorkflowSubmitDataSource>(
+        create: (_) => MockMrWorkflowSubmitDataSource(),
+      ),
       Provider<MrWorkflowSubmitRepository>(
         create: (context) => MrWorkflowSubmitRepositoryImpl(
           uploadDataSource: context.read<UploadRemoteDataSource>(),
           submitDataSource: context.read<MrWorkflowSubmitRemoteDataSource>(),
           rejectDataSource: context.read<MrWorkflowRejectRemoteDataSource>(),
+          mockDataSource: context.read<MockMrWorkflowSubmitDataSource>(),
+          mockModeProvider: context.read<MockModeProvider>(),
         ),
       ),
 

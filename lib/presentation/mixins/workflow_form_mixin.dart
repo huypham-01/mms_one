@@ -77,14 +77,15 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   final TextEditingController barcodeCtrl = TextEditingController();
   final TextEditingController scanResultCtrl = TextEditingController();
   final TextEditingController lockerCtrl = TextEditingController();
+  final TextEditingController preparerNameCtrl = TextEditingController();
 
   // ── Warehouse ──────────────────────────────────────────────────────────────
   final TextEditingController warehouseLockerCtrl = TextEditingController();
 
   // ── Receiver ──────────────────────────────────────────────────────────────
   final TextEditingController productionLockerCtrl = TextEditingController();
-  final TextEditingController receivedByCtrl = TextEditingController();
-  final TextEditingController mrNameCtrl = TextEditingController();
+  final TextEditingController warehouseKeeperCtrl = TextEditingController();
+  // final TextEditingController mrNameCtrl = TextEditingController();
 
   // ── Line Leader ────────────────────────────────────────────────────────────
   final TextEditingController receiverFromCtrl = TextEditingController();
@@ -203,12 +204,13 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     barcodeCtrl.dispose();
     scanResultCtrl.dispose();
     lockerCtrl.dispose();
+    preparerNameCtrl.dispose();
     // Warehouse
     warehouseLockerCtrl.dispose();
     // Receiver
     productionLockerCtrl.dispose();
-    receivedByCtrl.dispose();
-    mrNameCtrl.dispose();
+    warehouseKeeperCtrl.dispose();
+    // mrNameCtrl.dispose();
     // Line Leader
     receiverFromCtrl.dispose();
     leaderNameCtrl.dispose();
@@ -376,12 +378,12 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     if (productionLockerCtrl.text.trim().isEmpty) {
       return context.l10n.scanProductionLockerRequired;
     }
-    if (receivedByCtrl.text.trim().isEmpty) {
+    if (warehouseKeeperCtrl.text.trim().isEmpty) {
       return context.l10n.enterReceivedBy;
     }
-    if (mrNameCtrl.text.trim().isEmpty) {
-      return context.l10n.enterMrName;
-    }
+    // if (mrNameCtrl.text.trim().isEmpty) {
+    //   return context.l10n.enterMrName;
+    // }
     return null;
   }
 
@@ -554,7 +556,8 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'verification_code': verificationCode,
           'barcode_scan': barcodeScan,
           'locker': lockerCtrl.text.trim(),
-          'person_name': '', // Preparer name field (no dedicated ctrl)
+          'person_name': preparerNameCtrl.text
+              .trim(), // Preparer name field (no dedicated ctrl)
           'extra_data': {
             'lots': _buildLotsPayload(),
             'prepared_quantity': preparedQuantityCtrl.text.trim(),
@@ -589,9 +592,9 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'verification_code': verificationCode,
           'barcode_scan': barcodeScan,
           'locker': productionLockerCtrl.text.trim(),
-          'person_name': receivedByCtrl.text.trim(),
+          'person_name': '-',
           'extra_data': {
-            'mr_name': mrNameCtrl.text.trim(),
+            'warehouse_keeper': warehouseKeeperCtrl.text.trim(),
             'scan_result': scanResult,
           },
           'otp': otp,
@@ -1189,49 +1192,19 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           suffixIcon: Icons.security_outlined,
           readOnly: true,
         ),
+        const SizedBox(height: 12),
+        WorkflowComponents.buildFieldLabel(context.l10n.locker, required: true),
+        const SizedBox(height: 6),
+        WorkflowComponents.buildTextField(
+          controller: lockerCtrl,
+          hint: context.l10n.scanLocker,
+          suffixIcon: Icons.qr_code_scanner,
+          suffixIconColor: AppColors.primary,
+          readOnly: true,
+          onTapSuffix: () => _scanLocker(context, lockerCtrl),
+        ),
       ],
-      const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.locker,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: lockerCtrl,
-                  hint: context.l10n.scanLocker,
-                  suffixIcon: Icons.qr_code_scanner,
-                  suffixIconColor: AppColors.primary,
-                  readOnly: true,
-                  onTapSuffix: () => _scanLocker(context, lockerCtrl),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.preparerName,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  hint: preparerId,
-                  suffixIcon: Icons.person,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+
       const SizedBox(height: 12),
       Row(
         children: [
@@ -1383,7 +1356,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
         controller: productionLockerCtrl,
-        hint: context.l10n.scanLocker,
+        hint: context.l10n.tapIconToScan,
         suffixIcon: Icons.qr_code_scanner,
         suffixIconColor: AppColors.primary,
         readOnly: true,
@@ -1394,46 +1367,64 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         ),
       ),
       const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.receivedBy,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: receivedByCtrl,
-                  hint: '-',
-                  suffixIcon: Icons.person_outline,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.mrName,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: mrNameCtrl,
-                  hint: '-',
-                  suffixIcon: Icons.badge_outlined,
-                ),
-              ],
-            ),
-          ),
-        ],
+      WorkflowComponents.buildFieldLabel(
+        context.l10n.warehouseKeeper,
+        required: true,
+      ),
+      const SizedBox(height: 6),
+      WorkflowComponents.buildTextField(
+        controller: warehouseKeeperCtrl,
+        hint: context.l10n.tapIconToScan,
+        suffixIcon: Icons.qr_code_scanner,
+        suffixIconColor: AppColors.primary,
+        readOnly: true,
+        onTapSuffix: () => _scanLocker(
+          context,
+          warehouseKeeperCtrl,
+          title: context.l10n.scanProductionLockerQr,
+        ),
       ),
       const SizedBox(height: 12),
+      // Row(
+      //   children: [
+      //     Expanded(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           WorkflowComponents.buildFieldLabel(
+      //             context.l10n.receivedBy,
+      //             required: true,
+      //           ),
+      //           const SizedBox(height: 6),
+      //           WorkflowComponents.buildTextField(
+      //             controller: warehouseKeeperCtrl,
+      //             hint: '-',
+      //             suffixIcon: Icons.person_outline,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //     const SizedBox(width: 12),
+      //     Expanded(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           WorkflowComponents.buildFieldLabel(
+      //             context.l10n.mrName,
+      //             required: true,
+      //           ),
+      //           const SizedBox(height: 6),
+      //           WorkflowComponents.buildTextField(
+      //             controller: mrNameCtrl,
+      //             hint: '-',
+      //             suffixIcon: Icons.badge_outlined,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      // const SizedBox(height: 12),
       Row(
         children: [
           Expanded(
@@ -1519,45 +1510,62 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         ),
       ),
       const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.receiverFrom,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: receiverFromCtrl,
-                  hint: '-',
-                  suffixIcon: Icons.person_outline,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.leaderName,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: leaderNameCtrl,
-                  hint: '-',
-                  suffixIcon: Icons.supervisor_account_outlined,
-                ),
-              ],
-            ),
-          ),
-        ],
+      WorkflowComponents.buildFieldLabel(
+        context.l10n.receiverFrom,
+        required: true,
       ),
+      const SizedBox(height: 6),
+      WorkflowComponents.buildTextField(
+        controller: receiverFromCtrl,
+        hint: context.l10n.tapIconToScan,
+        suffixIcon: Icons.qr_code_scanner,
+        suffixIconColor: AppColors.primary,
+        readOnly: true,
+        onTapSuffix: () => _scanLocker(
+          context,
+          receiverFromCtrl,
+          title: context.l10n.scanProductionLockerQr,
+        ),
+      ),
+      // Row(
+      //   children: [
+      //     Expanded(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           WorkflowComponents.buildFieldLabel(
+      //             context.l10n.receiverFrom,
+      //             required: true,
+      //           ),
+      //           const SizedBox(height: 6),
+      //           WorkflowComponents.buildTextField(
+      //             controller: receiverFromCtrl,
+      //             hint: '-',
+      //             suffixIcon: Icons.person_outline,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //     const SizedBox(width: 12),
+      //     Expanded(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           WorkflowComponents.buildFieldLabel(
+      //             context.l10n.leaderName,
+      //             required: true,
+      //           ),
+      //           const SizedBox(height: 6),
+      //           WorkflowComponents.buildTextField(
+      //             controller: leaderNameCtrl,
+      //             hint: '-',
+      //             suffixIcon: Icons.supervisor_account_outlined,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
       const SizedBox(height: 12),
       Row(
         children: [
@@ -1638,45 +1646,74 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
       ],
 
       const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.toWhere,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: toWhereCtrl,
-                  hint: '-',
-                  suffixIcon: Icons.place_outlined,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.toWho,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: toWhoCtrl,
-                  hint: '-',
-                  suffixIcon: Icons.person_outline,
-                ),
-              ],
-            ),
-          ),
-        ],
+      WorkflowComponents.buildFieldLabel(context.l10n.toWhere, required: true),
+      const SizedBox(height: 6),
+      WorkflowComponents.buildTextField(
+        controller: toWhereCtrl,
+        suffixIcon: Icons.qr_code_scanner,
+        hint: context.l10n.tapIconToScan,
+        suffixIconColor: AppColors.primary,
+        readOnly: true,
+        onTapSuffix: () => _scanLocker(
+          context,
+          toWhereCtrl,
+          title: context.l10n.scanProductionLockerQr,
+        ),
       ),
+      const SizedBox(height: 12),
+      WorkflowComponents.buildFieldLabel(context.l10n.toWho, required: true),
+      const SizedBox(height: 6),
+      WorkflowComponents.buildTextField(
+        controller: toWhoCtrl,
+        hint: context.l10n.tapIconToScan,
+        suffixIcon: Icons.qr_code_scanner,
+        suffixIconColor: AppColors.primary,
+        readOnly: true,
+        onTapSuffix: () => _scanLocker(
+          context,
+          toWhoCtrl,
+          title: context.l10n.scanProductionLockerQr,
+        ),
+      ),
+      // Row(
+      //   children: [
+      //     Expanded(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           WorkflowComponents.buildFieldLabel(
+      //             context.l10n.toWhere,
+      //             required: true,
+      //           ),
+      //           const SizedBox(height: 6),
+      //           WorkflowComponents.buildTextField(
+      //             controller: toWhereCtrl,
+      //             hint: '-',
+      //             suffixIcon: Icons.place_outlined,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //     const SizedBox(width: 12),
+      //     Expanded(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           WorkflowComponents.buildFieldLabel(
+      //             context.l10n.toWho,
+      //             required: true,
+      //           ),
+      //           const SizedBox(height: 6),
+      //           WorkflowComponents.buildTextField(
+      //             controller: toWhoCtrl,
+      //             hint: '-',
+      //             suffixIcon: Icons.person_outline,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(
         context.l10n.fromLocker,
@@ -1696,45 +1733,62 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         ),
       ),
       const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.fromLeader,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: fromLeaderCtrl,
-                  hint: '-',
-                  suffixIcon: Icons.supervisor_account_outlined,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(
-                  context.l10n.fromName,
-                  required: true,
-                ),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: fromNameCtrl,
-                  hint: '-',
-                  suffixIcon: Icons.badge_outlined,
-                ),
-              ],
-            ),
-          ),
-        ],
+      WorkflowComponents.buildFieldLabel(
+        context.l10n.fromLeader,
+        required: true,
       ),
+      const SizedBox(height: 6),
+      WorkflowComponents.buildTextField(
+        controller: fromLeaderCtrl,
+        hint: context.l10n.scanLocker,
+        suffixIcon: Icons.qr_code_scanner,
+        suffixIconColor: AppColors.primary,
+        readOnly: true,
+        onTapSuffix: () => _scanLocker(
+          context,
+          fromLeaderCtrl,
+          title: context.l10n.scanFromLockerQr,
+        ),
+      ),
+      // Row(
+      //   children: [
+      //     Expanded(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           WorkflowComponents.buildFieldLabel(
+      //             context.l10n.fromLeader,
+      //             required: true,
+      //           ),
+      //           const SizedBox(height: 6),
+      //           WorkflowComponents.buildTextField(
+      //             controller: fromLeaderCtrl,
+      //             hint: '-',
+      //             suffixIcon: Icons.supervisor_account_outlined,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //     const SizedBox(width: 12),
+      //     Expanded(
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           WorkflowComponents.buildFieldLabel(
+      //             context.l10n.fromName,
+      //             required: true,
+      //           ),
+      //           const SizedBox(height: 6),
+      //           WorkflowComponents.buildTextField(
+      //             controller: fromNameCtrl,
+      //             hint: '-',
+      //             suffixIcon: Icons.badge_outlined,
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
       const SizedBox(height: 12),
       Row(
         children: [

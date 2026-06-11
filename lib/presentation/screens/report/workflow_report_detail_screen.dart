@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../mixins/workflow_report_mixin.dart';
 import '../../providers/mr_workflow_provider.dart';
 
@@ -37,6 +38,7 @@ class _WorkflowReportDetailScreenState extends State<WorkflowReportDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -81,9 +83,9 @@ class _WorkflowReportDetailScreenState extends State<WorkflowReportDetailScreen>
                         color: AppColors.background,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Text(
-                        'Log History',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.logHistory,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: AppColors.textSecondary,
@@ -130,18 +132,18 @@ class _WorkflowReportDetailScreenState extends State<WorkflowReportDetailScreen>
                     color: AppColors.textTertiary.withValues(alpha: 0.4),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    'No Report Data',
-                    style: TextStyle(
+                  Text(
+                    l10n.noReportData,
+                    style: const TextStyle(
                       color: AppColors.textPrimary,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'No workflow report data available for this step.',
-                    style: TextStyle(color: AppColors.textSecondary),
+                  Text(
+                    l10n.noWorkflowReportDataAvailable,
+                    style: const TextStyle(color: AppColors.textSecondary),
                   ),
                 ],
               ),

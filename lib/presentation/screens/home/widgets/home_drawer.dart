@@ -9,6 +9,7 @@ import '../../../../core/permissions/permission_extensions.dart';
 import '../../../../core/localization/app_locale.dart';
 import '../../../../presentation/providers/locale_provider.dart';
 import '../../../../core/mock/mock_mode_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Side drawer navigation with gradient header,
 /// module listing, and version info.
@@ -55,13 +56,6 @@ class HomeDrawer extends StatelessWidget {
       extra: {'step': 'production', 'title': 'Line Leader Report'},
       requiredPermission: AppPermissions.mrStepLineLeader,
     ),
-    _DrawerModule(
-      'To Production',
-      Icons.precision_manufacturing_outlined,
-      RouteNames.reportPath,
-      extra: {'step': 'production', 'title': 'To Production Report'},
-      requiredPermission: AppPermissions.mrStepProduction,
-    ),
   ];
 
   @override
@@ -78,11 +72,11 @@ class HomeDrawer extends StatelessWidget {
             _DrawerHeader(),
 
             const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'REPORT',
-                style: TextStyle(
+                AppLocalizations.of(context)!.drawerReportHeader,
+                style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textTertiary,
@@ -104,13 +98,17 @@ class HomeDrawer extends StatelessWidget {
                       .map(
                         (m) => _DrawerTile(
                           icon: m.icon,
-                          title: m.title,
+                          title: _getLocalizedModuleTitle(context, m),
                           badge: m.badge,
                           onTap: () {
                             Navigator.pop(context);
                             if (m.route != null) {
                               if (m.extra != null) {
-                                context.push(m.route!, extra: m.extra);
+                                final localizedExtra = _getLocalizedExtra(
+                                  context,
+                                  m.extra!,
+                                );
+                                context.push(m.route!, extra: localizedExtra);
                               } else {
                                 context.go(m.route!);
                               }
@@ -122,12 +120,6 @@ class HomeDrawer extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: Divider(),
                   ),
-                  // _DrawerTile(
-                  //   icon: Icons.history_outlined,
-                  //   title: 'Log History',
-                  //   highlighted: true,
-                  //   onTap: () {},
-                  // ),
                 ],
               ),
             ),
@@ -145,7 +137,7 @@ class HomeDrawer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: _DrawerTile(
                 icon: Icons.logout_rounded,
-                title: 'Logout',
+                title: AppLocalizations.of(context)!.drawerLogout,
                 highlighted: false,
                 onTap: () {
                   Navigator.pop(context); // Close drawer
@@ -166,11 +158,62 @@ class HomeDrawer extends StatelessWidget {
       ),
     );
   }
+
+  String _getLocalizedModuleTitle(BuildContext context, _DrawerModule module) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (module.title) {
+      case 'Material Request':
+        return l10n.drawerModuleMaterialRequest;
+      case 'Preparer':
+        return l10n.drawerModulePreparer;
+      case 'Warehouse':
+        return l10n.drawerModuleWarehouse;
+      case 'Material Receiver':
+        return l10n.drawerModuleMaterialReceiver;
+      case 'Line Leader':
+        return l10n.drawerModuleLineLeader;
+      default:
+        return module.title;
+    }
+  }
+
+  Map<String, dynamic> _getLocalizedExtra(
+    BuildContext context,
+    Map<String, dynamic> extra,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    final localizedExtra = Map<String, dynamic>.from(extra);
+
+    final title = localizedExtra['title'] as String?;
+    if (title != null) {
+      localizedExtra['title'] = _getLocalizedReportTitle(l10n, title);
+    }
+
+    return localizedExtra;
+  }
+
+  String _getLocalizedReportTitle(AppLocalizations l10n, String title) {
+    switch (title) {
+      case 'Material Request Report':
+        return l10n.reportMaterialRequestTitle;
+      case 'Preparer Report':
+        return l10n.reportPreparerTitle;
+      case 'Warehouse Report':
+        return l10n.reportWarehouseTitle;
+      case 'Material Receiver Report':
+        return l10n.reportMaterialReceiverTitle;
+      case 'Line Leader Report':
+        return l10n.reportLineLeaderTitle;
+      default:
+        return title;
+    }
+  }
 }
 
 class _DrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authProvider = context.watch<AuthProvider>();
     final localeProvider = context.watch<LocaleProvider>();
     final mockModeProvider = context.watch<MockModeProvider>();
@@ -216,9 +259,9 @@ class _DrawerHeader extends StatelessWidget {
                 color: Colors.orange,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
-                '🧪 MOCK MODE',
-                style: TextStyle(
+              child: Text(
+                l10n.drawerMockMode,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
@@ -227,7 +270,7 @@ class _DrawerHeader extends StatelessWidget {
             ),
           const SizedBox(height: 12),
           Text(
-            'Language: $currentLanguage',
+            '${l10n.drawerLanguageLabel}$currentLanguage',
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -330,6 +373,7 @@ class _LanguageSectionState extends State<_LanguageSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final localeProvider = context.watch<LocaleProvider>();
 
     return Padding(
@@ -347,9 +391,9 @@ class _LanguageSectionState extends State<_LanguageSection> {
               size: 20,
               color: AppColors.textSecondary,
             ),
-            title: const Text(
-              'Language',
-              style: TextStyle(
+            title: Text(
+              l10n.drawerLanguage,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: AppColors.textPrimary,

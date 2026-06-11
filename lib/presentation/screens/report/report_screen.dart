@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../routes/route_names.dart';
 import '../../providers/mr_workflow_provider.dart';
 
@@ -42,6 +43,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -68,9 +70,9 @@ class _ReportScreenState extends State<ReportScreen> {
                 letterSpacing: -0.3,
               ),
             ),
-            const Text(
-              'Workflow report list',
-              style: TextStyle(
+            Text(
+              l10n.workflowReportList,
+              style: const TextStyle(
                 fontSize: 11,
                 color: AppColors.textSecondary,
                 fontWeight: FontWeight.w400,
@@ -113,7 +115,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       backgroundColor: AppColors.primary,
                       foregroundColor: AppColors.textOnPrimary,
                     ),
-                    child: const Text('Retry'),
+                    child: Text(l10n.retry),
                   ),
                 ],
               ),
@@ -131,9 +133,9 @@ class _ReportScreenState extends State<ReportScreen> {
                     color: AppColors.textTertiary.withValues(alpha: 0.5),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    'No report data',
-                    style: TextStyle(
+                  Text(
+                    l10n.noReportData,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: AppColors.textSecondary,
@@ -278,5 +280,3 @@ class _ReportScreenState extends State<ReportScreen> {
     }
   }
 }
-
-

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../domain/entities/workflow_report_entity.dart';
+import '../../l10n/app_localizations.dart';
 import '../components/workflow_components.dart';
 
 mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
@@ -9,8 +10,9 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
     BuildContext context,
     WorkflowReportEntity report,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return WorkflowComponents.buildCard(
-      title: 'Material Request',
+      title: l10n.materialRequestInformation,
       icon: Icons.assignment_outlined,
       iconColor: AppColors.primary,
       iconBg: AppColors.primarySurface,
@@ -18,7 +20,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           WorkflowComponents.buildInfoRow(
-            label: 'Request Status',
+            label: l10n.requestStatus,
             child: Text(
               report.requestStatus.isNotEmpty ? report.requestStatus : '-',
               style: const TextStyle(
@@ -30,7 +32,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Request Number',
+            label: l10n.requestNumber,
             child: Text(
               '${report.requestNumber} - ${report.workOrder} - ${report.materialPn}',
               style: const TextStyle(
@@ -42,7 +44,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Request Date',
+            label: l10n.requestDate,
             child: Text(
               report.requestDate.isNotEmpty ? report.requestDate : '-',
               style: const TextStyle(
@@ -54,7 +56,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Work Order',
+            label: l10n.workOrder,
             child: Text(
               report.workOrder,
               style: const TextStyle(
@@ -66,7 +68,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Demand Week',
+            label: l10n.demandWk,
             child: Text(
               report.demandWk,
               style: const TextStyle(
@@ -78,7 +80,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'PCN',
+            label: l10n.pcn,
             child: Text(
               report.pcn,
               style: const TextStyle(
@@ -90,7 +92,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Finish Good / CTN',
+            label: l10n.finishGoodCtn,
             child: Text(
               report.finishGoodCtn,
               style: const TextStyle(
@@ -102,7 +104,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Material P/N',
+            label: l10n.materialPn,
             child: Text(
               report.materialPn,
               style: const TextStyle(
@@ -114,7 +116,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Material Name',
+            label: l10n.materialName,
             child: Text(
               report.materialName,
               style: const TextStyle(
@@ -126,7 +128,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Request Quantity',
+            label: l10n.requestQuantity,
             child: Text(
               report.requestQuantity,
               style: const TextStyle(
@@ -138,7 +140,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Unit',
+            label: l10n.unit,
             child: Text(
               report.unit,
               style: const TextStyle(
@@ -155,8 +157,9 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
 
   // Build Section 3: Verification
   Widget buildVerification(BuildContext context, WorkflowReportEntity report) {
+    final l10n = AppLocalizations.of(context)!;
     return WorkflowComponents.buildCard(
-      title: 'Verification',
+      title: l10n.verificationInfo,
       icon: Icons.fact_check_outlined,
       iconColor: AppColors.info,
       iconBg: AppColors.infoSurface,
@@ -164,7 +167,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           WorkflowComponents.buildInfoRow(
-            label: 'Verification Method',
+            label: l10n.verificationMethod,
             child: Text(
               report.verificationMethod ?? '-',
               style: const TextStyle(
@@ -176,7 +179,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Verification Code',
+            label: l10n.verificationCode,
             child: Text(
               report.verificationCode ?? '-',
               style: const TextStyle(
@@ -188,12 +191,12 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Spec Check',
+            label: l10n.specCheck,
             child: Text(
               report.specCheck == '1'
-                  ? 'Correct'
+                  ? l10n.correct
                   : report.specCheck == '0'
-                  ? 'Wrong'
+                  ? l10n.wrong
                   : '-',
               style: const TextStyle(
                 fontSize: 14,
@@ -204,13 +207,12 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Quantity Check',
+            label: l10n.quantityCheck,
             child: Text(
-              // report.quantityCheck.isNotEmpty ? report.quantityCheck : '-',
               report.quantityCheck == '1'
-                  ? 'Correct'
+                  ? l10n.correct
                   : report.quantityCheck == '0'
-                  ? 'Wrong'
+                  ? l10n.wrong
                   : '-',
               style: const TextStyle(
                 fontSize: 14,
@@ -221,7 +223,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Locker',
+            label: l10n.locker,
             child: Text(
               report.locker.isNotEmpty ? report.locker : '-',
               style: const TextStyle(
@@ -241,8 +243,9 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
     BuildContext context,
     WorkflowReportEntity report,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return WorkflowComponents.buildCard(
-      title: 'Workflow Information',
+      title: l10n.workflowInformation,
       icon: Icons.timeline_outlined,
       iconColor: AppColors.secondary,
       iconBg: AppColors.secondarySurface,
@@ -250,7 +253,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           WorkflowComponents.buildInfoRow(
-            label: 'Current Step',
+            label: l10n.currentStep,
             child: Text(
               report.stepName.toUpperCase(),
               style: const TextStyle(
@@ -262,7 +265,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Current Status',
+            label: l10n.currentStatus,
             child: Text(
               report.stepStatus,
               style: const TextStyle(
@@ -274,7 +277,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           ),
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Action Date',
+            label: l10n.actionDate,
             child: Text(
               report.actionDate ?? '-',
               style: const TextStyle(
@@ -294,8 +297,9 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
     BuildContext context,
     WorkflowReportEntity report,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return WorkflowComponents.buildCard(
-      title: 'Quantity Information',
+      title: l10n.quantityInformation,
       icon: Icons.bar_chart_outlined,
       iconColor: AppColors.success,
       iconBg: AppColors.successSurface,
@@ -303,7 +307,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           WorkflowComponents.buildInfoRow(
-            label: 'Prepared Material Received',
+            label: l10n.preparedMaterialReceived,
             child: Text(
               report.preparedQuantity.toString(),
               style: const TextStyle(
@@ -316,7 +320,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           // if (report.totalToProduction != null) ...[
           //   WorkflowComponents.buildDivider(),
           //   WorkflowComponents.buildInfoRow(
-          //     label: 'Total To Production',
+          //     label: l10n.totalToProduction,
           //     child: Text(
           //       report.totalToProduction.toString(),
           //       style: const TextStyle(
@@ -330,7 +334,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           // if (report.currentMaterialBalance != null) ...[
           //   WorkflowComponents.buildDivider(),
           //   WorkflowComponents.buildInfoRow(
-          //     label: 'Current Material Balance',
+          //     label: l10n.currentMaterialBalance,
           //     child: Text(
           //       report.currentMaterialBalance.toString(),
           //       style: const TextStyle(
@@ -343,7 +347,7 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
           // ],
           WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
-            label: 'Difference',
+            label: l10n.difference,
             child: Text(
               report.difference.toString(),
               style: TextStyle(
@@ -365,12 +369,13 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
     BuildContext context,
     WorkflowReportEntity report,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     if (report.lots.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return WorkflowComponents.buildCard(
-      title: 'Lot Information',
+      title: l10n.lotInformation,
       icon: Icons.layers_outlined,
       iconColor: AppColors.primary,
       iconBg: AppColors.primarySurface,
@@ -386,7 +391,9 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    lot.lotName.isNotEmpty ? lot.lotName : 'Lot ${index + 1}',
+                    lot.lotName.isNotEmpty
+                        ? lot.lotName
+                        : '${l10n.lot} ${index + 1}',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -412,12 +419,13 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
 
   // Build Section 7: Pictures
   Widget buildPictures(BuildContext context, WorkflowReportEntity report) {
+    final l10n = AppLocalizations.of(context)!;
     if (report.specPictures.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return WorkflowComponents.buildCard(
-      title: 'Spec Pictures',
+      title: l10n.specPictures,
       icon: Icons.image_outlined,
       iconColor: AppColors.info,
       iconBg: AppColors.infoSurface,

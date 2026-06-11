@@ -25,6 +25,7 @@ class WorkflowReportEntity {
   final String specCheck;
   final String quantityCheck;
   final String locker;
+  final String personName;
 
   final List<String> specPictures;
 
@@ -56,6 +57,7 @@ class WorkflowReportEntity {
     required this.specCheck,
     required this.quantityCheck,
     required this.locker,
+    required this.personName,
     required this.specPictures,
     required this.preparedQuantity,
     required this.difference,
@@ -67,8 +69,5 @@ class LotInformationEntity {
   final String lotName;
   final double quantity;
 
-  const LotInformationEntity({
-    required this.lotName,
-    required this.quantity,
-  });
+  const LotInformationEntity({required this.lotName, required this.quantity});
 }

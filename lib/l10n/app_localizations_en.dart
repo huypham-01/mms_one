@@ -219,6 +219,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scanLocker => 'Scan Locker';
 
   @override
+  String get scanPreparerName => 'Scan PreparerName';
+
+  @override
   String get preparerName => 'Preparer Name';
 
   @override
@@ -231,16 +234,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get warehouseLocker => 'Warehouse Locker';
 
   @override
-  String get scanWarehouseLockerQr => 'Scan Warehouse Locker QR';
+  String get scanWarehouseLockerQr => 'Scan QR';
 
   @override
   String get productionLocker => 'Production Locker';
 
   @override
-  String get scanProductionLockerQr => 'Scan Production Locker QR';
+  String get scanProductionLockerQr => 'Scan QR';
 
   @override
-  String get receivedBy => 'Received By';
+  String get warehouseKeeper => 'Warehouse Keeper';
 
   @override
   String get mrName => 'MR Name';
@@ -285,12 +288,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get anErrorOccurred => 'An error occurred';
 
   @override
-  String get selectMaterialRequest =>
-      'Please select Material Request before submitting';
+  String get selectMaterialRequest => 'Please select Material Request before submitting';
 
   @override
-  String get pictureVerificationRequired =>
-      'Verification method is Picture — please take at least 1 photo';
+  String get pictureVerificationRequired => 'Verification method is Picture — please take at least 1 photo';
 
   @override
   String get scanBarcodeRequired => 'Please scan barcode before submitting';
@@ -329,8 +330,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterQuantityToProduction => 'Please enter Quantity to Production';
 
   @override
-  String get quantityMustBePositive =>
-      'Quantity to Production must be positive';
+  String get quantityMustBePositive => 'Quantity to Production must be positive';
 
   @override
   String get enterToWhere => 'Please enter To Where';
@@ -357,8 +357,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get submitFailed => 'Submit failed. Please try again';
 
   @override
-  String get networkError =>
-      'No network connection. Please check and try again';
+  String get networkError => 'No network connection. Please check and try again';
 
   @override
   String get timeoutError => 'Connection timed out. Please try again';
@@ -368,6 +367,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get otpInvalid => 'OTP code is invalid. Please check again';
+
+  @override
+  String get otpEmptyError => 'OTP cannot be empty';
+
+  @override
+  String get otpLengthError => 'OTP must have exactly 6 digits';
+
+  @override
+  String get verifyOtpTitle => 'Verify OTP';
+
+  @override
+  String get otpCodeLabel => 'OTP Code';
 
   @override
   String get submitError => 'Error occurred when submitting. Please try again';
@@ -394,8 +405,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rejectCurrentStep => 'Reject Current Step';
 
   @override
-  String get rejectCurrentStepDescription =>
-      'Return this workflow to previous verification step.';
+  String get rejectCurrentStepDescription => 'Return this workflow to previous verification step.';
 
   @override
   String get rejectReason => 'Reject Reason';
@@ -418,8 +428,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get firstStepCannotReturnFurther =>
-      'This is the first step. Cannot return further.';
+  String get firstStepCannotReturnFurther => 'This is the first step. Cannot return further.';
 
   @override
   String get materialOvertimeSubtitle => 'Manage and monitor material overtime';
@@ -459,12 +468,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get overtimeAt => 'Overtime At';
 
   @override
-  String get storageAreaSubtitle =>
-      'Monitor material locations and stock in production storage';
+  String get storageAreaSubtitle => 'Monitor material locations and stock in production storage';
 
   @override
-  String get searchStorageAreaHint =>
-      'Search Request, Material, PCN, Work Order...';
+  String get searchStorageAreaHint => 'Search Request, Material, PCN, Work Order...';
 
   @override
   String get noStorageAreaData => 'No storage area data';
@@ -504,4 +511,193 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quantity => 'Quantity';
+
+  @override
+  String get materialRequestInformation => 'Material Request';
+
+  @override
+  String get requestStatus => 'Request Status';
+
+  @override
+  String get workflowInformation => 'Workflow Information';
+
+  @override
+  String get currentStatus => 'Current Status';
+
+  @override
+  String get actionDate => 'Action Date';
+
+  @override
+  String get quantityInformation => 'Quantity Information';
+
+  @override
+  String get preparedMaterialReceived => 'Prepared Material Received';
+
+  @override
+  String get totalToProduction => 'Total To Production';
+
+  @override
+  String get currentMaterialBalance => 'Current Material Balance';
+
+  @override
+  String get lotInformation => 'Lot Information';
+
+  @override
+  String get specPictures => 'Spec Pictures';
+
+  @override
+  String get verificationMethod => 'Verification Method';
+
+  @override
+  String get logHistoryTitle => 'Log History';
+
+  @override
+  String get stepPlanner => 'PLANNER';
+
+  @override
+  String get stepPreparer => 'PREPARER';
+
+  @override
+  String get stepWarehouse => 'WAREHOUSE';
+
+  @override
+  String get stepReceiver => 'RECEIVER';
+
+  @override
+  String get stepLineLeader => 'LINE LEADER';
+
+  @override
+  String get stepProduction => 'PRODUCTION';
+
+  @override
+  String get rolePlanner => 'Planner';
+
+  @override
+  String get rolePreparer => 'Preparer';
+
+  @override
+  String get roleWarehouse => 'Warehouse';
+
+  @override
+  String get roleReceiver => 'Receiver';
+
+  @override
+  String get roleLineLeader => 'Line Leader';
+
+  @override
+  String get systemActor => 'System';
+
+  @override
+  String get payloadHeader => 'PAYLOAD';
+
+  @override
+  String get boolTrue => 'true';
+
+  @override
+  String get boolFalse => 'false';
+
+  @override
+  String get errorLoadHistory => 'Failed to load history';
+
+  @override
+  String get emptyHistoryTitle => 'No history yet';
+
+  @override
+  String get emptyHistoryDesc => 'This Material Request has no logs recorded yet.';
+
+  @override
+  String get retryButton => 'Retry';
+
+  @override
+  String get drawerModuleMaterialRequest => 'Material Request';
+
+  @override
+  String get drawerModulePreparer => 'Preparer';
+
+  @override
+  String get drawerModuleWarehouse => 'Warehouse';
+
+  @override
+  String get drawerModuleMaterialReceiver => 'Material Receiver';
+
+  @override
+  String get drawerModuleLineLeader => 'Line Leader';
+
+  @override
+  String get reportMaterialRequestTitle => 'Material Request Report';
+
+  @override
+  String get reportPreparerTitle => 'Preparer Report';
+
+  @override
+  String get reportWarehouseTitle => 'Warehouse Report';
+
+  @override
+  String get reportMaterialReceiverTitle => 'Material Receiver Report';
+
+  @override
+  String get reportLineLeaderTitle => 'Line Leader Report';
+
+  @override
+  String get workflowReportList => 'Workflow report list';
+
+  @override
+  String get noReportData => 'No report data';
+
+  @override
+  String get noWorkflowReportDataAvailable => 'No workflow report data available for this step.';
+
+  @override
+  String get drawerReportHeader => 'REPORT';
+
+  @override
+  String get drawerLogout => 'Logout';
+
+  @override
+  String get drawerLanguage => 'Language';
+
+  @override
+  String get drawerMockMode => '🧪 MOCK MODE';
+
+  @override
+  String get drawerLanguageLabel => 'Language: ';
+
+  @override
+  String get loginTitle => 'MMS Login';
+
+  @override
+  String get username => 'Username';
+
+  @override
+  String get usernameEmpty => 'Please enter username';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get passwordEmpty => 'Please enter password';
+
+  @override
+  String get otpEmpty => 'Please enter OTP';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get materialRequestTitle => 'Material Request';
+
+  @override
+  String get manageRequisitions => 'Manage material requisitions';
+
+  @override
+  String get items => 'items';
+
+  @override
+  String get searchByRequestNumber => 'Search request number, material...';
+
+  @override
+  String get noRequestsFound => 'No requests found';
+
+  @override
+  String get all => 'All';
 }

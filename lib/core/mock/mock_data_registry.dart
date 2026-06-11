@@ -3,9 +3,10 @@ class MockDataRegistry {
 
   // Features supported by mock data
   static const bool materialRequestEnabled = true;
-  static const bool workflowReportEnabled = false;
-  static const bool storageAreaEnabled = false;
-  static const bool transactionLogEnabled = false;
-  static const bool logHistoryEnabled = false;
-  static const bool materialOvertimeEnabled = false;
+  static const bool workflowReportEnabled = true;
+  static const bool workflowSubmitEnabled = true;
+  static const bool storageAreaEnabled = true;
+  static const bool transactionLogEnabled = true;
+  static const bool logHistoryEnabled = true;
+  static const bool materialOvertimeEnabled = true;
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/status_chip.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Material request card widget for the MR listing screen.
 class MrRequestCard extends StatefulWidget {
@@ -62,6 +64,7 @@ class _MrRequestCardState extends State<MrRequestCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: _toggleExpand,
       child: AnimatedContainer(
@@ -138,39 +141,39 @@ class _MrRequestCardState extends State<MrRequestCard> {
                   children: [
                     _InfoRow(
                       icon: Icons.inventory_2_outlined,
-                      label: 'Material Name',
+                      label: l10n.materialName,
                       value: widget.materialName,
                       valueMaxLines: 2,
                     ),
                     const SizedBox(height: 8),
                     _InfoRow(
                       icon: Icons.work_outline_rounded,
-                      label: 'Demand WK',
+                      label: l10n.demandWk,
                       value: widget.demandWk,
                     ),
                     const SizedBox(height: 8),
 
                     _InfoRow(
                       icon: Icons.badge_outlined,
-                      label: 'PCN',
+                      label: l10n.pcn,
                       value: widget.pcn,
                     ),
                     const SizedBox(height: 8),
                     _InfoRow(
                       icon: Icons.inventory_2_outlined,
-                      label: 'FG/ctn',
+                      label: l10n.finishGoodCtn,
                       value: widget.finishGoodCtn,
                     ),
                     const SizedBox(height: 8),
                     _InfoRow(
                       icon: Icons.numbers_rounded,
-                      label: 'Quantity',
+                      label: l10n.quantity,
                       value: widget.requestQuantity,
                     ),
                     const SizedBox(height: 8),
                     _InfoRow(
                       icon: Icons.straighten_rounded,
-                      label: 'Unit',
+                      label: l10n.unit,
                       value: widget.unit,
                     ),
                     const SizedBox(height: 8),
