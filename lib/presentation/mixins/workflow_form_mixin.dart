@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/localization/localization_extensions.dart';
 import '../../data/models/mr_workflow_item_model.dart';
+import '../../domain/entities/workflow_report_entity.dart';
 import '../../domain/repositories/mr_workflow_submit_repository.dart';
 import '../components/workflow_components.dart';
 import '../providers/mr_workflow_provider.dart';
@@ -178,6 +179,51 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
       }
     });
     Navigator.pop(context);
+
+    // Với step warehouse: load detail để fill lots & difference
+    if (workflowStep == 'warehouse') {
+      context
+          .read<MrWorkflowProvider>()
+          .loadReportDetail(item.id, 'preparer')
+          .then((_) {
+            if (!mounted) return;
+            final report = context.read<MrWorkflowProvider>().reportDetail;
+            if (report != null) _applyWarehouseReportDetail(report);
+          });
+    }
+  }
+
+  /// Fill lots và difference từ report detail — chỉ dùng cho step warehouse.
+  void _applyWarehouseReportDetail(WorkflowReportEntity report) {
+    setState(() {
+      // ── Lots ────────────────────────────────────────────────────────────
+      for (final lot in lots) {
+        lot.qtyController.removeListener(updatePreparedQuantity);
+        lot.dispose();
+      }
+      lots.clear();
+
+      for (final LotInformationEntity lotEntity in report.lots) {
+        final ld = LotData();
+        ld.nameController.text = lotEntity.lotName;
+        ld.qtyController.text = lotEntity.quantity.toString();
+        ld.qtyController.addListener(updatePreparedQuantity);
+        lots.add(ld);
+      }
+
+      // Đảm bảo luôn có ít nhất 1 lot
+      if (lots.isEmpty) {
+        final ld = LotData();
+        ld.qtyController.addListener(updatePreparedQuantity);
+        lots.add(ld);
+      }
+
+      // ── Difference ──────────────────────────────────────────────────────
+      differenceCtrl.text = report.difference.toString();
+
+      // Cập nhật lại preparedQuantity từ lot qty controllers
+      updatePreparedQuantity();
+    });
   }
 
   @override
@@ -953,47 +999,51 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   Widget buildLotInformationCard(BuildContext context) {
     if (!_showLotInformation) return const SizedBox.shrink();
 
+    final isReadOnly = workflowStep == 'warehouse';
+
     return WorkflowComponents.buildCard(
       title: context.l10n.lotsInformation,
       icon: Icons.inventory_2_outlined,
       iconColor: AppColors.primary,
       iconBg: AppColors.primarySurface,
-      headerAction: InkWell(
-        borderRadius: BorderRadius.circular(10),
-        onTap: () {
-          setState(() {
-            final lot = LotData();
-            lot.qtyController.addListener(updatePreparedQuantity);
-            lots.add(lot);
-            updatePreparedQuantity();
-          });
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: AppColors.primarySurface,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: AppColors.primary.withValues(alpha: 0.15),
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.add_rounded, size: 16, color: AppColors.primary),
-              const SizedBox(width: 6),
-              Text(
-                context.l10n.addLot,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+      headerAction: isReadOnly
+          ? null
+          : InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                setState(() {
+                  final lot = LotData();
+                  lot.qtyController.addListener(updatePreparedQuantity);
+                  lots.add(lot);
+                  updatePreparedQuantity();
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.primarySurface,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.15),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.add_rounded, size: 16, color: AppColors.primary),
+                    const SizedBox(width: 6),
+                    Text(
+                      context.l10n.addLot,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -1009,40 +1059,44 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
                 children: [
                   WorkflowComponents.buildFieldLabel(
                     '${context.l10n.lot} $lotLabel',
-                    required: true,
+                    required: !isReadOnly,
                   ),
                   const SizedBox(height: 6),
                   WorkflowComponents.buildTextField(
                     controller: lot.nameController,
                     hint: context.l10n.enterLotName,
+                    readOnly: isReadOnly,
                   ),
                   const SizedBox(height: 12),
                   WorkflowComponents.buildFieldLabel(
                     '${context.l10n.lot} $lotLabel ${context.l10n.qty}',
-                    required: true,
+                    required: !isReadOnly,
                   ),
                   const SizedBox(height: 6),
                   WorkflowComponents.buildTextField(
                     controller: lot.qtyController,
                     hint: '0',
                     suffixText: '#',
-                    keyboardType: TextInputType.number,
-                    rightWidget: IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      icon: const Icon(
-                        Icons.delete_outline,
-                        color: AppColors.error,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          lot.dispose();
-                          lots.removeAt(index);
-                          updatePreparedQuantity();
-                        });
-                      },
-                    ),
+                    keyboardType: isReadOnly ? null : TextInputType.number,
+                    readOnly: isReadOnly,
+                    rightWidget: isReadOnly
+                        ? null
+                        : IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                            icon: const Icon(
+                              Icons.delete_outline,
+                              color: AppColors.error,
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                lot.dispose();
+                                lots.removeAt(index);
+                                updatePreparedQuantity();
+                              });
+                            },
+                          ),
                   ),
                   if (index != lots.length - 1)
                     const Padding(
