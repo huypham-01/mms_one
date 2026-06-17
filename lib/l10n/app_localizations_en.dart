@@ -700,4 +700,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get all => 'All';
+
+  @override
+  String get updateDownloadFailed => 'Download failed. Please try again.';
+
+  @override
+  String get updateDownloadStart => 'Downloading Update...';
+
+  @override
+  String get updateNewVersionAvailable => 'New version available';
+
+  @override
+  String get updateCurrentVersion => 'Current version';
+
+  @override
+  String get updateLatestVersion => 'Latest version';
+
+  @override
+  String get updateLater => 'Later';
+
+  @override
+  String get updateUpdate => 'Update';
 }

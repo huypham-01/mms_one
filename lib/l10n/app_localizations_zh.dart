@@ -700,6 +700,27 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get all => '全部';
+
+  @override
+  String get updateDownloadFailed => '下载失败，请重试。';
+
+  @override
+  String get updateDownloadStart => '正在下载更新...';
+
+  @override
+  String get updateNewVersionAvailable => '有新版本';
+
+  @override
+  String get updateCurrentVersion => '当前版本';
+
+  @override
+  String get updateLatestVersion => '最新版本';
+
+  @override
+  String get updateLater => '稍后';
+
+  @override
+  String get updateUpdate => '更新';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -1338,6 +1359,27 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get drawerLanguageLabel => '语言：';
+
+  @override
+  String get updateDownloadFailed => '下载失败，请重试。';
+
+  @override
+  String get updateDownloadStart => '正在下载更新...';
+
+  @override
+  String get updateNewVersionAvailable => '有新版本';
+
+  @override
+  String get updateCurrentVersion => '当前版本';
+
+  @override
+  String get updateLatestVersion => '最新版本';
+
+  @override
+  String get updateLater => '稍后';
+
+  @override
+  String get updateUpdate => '更新';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -2036,4 +2078,25 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get all => '全部';
+
+  @override
+  String get updateDownloadFailed => '下載失敗，請重試。';
+
+  @override
+  String get updateDownloadStart => '正在下載更新...';
+
+  @override
+  String get updateNewVersionAvailable => '有新版本';
+
+  @override
+  String get updateCurrentVersion => '當前版本';
+
+  @override
+  String get updateLatestVersion => '最新版本';
+
+  @override
+  String get updateLater => '稍後';
+
+  @override
+  String get updateUpdate => '更新';
 }

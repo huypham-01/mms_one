@@ -252,5 +252,12 @@
   "items": "items",
   "searchByRequestNumber": "Search request number, material...",
   "noRequestsFound": "No requests found",
-  "all": "All"
+  "all": "All",
+  "updateDownloadFailed": "Download failed. Please try again.",
+  "updateDownloadStart": "Downloading Update...",
+  "updateNewVersionAvailable": "New version available",
+  "updateCurrentVersion": "Current version",
+  "updateLatestVersion": "Latest version",
+  "updateLater": "Later",
+  "updateUpdate": "Update"
 }

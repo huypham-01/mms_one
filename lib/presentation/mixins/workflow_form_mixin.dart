@@ -1078,6 +1078,8 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
 
   List<Widget> _buildVerificationFields(BuildContext context) {
     switch (workflowStep) {
+      case 'preparer':
+        return _buildPreparerFields(context);
       case 'warehouse':
         return _buildWarehouseFields(context);
       case 'receiver':
@@ -1086,7 +1088,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         return _buildLineLeaderFields(context);
       case 'production':
         return _buildProductionFields(context);
-      case 'preparer':
+
       default:
         return _buildPreparerFields(context);
     }
@@ -1192,19 +1194,18 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           suffixIcon: Icons.security_outlined,
           readOnly: true,
         ),
-        const SizedBox(height: 12),
-        WorkflowComponents.buildFieldLabel(context.l10n.locker, required: true),
-        const SizedBox(height: 6),
-        WorkflowComponents.buildTextField(
-          controller: lockerCtrl,
-          hint: context.l10n.scanLocker,
-          suffixIcon: Icons.qr_code_scanner,
-          suffixIconColor: AppColors.primary,
-          readOnly: true,
-          onTapSuffix: () => _scanLocker(context, lockerCtrl),
-        ),
       ],
-
+      const SizedBox(height: 12),
+      WorkflowComponents.buildFieldLabel(context.l10n.locker, required: true),
+      const SizedBox(height: 6),
+      WorkflowComponents.buildTextField(
+        controller: lockerCtrl,
+        hint: context.l10n.tapIconToScan,
+        suffixIcon: Icons.qr_code_scanner,
+        suffixIconColor: AppColors.primary,
+        readOnly: true,
+        onTapSuffix: () => _scanLocker(context, lockerCtrl),
+      ),
       const SizedBox(height: 12),
       Row(
         children: [
@@ -1234,6 +1235,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
       WorkflowComponents.buildFieldLabel(context.l10n.difference),
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
+        controller: differenceCtrl,
         hint: preparerId,
         suffixIcon: Icons.compare_arrows,
         readOnly: true,
@@ -1840,6 +1842,10 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
     super.initState();
     _searchCtrl.addListener(_onSearch);
     _scrollCtrl.addListener(_onScroll);
+    // Load fresh data every time the bottom sheet is opened
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<MrWorkflowProvider>().fetch();
+    });
   }
 
   void _onSearch() {

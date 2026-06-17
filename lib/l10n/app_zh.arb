@@ -250,5 +250,12 @@
   "items": "项目",
   "searchByRequestNumber": "按请求编号、物料搜索...",
   "noRequestsFound": "没有找到请求",
-  "all": "全部"
+  "all": "全部",
+  "updateDownloadFailed": "下载失败，请重试。",
+  "updateDownloadStart": "正在下载更新...",
+  "updateNewVersionAvailable": "有新版本",
+  "updateCurrentVersion": "当前版本",
+  "updateLatestVersion": "最新版本",
+  "updateLater": "稍后",
+  "updateUpdate": "更新"
 }

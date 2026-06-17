@@ -252,5 +252,12 @@
   "items": "mục",
   "searchByRequestNumber": "Tìm kiếm số yêu cầu, vật liệu...",
   "noRequestsFound": "Không tìm thấy yêu cầu",
-  "all": "Tất cả"
+  "all": "Tất cả",
+  "updateDownloadFailed": "Tải xuống thất bại. Vui lòng thử lại.",
+  "updateDownloadStart": "Đang tải bản cập nhật...",
+  "updateNewVersionAvailable": "Có phiên bản mới",
+  "updateCurrentVersion": "Phiên bản hiện tại",
+  "updateLatestVersion": "Phiên bản mới nhất",
+  "updateLater": "Để sau",
+  "updateUpdate": "Cập nhật"
 }

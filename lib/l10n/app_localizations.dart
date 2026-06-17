@@ -1472,6 +1472,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get all;
+
+  /// No description provided for @updateDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed. Please try again.'**
+  String get updateDownloadFailed;
+
+  /// No description provided for @updateDownloadStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading Update...'**
+  String get updateDownloadStart;
+
+  /// No description provided for @updateNewVersionAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'New version available'**
+  String get updateNewVersionAvailable;
+
+  /// No description provided for @updateCurrentVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Current version'**
+  String get updateCurrentVersion;
+
+  /// No description provided for @updateLatestVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest version'**
+  String get updateLatestVersion;
+
+  /// No description provided for @updateLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get updateLater;
+
+  /// No description provided for @updateUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updateUpdate;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

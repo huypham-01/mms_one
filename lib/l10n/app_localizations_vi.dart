@@ -700,4 +700,25 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get all => 'Tất cả';
+
+  @override
+  String get updateDownloadFailed => 'Tải xuống thất bại. Vui lòng thử lại.';
+
+  @override
+  String get updateDownloadStart => 'Đang tải bản cập nhật...';
+
+  @override
+  String get updateNewVersionAvailable => 'Có phiên bản mới';
+
+  @override
+  String get updateCurrentVersion => 'Phiên bản hiện tại';
+
+  @override
+  String get updateLatestVersion => 'Phiên bản mới nhất';
+
+  @override
+  String get updateLater => 'Để sau';
+
+  @override
+  String get updateUpdate => 'Cập nhật';
 }

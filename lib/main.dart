@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/localization/app_locale.dart';
 import 'l10n/app_localizations.dart';
+import 'core/services/app_update_service.dart';
 import 'providers/app_providers.dart';
 import 'presentation/providers/locale_provider.dart';
 
@@ -35,8 +36,25 @@ void main() async {
 /// Root application widget.
 /// Only contains theme config and router config — all providers
 /// and DI are handled by [AppProviders].
-class MmsApp extends StatelessWidget {
+class MmsApp extends StatefulWidget {
   const MmsApp({super.key});
+
+  @override
+  State<MmsApp> createState() => _MmsAppState();
+}
+
+class _MmsAppState extends State<MmsApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final router = context.read<GoRouter>();
+      final navContext = router.routerDelegate.navigatorKey.currentContext;
+      if (navContext != null) {
+        AppUpdateService.check(navContext);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

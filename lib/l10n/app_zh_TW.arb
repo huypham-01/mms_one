@@ -250,5 +250,12 @@
   "items": "項目",
   "searchByRequestNumber": "按請求編號、物料搜索...",
   "noRequestsFound": "沒有找到請求",
-  "all": "全部"
+  "all": "全部",
+  "updateDownloadFailed": "下載失敗，請重試。",
+  "updateDownloadStart": "正在下載更新...",
+  "updateNewVersionAvailable": "有新版本",
+  "updateCurrentVersion": "當前版本",
+  "updateLatestVersion": "最新版本",
+  "updateLater": "稍後",
+  "updateUpdate": "更新"
 }
