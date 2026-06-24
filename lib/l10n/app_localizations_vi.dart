@@ -201,6 +201,18 @@ class AppLocalizationsVi extends AppLocalizations {
   String get barcodeScanPr => 'Quét mã vạch';
 
   @override
+  String get pcnScan => 'Quét mã PCN';
+
+  @override
+  String get pcnScanResult => 'Kết quả quét PCN';
+
+  @override
+  String get pnScan => 'Quét mã P/N vật liệu';
+
+  @override
+  String get pnScanResult => 'Kết quả quét P/N vật liệu';
+
+  @override
   String get tapIconToScan => 'Nhấn biểu tượng để quét';
 
   @override
@@ -307,6 +319,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get scanLockerRequired => 'Vui lòng quét tủ khóa';
+
+  @override
+  String get scanPnRequired => 'Vui lòng quét mã P/N vật liệu';
+
+  @override
+  String get scanPcnRequired => 'Vui lòng quét mã PCN';
 
   @override
   String get scanWarehouseLockerRequired => 'Vui lòng quét tủ khóa kho';
@@ -526,6 +544,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get actionDate => 'Ngày Hành động';
+
+  @override
+  String get submittedBy => 'Người gửi';
 
   @override
   String get quantityInformation => 'Thông tin Số lượng';

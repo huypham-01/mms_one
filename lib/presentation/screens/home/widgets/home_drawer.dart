@@ -217,6 +217,7 @@ class _DrawerHeader extends StatelessWidget {
     final authProvider = context.watch<AuthProvider>();
     final localeProvider = context.watch<LocaleProvider>();
     final mockModeProvider = context.watch<MockModeProvider>();
+    final fullname = authProvider.fullname;
     final username = authProvider.username;
     final currentLanguage = localeProvider.getLanguageName(
       localeProvider.locale,
@@ -243,6 +244,15 @@ class _DrawerHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
+          Text(
+            fullname,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 5),
           Text(
             username,
             style: const TextStyle(

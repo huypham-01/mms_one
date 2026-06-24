@@ -139,7 +139,9 @@ class StorageAreaItem extends StatelessWidget {
                     Expanded(
                       child: _buildInfoCol(
                         context.l10n.location,
-                        mr.location.isNotEmpty ? mr.location : '-',
+                        mr.lastConsumeToWhere.isNotEmpty
+                            ? mr.lastConsumeToWhere
+                            : '-',
                       ),
                     ),
                     Expanded(

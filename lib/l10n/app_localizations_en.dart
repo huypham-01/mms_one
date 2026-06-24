@@ -201,6 +201,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get barcodeScanPr => 'Barcode Scan PR';
 
   @override
+  String get pcnScan => 'PCN Scan';
+
+  @override
+  String get pcnScanResult => 'PCN Scan Result';
+
+  @override
+  String get pnScan => 'Material P/N Scan';
+
+  @override
+  String get pnScanResult => 'Material P/N Scan Result';
+
+  @override
   String get tapIconToScan => 'Tap icon to scan code';
 
   @override
@@ -307,6 +319,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanLockerRequired => 'Please scan Locker';
+
+  @override
+  String get scanPnRequired => 'Please scan Material P/N';
+
+  @override
+  String get scanPcnRequired => 'Please scan PCN';
 
   @override
   String get scanWarehouseLockerRequired => 'Please scan Warehouse Locker';
@@ -526,6 +544,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionDate => 'Action Date';
+
+  @override
+  String get submittedBy => 'Submitted By';
 
   @override
   String get quantityInformation => 'Quantity Information';

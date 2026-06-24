@@ -483,6 +483,30 @@ abstract class AppLocalizations {
   /// **'Barcode Scan PR'**
   String get barcodeScanPr;
 
+  /// No description provided for @pcnScan.
+  ///
+  /// In en, this message translates to:
+  /// **'PCN Scan'**
+  String get pcnScan;
+
+  /// No description provided for @pcnScanResult.
+  ///
+  /// In en, this message translates to:
+  /// **'PCN Scan Result'**
+  String get pcnScanResult;
+
+  /// No description provided for @pnScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Material P/N Scan'**
+  String get pnScan;
+
+  /// No description provided for @pnScanResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Material P/N Scan Result'**
+  String get pnScanResult;
+
   /// No description provided for @tapIconToScan.
   ///
   /// In en, this message translates to:
@@ -698,6 +722,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please scan Locker'**
   String get scanLockerRequired;
+
+  /// No description provided for @scanPnRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please scan Material P/N'**
+  String get scanPnRequired;
+
+  /// No description provided for @scanPcnRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please scan PCN'**
+  String get scanPcnRequired;
 
   /// No description provided for @scanWarehouseLockerRequired.
   ///
@@ -1124,6 +1160,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Action Date'**
   String get actionDate;
+
+  /// No description provided for @submittedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted By'**
+  String get submittedBy;
 
   /// No description provided for @quantityInformation.
   ///

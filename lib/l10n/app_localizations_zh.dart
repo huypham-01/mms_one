@@ -201,6 +201,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get barcodeScanPr => '条码扫描PR';
 
   @override
+  String get pcnScan => 'PCN 扫描';
+
+  @override
+  String get pcnScanResult => 'PCN 扫描结果';
+
+  @override
+  String get pnScan => '物料 P/N 扫描';
+
+  @override
+  String get pnScanResult => '物料 P/N 扫描结果';
+
+  @override
   String get tapIconToScan => '点击图标扫描代码';
 
   @override
@@ -307,6 +319,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get scanLockerRequired => '请扫描储物柜';
+
+  @override
+  String get scanPnRequired => '请扫描物料 P/N';
+
+  @override
+  String get scanPcnRequired => '请扫描 PCN';
 
   @override
   String get scanWarehouseLockerRequired => '请扫描仓库储物柜';
@@ -526,6 +544,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get actionDate => '操作日期';
+
+  @override
+  String get submittedBy => '提交人';
 
   @override
   String get quantityInformation => '数量信息';
@@ -920,6 +941,18 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get barcodeScanPr => '条码扫描PR';
 
   @override
+  String get pcnScan => 'PCN 扫描';
+
+  @override
+  String get pcnScanResult => 'PCN 扫描结果';
+
+  @override
+  String get pnScan => '物料 P/N 扫描';
+
+  @override
+  String get pnScanResult => '物料 P/N 扫描结果';
+
+  @override
   String get tapIconToScan => '点击图标扫描代码';
 
   @override
@@ -1026,6 +1059,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get scanLockerRequired => '请扫描储物柜';
+
+  @override
+  String get scanPnRequired => '请扫描物料 P/N';
+
+  @override
+  String get scanPcnRequired => '请扫描 PCN';
 
   @override
   String get scanWarehouseLockerRequired => '请扫描仓库储物柜';
@@ -1233,6 +1272,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get actionDate => '操作日期';
+
+  @override
+  String get submittedBy => '提交人';
 
   @override
   String get quantityInformation => '数量信息';
@@ -1579,6 +1621,18 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get barcodeScanPr => '條碼掃描PR';
 
   @override
+  String get pcnScan => 'PCN 掃描';
+
+  @override
+  String get pcnScanResult => 'PCN 掃描結果';
+
+  @override
+  String get pnScan => '物料 P/N 掃描';
+
+  @override
+  String get pnScanResult => '物料 P/N 掃描結果';
+
+  @override
   String get tapIconToScan => '點擊圖標掃描代碼';
 
   @override
@@ -1685,6 +1739,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get scanLockerRequired => '請掃描儲物櫃';
+
+  @override
+  String get scanPnRequired => '請掃描物料 P/N';
+
+  @override
+  String get scanPcnRequired => '請掃描 PCN';
 
   @override
   String get scanWarehouseLockerRequired => '請掃描倉庫儲物櫃';
@@ -1904,6 +1964,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get actionDate => '操作日期';
+
+  @override
+  String get submittedBy => '提交人';
 
   @override
   String get quantityInformation => '數量資訊';

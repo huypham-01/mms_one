@@ -1,4 +1,5 @@
 import '../../domain/entities/storage_area_entity.dart';
+import 'package:intl/intl.dart';
 
 class StorageAreaModel extends StorageAreaEntity {
   const StorageAreaModel({
@@ -15,8 +16,12 @@ class StorageAreaModel extends StorageAreaEntity {
       total: int.tryParse(json['total']?.toString() ?? '0') ?? 0,
       perPage: int.tryParse(json['per_page']?.toString() ?? '50') ?? 50,
       lastPage: int.tryParse(json['last_page']?.toString() ?? '1') ?? 1,
-      groups: (json['data'] as List<dynamic>?)
-              ?.map((e) => StorageAreaGroupModel.fromJson(e as Map<String, dynamic>))
+      groups:
+          (json['data'] as List<dynamic>?)
+              ?.map(
+                (e) =>
+                    StorageAreaGroupModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           [],
     );
@@ -44,8 +49,11 @@ class StorageAreaGroupModel extends StorageAreaGroupEntity {
     return StorageAreaGroupModel(
       pcn: json['pcn']?.toString() ?? '',
       mrCount: int.tryParse(json['mr_count']?.toString() ?? '0') ?? 0,
-      mrs: (json['mrs'] as List<dynamic>?)
-              ?.map((e) => StorageAreaMrModel.fromJson(e as Map<String, dynamic>))
+      mrs:
+          (json['mrs'] as List<dynamic>?)
+              ?.map(
+                (e) => StorageAreaMrModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           [],
     );
@@ -113,16 +121,23 @@ class StorageAreaMrModel extends StorageAreaMrEntity {
       unit: json['unit']?.toString() ?? '',
       pcn: json['pcn']?.toString() ?? '',
       locker: json['locker']?.toString() ?? '',
-      preparedMaterialReceived: json['prepared_material_received']?.toString() ?? '',
-      totalToProduction: json['total_to_production']?.toString() ?? '',
-      currentMaterialBalance: json['current_material_balance']?.toString() ?? '',
+      preparedMaterialReceived: formatQuantity(
+        json['prepared_material_received']?.toString() ?? '',
+      ),
+      totalToProduction: formatQuantity(
+        json['total_to_production']?.toString() ?? '',
+      ),
+      currentMaterialBalance: formatQuantity(
+        json['current_material_balance']?.toString() ?? '',
+      ),
       location: json['location']?.toString() ?? '',
       lastConsumeToWhere: json['last_consume_to_where']?.toString() ?? '',
       lastConsumeAt: json['last_consume_at']?.toString() ?? '',
       consumeEventCount: json['consume_event_count']?.toString() ?? '',
       currentStatus: json['current_status']?.toString() ?? '',
       requestStatus: json['request_status']?.toString() ?? '',
-      enteredPendingConfirmAt: json['entered_pending_confirm_at']?.toString() ?? '',
+      enteredPendingConfirmAt:
+          json['entered_pending_confirm_at']?.toString() ?? '',
       isRejected: parseBool(json['is_rejected']),
       rejectReason: json['reject_reason']?.toString() ?? '',
       completedAt: json['completed_at']?.toString() ?? '',
@@ -133,7 +148,8 @@ class StorageAreaMrModel extends StorageAreaMrEntity {
       verificationCode: json['verification_code']?.toString() ?? '',
       isBlockedMissingMaster: parseBool(json['is_blocked_missing_master']),
       blockReason: json['block_reason']?.toString() ?? '',
-      productionStepStatusOpenClose: json['production_step_status_open_close']?.toString() ?? '',
+      productionStepStatusOpenClose:
+          json['production_step_status_open_close']?.toString() ?? '',
       autoConfirmAt: json['auto_confirm_at']?.toString() ?? '',
       isOvertime: parseBool(json['is_overtime']),
       daysSinceOpen: json['days_since_open']?.toString() ?? '',
@@ -176,5 +192,11 @@ class StorageAreaMrModel extends StorageAreaMrEntity {
       'daysSinceOpen': daysSinceOpen,
       'overtimeAt': overtimeAt,
     };
+  }
+
+  static String formatQuantity(dynamic value) {
+    final number = double.tryParse(value?.toString() ?? '0') ?? 0;
+
+    return NumberFormat('#,##0', 'vi_VN').format(number).replaceAll(',', '.');
   }
 }

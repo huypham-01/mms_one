@@ -95,3 +95,4 @@ class StorageAreaMrEntity {
     required this.overtimeAt,
   });
 }
+

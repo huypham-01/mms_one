@@ -34,6 +34,18 @@ class AuthProvider extends ChangeNotifier {
     }
     return 'User';
   }
+  String get fullname {
+    final token = _tokenManager.getToken();
+    if (token != null && token.isNotEmpty) {
+      try {
+        final decoded = JwtDecoder.decode(token);
+        return decoded['fullname'] ?? 'User';
+      } catch (e) {
+        return 'User';
+      }
+    }
+    return 'User';
+  }
 
   AuthProvider({
     required LoginUseCase loginUseCase,

@@ -287,6 +287,18 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
               ),
             ),
           ),
+          WorkflowComponents.buildDivider(),
+          WorkflowComponents.buildInfoRow(
+            label: l10n.submittedBy,
+            child: Text(
+              report.personName,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
         ],
       ),
     );
