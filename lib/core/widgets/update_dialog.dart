@@ -5,13 +5,13 @@ import '../../l10n/app_localizations.dart';
 class UpdateDialog extends StatelessWidget {
   final AppUpdateModel model;
   final String? currentVersion;
-  final VoidCallback onUpdate;
+  final VoidCallback? onUpdate;
 
   const UpdateDialog({
     super.key,
     required this.model,
     this.currentVersion,
-    required this.onUpdate,
+    this.onUpdate,
   });
 
   @override
@@ -38,13 +38,14 @@ class UpdateDialog extends StatelessWidget {
           ],
         ),
         actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              onUpdate();
-            },
-            child: Text(l10n.updateUpdate),
-          ),
+          if (onUpdate != null)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                onUpdate!();
+              },
+              child: Text(l10n.updateUpdate),
+            ),
         ],
       ),
     );

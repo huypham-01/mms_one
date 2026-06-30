@@ -283,6 +283,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   // ══════════════════════════════════════════════════════════════════════════
 
   Future<void> _scanBarcode(BuildContext context) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final code = await Navigator.push<String>(
       context,
       MaterialPageRoute(
@@ -303,6 +304,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   }
 
   Future<void> _scanPCN(BuildContext context) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final code = await Navigator.push<String>(
       context,
       MaterialPageRoute(
@@ -323,6 +325,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   }
 
   Future<void> _scanPN(BuildContext context) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final code = await Navigator.push<String>(
       context,
       MaterialPageRoute(
@@ -347,6 +350,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     TextEditingController ctrl, {
     String? title,
   }) async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final code = await Navigator.push<String>(
       context,
       MaterialPageRoute(
@@ -805,24 +809,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     final verification = verificationCodeCtrl.text.trim();
     if (barcode.isEmpty || verification.isEmpty) {
       return scanResultCtrl.text.trim();
-    }
-    return barcode == verification ? 'correct' : 'wrong';
-  }
-
-  String _scanResultPcnForApi() {
-    final barcode = scanPcnCtrl.text.trim();
-    final verification = pcnCtrl.text.trim();
-    if (barcode.isEmpty || verification.isEmpty) {
-      return scanResultPcnCtrl.text.trim();
-    }
-    return barcode == verification ? 'correct' : 'wrong';
-  }
-
-  String _scanResultPnForApi() {
-    final barcode = scanPnCtrl.text.trim();
-    final verification = materialPnCtrl.text.trim();
-    if (barcode.isEmpty || verification.isEmpty) {
-      return scanResultPnCtrl.text.trim();
     }
     return barcode == verification ? 'correct' : 'wrong';
   }
@@ -1377,15 +1363,15 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         onTapSuffix: () => _scanPCN(context),
       ),
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPcnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
-      ),
-      const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPcnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
+      // const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
@@ -1396,16 +1382,52 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         readOnly: true,
         onTapSuffix: () => _scanPN(context),
       ),
+      // const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPcnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      const SizedBox(height: 12),
+      const SizedBox(width: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.locker, required: true),
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
@@ -1503,15 +1525,15 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         onTapSuffix: () => _scanPCN(context),
       ),
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPcnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
-      ),
-      const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPcnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
+      // const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
@@ -1523,13 +1545,48 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         onTapSuffix: () => _scanPN(context),
       ),
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
+      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPcnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
 
       const SizedBox(height: 12),
@@ -1611,15 +1668,15 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         onTapSuffix: () => _scanPCN(context),
       ),
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPcnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
-      ),
-      const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPcnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
+      // const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
@@ -1631,13 +1688,48 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         onTapSuffix: () => _scanPN(context),
       ),
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
+      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPcnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
 
       const SizedBox(height: 12),
@@ -1793,15 +1885,15 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         readOnly: true,
         onTapSuffix: () => _scanPCN(context),
       ),
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPcnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
-      ),
+      // const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPcnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
       const SizedBox(height: 6),
@@ -1814,13 +1906,49 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         onTapSuffix: () => _scanPN(context),
       ),
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
+      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
+      // const SizedBox(height: 12),
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPcnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
 
       const SizedBox(height: 12),
@@ -1987,15 +2115,15 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         readOnly: true,
         onTapSuffix: () => _scanPCN(context),
       ),
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPcnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
-      ),
+      // const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPcnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
       const SizedBox(height: 6),
@@ -2007,14 +2135,50 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         readOnly: true,
         onTapSuffix: () => _scanPN(context),
       ),
+      // const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: scanResultPnCtrl,
+      //   hint: context.l10n.scanResult,
+      //   suffixIcon: Icons.security_outlined,
+      //   readOnly: true,
+      // ),
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanResultPnCtrl,
-        hint: context.l10n.scanResult,
-        suffixIcon: Icons.security_outlined,
-        readOnly: true,
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPcnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: scanResultPnCtrl,
+                  hint: context.l10n.scanResult,
+                  suffixIcon: Icons.security_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
 
       const SizedBox(height: 12),
@@ -2047,45 +2211,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           title: context.l10n.scanProductionLockerQr,
         ),
       ),
-      // Row(
-      //   children: [
-      //     Expanded(
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.stretch,
-      //         children: [
-      //           WorkflowComponents.buildFieldLabel(
-      //             context.l10n.toWhere,
-      //             required: true,
-      //           ),
-      //           const SizedBox(height: 6),
-      //           WorkflowComponents.buildTextField(
-      //             controller: toWhereCtrl,
-      //             hint: '-',
-      //             suffixIcon: Icons.place_outlined,
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //     const SizedBox(width: 12),
-      //     Expanded(
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.stretch,
-      //         children: [
-      //           WorkflowComponents.buildFieldLabel(
-      //             context.l10n.toWho,
-      //             required: true,
-      //           ),
-      //           const SizedBox(height: 6),
-      //           WorkflowComponents.buildTextField(
-      //             controller: toWhoCtrl,
-      //             hint: '-',
-      //             suffixIcon: Icons.person_outline,
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
+
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(
         context.l10n.fromLocker,
@@ -2112,7 +2238,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
         controller: fromLeaderCtrl,
-        hint: context.l10n.scanLocker,
+        hint: context.l10n.tapIconToScan,
         suffixIcon: Icons.qr_code_scanner,
         suffixIconColor: AppColors.primary,
         readOnly: true,

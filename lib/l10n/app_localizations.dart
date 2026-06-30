@@ -492,7 +492,7 @@ abstract class AppLocalizations {
   /// No description provided for @pcnScanResult.
   ///
   /// In en, this message translates to:
-  /// **'PCN Scan Result'**
+  /// **'PCN Result'**
   String get pcnScanResult;
 
   /// No description provided for @pnScan.
@@ -504,7 +504,7 @@ abstract class AppLocalizations {
   /// No description provided for @pnScanResult.
   ///
   /// In en, this message translates to:
-  /// **'Material P/N Scan Result'**
+  /// **'Material P/N Result'**
   String get pnScanResult;
 
   /// No description provided for @tapIconToScan.

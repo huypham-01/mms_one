@@ -20,7 +20,7 @@ class AppUpdateService {
     : _repo = repo ?? AppUpdateRepository();
 
   static Future<void> check(BuildContext context) async {
-    if (!Platform.isAndroid) return;
+    if (!Platform.isAndroid && !Platform.isIOS) return;
     if (_checked) return;
     _checked = true;
     // run but don't block startup
@@ -47,7 +47,7 @@ class AppUpdateService {
           builder: (_) => UpdateDialog(
             model: model,
             currentVersion: current,
-            onUpdate: () => service._downloadAndInstall(context, model),
+            onUpdate: Platform.isIOS ? null : () => service._downloadAndInstall(context, model),
           ),
         );
       }

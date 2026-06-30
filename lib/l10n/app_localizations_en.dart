@@ -204,13 +204,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pcnScan => 'PCN Scan';
 
   @override
-  String get pcnScanResult => 'PCN Scan Result';
+  String get pcnScanResult => 'PCN Result';
 
   @override
   String get pnScan => 'Material P/N Scan';
 
   @override
-  String get pnScanResult => 'Material P/N Scan Result';
+  String get pnScanResult => 'Material P/N Result';
 
   @override
   String get tapIconToScan => 'Tap icon to scan code';

@@ -204,13 +204,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get pcnScan => 'Quét mã PCN';
 
   @override
-  String get pcnScanResult => 'Kết quả quét PCN';
+  String get pcnScanResult => 'Kết quả PCN';
 
   @override
   String get pnScan => 'Quét mã P/N vật liệu';
 
   @override
-  String get pnScanResult => 'Kết quả quét P/N vật liệu';
+  String get pnScanResult => 'Kết quả quét P/N';
 
   @override
   String get tapIconToScan => 'Nhấn biểu tượng để quét';
