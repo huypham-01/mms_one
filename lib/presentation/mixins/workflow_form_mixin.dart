@@ -2606,30 +2606,45 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                           return ListTile(
                             onTap: () => widget.onSelected(item),
                             contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
+                              horizontal: 12,
                               vertical: 0,
                             ),
-                            leading: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? AppColors.primarySurface
-                                    : item.isRejected
-                                    ? AppColors.error.withValues(alpha: 0.1)
-                                    : AppColors.surfaceVariant,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(
-                                item.isRejected
-                                    ? Icons.warning_amber_rounded
-                                    : Icons.assignment_outlined,
-                                color: isSelected
-                                    ? AppColors.primary
-                                    : item.isRejected
-                                    ? AppColors.error
-                                    : AppColors.textTertiary,
-                                size: 18,
-                              ),
+                            leading: Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: isSelected
+                                        ? AppColors.primarySurface
+                                        : item.isRejected
+                                        ? AppColors.error.withValues(alpha: 0.1)
+                                        : AppColors.surfaceVariant,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Icon(
+                                    item.isRejected
+                                        ? Icons.warning_amber_rounded
+                                        : Icons.assignment_outlined,
+                                    color: isSelected
+                                        ? AppColors.primary
+                                        : item.isRejected
+                                        ? AppColors.error
+                                        : AppColors.textTertiary,
+                                    size: 18,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  item.currentStatus,
+                                  style: TextStyle(
+                                    fontSize: 7,
+                                    fontWeight: FontWeight.w500,
+                                    color: isSelected
+                                        ? AppColors.primary
+                                        : AppColors.textPrimary,
+                                  ),
+                                ),
+                              ],
                             ),
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
