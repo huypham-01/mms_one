@@ -16,10 +16,10 @@ class StorageAreaRepositoryImpl implements StorageAreaRepository {
   );
 
   @override
-  Future<StorageAreaEntity> getStorageAreas({int page = 1}) async {
+  Future<StorageAreaEntity> getStorageAreas({int page = 1, String? status}) async {
     if (mockModeProvider.isMockMode) {
-      return mockDataSource.getStorageAreas(page: page);
+      return mockDataSource.getStorageAreas(page: page, status: status);
     }
-    return remoteDataSource.getStorageAreas(page: page);
+    return remoteDataSource.getStorageAreas(page: page, status: status);
   }
 }

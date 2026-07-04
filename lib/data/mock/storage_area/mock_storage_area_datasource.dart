@@ -10,15 +10,20 @@ class MockStorageAreaDataSource {
   Future<StorageAreaModel> getStorageAreas({
     int page = 1,
     int pageSize = 20,
+    String? status,
   }) async {
-    debugPrint('[Mock] MockStorageAreaDataSource getStorageAreas page=$page');
+    debugPrint('[Mock] MockStorageAreaDataSource getStorageAreas page=$page status=$status');
     await Future.delayed(const Duration(milliseconds: 500));
 
+    // Filter by status when requested (e.g. 'closed')
+    final source = (status == 'closed')
+        ? _mockMrs.where((mr) => mr.requestStatus == 'CLOSE').toList()
+        : _mockMrs;
     final startIndex = (page - 1) * pageSize;
-    final endIndex = min(startIndex + pageSize, _mockMrs.length);
-    final pageItems = startIndex >= _mockMrs.length
+    final endIndex = min(startIndex + pageSize, source.length);
+    final pageItems = startIndex >= source.length
         ? <StorageAreaMrModel>[]
-        : _mockMrs.sublist(startIndex, endIndex);
+        : source.sublist(startIndex, endIndex);
 
     final groupsByPcn = <String, List<StorageAreaMrModel>>{};
     for (final item in pageItems) {
@@ -37,9 +42,9 @@ class MockStorageAreaDataSource {
 
     return StorageAreaModel(
       currentPage: page,
-      total: _mockMrs.length,
+      total: source.length,
       perPage: pageSize,
-      lastPage: (_mockMrs.length / pageSize).ceil(),
+      lastPage: (source.length / pageSize).ceil().clamp(1, 9999),
       groups: groups,
     );
   }

@@ -15,14 +15,18 @@ class StorageAreaProvider extends ChangeNotifier {
   int currentPage = 1;
   int lastPage = 1;
   bool hasMore = true;
+  String? currentStatus;
 
-  Future<void> loadStorageAreas() async {
+  Future<void> loadStorageAreas({String? status}) async {
     if (isLoading) return;
     isLoading = true;
     error = null;
     currentPage = 1;
     groups.clear();
     hasMore = true;
+    if (status != null) {
+      currentStatus = status == 'All' ? null : status;
+    }
     notifyListeners();
 
     await _fetchData(page: currentPage);
@@ -48,7 +52,10 @@ class StorageAreaProvider extends ChangeNotifier {
 
   Future<void> _fetchData({required int page, bool isRefresh = false}) async {
     try {
-      final response = await useCase.call(page: page);
+      final response = await useCase.call(
+        page: page,
+        status: currentStatus,
+      );
       
       currentPage = response.currentPage;
       lastPage = response.lastPage;

@@ -37,6 +37,7 @@ class WorkflowReportModel extends WorkflowReportEntity {
     final extraData = json['extra_data'] as Map<String, dynamic>? ?? {};
 
     const baseUrl = 'http://192.168.110.7/';
+    // const baseUrl = 'http://192.168.110.2/web_develop/';
 
     List<String> specPictures = [];
 

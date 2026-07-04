@@ -2332,6 +2332,8 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
   final TextEditingController _searchCtrl = TextEditingController();
   final ScrollController _scrollCtrl = ScrollController();
   String _searchQuery = '';
+  String _groupBy = 'none';
+  String _filterStatus = 'All';
 
   @override
   void initState() {
@@ -2367,8 +2369,12 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
   }
 
   List<MrWorkflowItemModel> _getFiltered(List<MrWorkflowItemModel> items) {
-    if (_searchQuery.isEmpty) return items;
-    return items.where((e) {
+    var result = items;
+    if (_filterStatus != 'All') {
+      result = result.where((e) => e.currentStatus == _filterStatus).toList();
+    }
+    if (_searchQuery.isEmpty) return result;
+    return result.where((e) {
       return e.id.toLowerCase().contains(_searchQuery) ||
           e.materialName.toLowerCase().contains(_searchQuery) ||
           e.materialPn.toLowerCase().contains(_searchQuery) ||
@@ -2498,6 +2504,124 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                   ),
                 ),
 
+                // Group & Filter Options
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        // Grouping
+                        Container(
+                          height: 36,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceVariant,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: _groupBy,
+                              isDense: true,
+                              icon: const Icon(
+                                Icons.arrow_drop_down,
+                                size: 20,
+                                color: AppColors.textSecondary,
+                              ),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textPrimary,
+                              ),
+                              items: const [
+                                DropdownMenuItem(
+                                  value: 'none',
+                                  child: Text('No Grouping'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'pcn',
+                                  child: Text('Group by PCN'),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'materialPn',
+                                  child: Text('Group by Material PN'),
+                                ),
+                              ],
+                              onChanged: (val) {
+                                if (val != null) {
+                                  setState(() => _groupBy = val);
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        // Filter by currentStatus
+                        Consumer<MrWorkflowProvider>(
+                          builder: (context, provider, _) {
+                            final statuses = provider.items
+                                .map((e) => e.currentStatus)
+                                .where((e) => e.isNotEmpty)
+                                .toSet()
+                                .toList();
+                            statuses.sort();
+                            statuses.insert(0, 'All');
+
+                            // If current filter is invalid, reset to 'All'
+                            final currentValue =
+                                statuses.contains(_filterStatus)
+                                ? _filterStatus
+                                : 'All';
+
+                            return Container(
+                              height: 36,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.surfaceVariant,
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: currentValue,
+                                  isDense: true,
+                                  icon: const Icon(
+                                    Icons.filter_list,
+                                    size: 18,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                  items: statuses.map((status) {
+                                    return DropdownMenuItem(
+                                      value: status,
+                                      child: Text(
+                                        status == 'All'
+                                            ? 'All Statuses'
+                                            : status,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (val) {
+                                    if (val != null) {
+                                      setState(() => _filterStatus = val);
+                                    }
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+
                 // List with states
                 Flexible(
                   child: Consumer<MrWorkflowProvider>(
@@ -2573,18 +2697,40 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                         );
                       }
 
+                      // Grouping Logic
+                      List<dynamic> displayItems = [];
+                      if (_groupBy != 'none') {
+                        final sorted = List<MrWorkflowItemModel>.from(filtered);
+                        sorted.sort((a, b) {
+                          final keyA = _groupBy == 'pcn' ? a.pcn : a.materialPn;
+                          final keyB = _groupBy == 'pcn' ? b.pcn : b.materialPn;
+                          return keyA.compareTo(keyB);
+                        });
+                        String? currentGroup;
+                        for (final item in sorted) {
+                          final key = _groupBy == 'pcn'
+                              ? item.pcn
+                              : item.materialPn;
+                          final groupKey = key.isEmpty ? 'Unknown' : key;
+                          if (groupKey != currentGroup) {
+                            currentGroup = groupKey;
+                            displayItems.add(currentGroup);
+                          }
+                          displayItems.add(item);
+                        }
+                      } else {
+                        displayItems = List.from(filtered);
+                      }
+
                       // List with pagination
-                      return ListView.separated(
+                      return ListView.builder(
                         controller: _scrollCtrl,
                         itemCount:
-                            filtered.length + (provider.isLoadingMore ? 1 : 0),
-                        separatorBuilder: (_, __) => const Divider(
-                          height: 1,
-                          color: AppColors.cardBorder,
-                        ),
+                            displayItems.length +
+                            (provider.isLoadingMore ? 1 : 0),
                         itemBuilder: (_, i) {
                           // Loading more footer
-                          if (i >= filtered.length) {
+                          if (i >= displayItems.length) {
                             return const Padding(
                               padding: EdgeInsets.all(16),
                               child: Center(
@@ -2600,90 +2746,133 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                             );
                           }
 
-                          final item = filtered[i];
+                          final itemOrHeader = displayItems[i];
+                          if (itemOrHeader is String) {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
+                              color: AppColors.surfaceVariant.withValues(
+                                alpha: 0.3,
+                              ),
+                              child: Text(
+                                '${_groupBy == 'pcn' ? 'PCN' : 'Material PN'}: $itemOrHeader',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 13,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            );
+                          }
+
+                          final item = itemOrHeader as MrWorkflowItemModel;
                           final isSelected = widget.selected?.id == item.id;
 
-                          return ListTile(
-                            onTap: () => widget.onSelected(item),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 0,
-                            ),
-                            leading: Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? AppColors.primarySurface
-                                        : item.isRejected
-                                        ? AppColors.error.withValues(alpha: 0.1)
-                                        : AppColors.surfaceVariant,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Icon(
-                                    item.isRejected
-                                        ? Icons.warning_amber_rounded
-                                        : Icons.assignment_outlined,
-                                    color: isSelected
-                                        ? AppColors.primary
-                                        : item.isRejected
-                                        ? AppColors.error
-                                        : AppColors.textTertiary,
-                                    size: 18,
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                onTap: () => widget.onSelected(item),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 0,
+                                ),
+                                leading: SizedBox(
+                                  width: 50,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color: isSelected
+                                              ? AppColors.primarySurface
+                                              : item.isRejected
+                                              ? AppColors.error.withValues(
+                                                  alpha: 0.1,
+                                                )
+                                              : AppColors.surfaceVariant,
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          item.isRejected
+                                              ? Icons.warning_amber_rounded
+                                              : Icons.assignment_outlined,
+                                          color: isSelected
+                                              ? AppColors.primary
+                                              : item.isRejected
+                                              ? AppColors.error
+                                              : AppColors.textTertiary,
+                                          size: 18,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        item.currentStatus,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w500,
+                                          color: isSelected
+                                              ? AppColors.primary
+                                              : AppColors.textPrimary,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  item.currentStatus,
-                                  style: TextStyle(
-                                    fontSize: 7,
-                                    fontWeight: FontWeight.w500,
-                                    color: isSelected
-                                        ? AppColors.primary
-                                        : AppColors.textPrimary,
-                                  ),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.displayTitle,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                        color: isSelected
+                                            ? AppColors.primary
+                                            : AppColors.textPrimary,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      item.materialName,
+                                      style: TextStyle(
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w500,
+                                        color: isSelected
+                                            ? AppColors.primary
+                                            : AppColors.textPrimary,
+                                      ),
+                                      maxLines: 2,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            title: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.displayTitle,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: isSelected
-                                        ? AppColors.primary
-                                        : AppColors.textPrimary,
-                                  ),
+                                trailing: isSelected
+                                    ? const Icon(
+                                        Icons.check_circle,
+                                        color: AppColors.primary,
+                                        size: 20,
+                                      )
+                                    : const Icon(
+                                        Icons.chevron_right,
+                                        color: AppColors.textTertiary,
+                                        size: 20,
+                                      ),
+                              ),
+                              if (i < displayItems.length - 1 &&
+                                  displayItems[i + 1] is MrWorkflowItemModel)
+                                const Divider(
+                                  height: 1,
+                                  color: AppColors.cardBorder,
                                 ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  item.materialName,
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w500,
-                                    color: isSelected
-                                        ? AppColors.primary
-                                        : AppColors.textPrimary,
-                                  ),
-                                  maxLines: 2,
-                                ),
-                              ],
-                            ),
-                            trailing: isSelected
-                                ? const Icon(
-                                    Icons.check_circle,
-                                    color: AppColors.primary,
-                                    size: 20,
-                                  )
-                                : const Icon(
-                                    Icons.chevron_right,
-                                    color: AppColors.textTertiary,
-                                    size: 20,
-                                  ),
+                            ],
                           );
                         },
                       );

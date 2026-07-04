@@ -8,7 +8,8 @@ class GetStorageAreasUseCase {
 
   Future<StorageAreaEntity> call({
     int page = 1,
+    String? status,
   }) async {
-    return repository.getStorageAreas(page: page);
+    return repository.getStorageAreas(page: page, status: status);
   }
 }

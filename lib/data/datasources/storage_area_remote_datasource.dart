@@ -5,6 +5,7 @@ import '../models/storage_area_model.dart';
 abstract class StorageAreaRemoteDataSource {
   Future<StorageAreaModel> getStorageAreas({
     int page = 1,
+    String? status,
   });
 }
 
@@ -16,11 +17,13 @@ class StorageAreaRemoteDataSourceImpl implements StorageAreaRemoteDataSource {
   @override
   Future<StorageAreaModel> getStorageAreas({
     int page = 1,
+    String? status,
   }) async {
-    debugPrint('[StorageArea] GET page=$page');
-    
+    debugPrint('[StorageArea] GET page=$page status=$status');
+
+    final statusParam = (status != null && status.isNotEmpty) ? '&status=$status' : '';
     final response = await _apiClient.get(
-      '?c=MrWorkflow&m=pdStorageArea&page=$page',
+      '?c=MrWorkflow&m=pdStorageArea&page=$page$statusParam',
     );
     
     debugPrint('[StorageArea] Response: ${response.data}');
