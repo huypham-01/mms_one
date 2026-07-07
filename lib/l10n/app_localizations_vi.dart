@@ -249,6 +249,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get scanWarehouseLockerQr => 'Quét mã';
 
   @override
+  String get storageLocation => 'Vị trí lưu trữ';
+
+  @override
   String get productionLocker => 'Tủ khóa sản xuất';
 
   @override
@@ -742,4 +745,55 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get updateUpdate => 'Cập nhật';
+
+  @override
+  String get drawerChangePassword => 'Thay đổi mật khẩu';
+
+  @override
+  String get changePasswordTitle => 'Thay đổi mật khẩu';
+
+  @override
+  String get currentPassword => 'Mật khẩu hiện tại';
+
+  @override
+  String get currentPasswordEmpty => 'Vui lòng nhập mật khẩu hiện tại';
+
+  @override
+  String get newPassword => 'Mật khẩu mới';
+
+  @override
+  String get newPasswordEmpty => 'Vui lòng nhập mật khẩu mới';
+
+  @override
+  String get newPasswordTooShort => 'Mật khẩu phải có ít nhất 6 ký tự';
+
+  @override
+  String get confirmPassword => 'Xác nhận mật khẩu mới';
+
+  @override
+  String get confirmPasswordEmpty => 'Vui lòng xác nhận mật khẩu mới';
+
+  @override
+  String get confirmPasswordNotMatch => 'Mật khẩu xác nhận không khớp';
+
+  @override
+  String get changePasswordButton => 'Xác nhận';
+
+  @override
+  String get changePasswordSuccess => 'Đổi mật khẩu thành công';
+
+  @override
+  String get changePasswordFailed => 'Đổi mật khẩu thất bại';
+
+  @override
+  String get dialogLogoutTitle => 'Đăng xuất';
+
+  @override
+  String get dialogLogoutMessage => 'Bạn có chắc chắn muốn đăng xuất không?';
+
+  @override
+  String get dialogCancel => 'Hủy';
+
+  @override
+  String get dialogConfirm => 'Xác nhận';
 }

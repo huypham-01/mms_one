@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-feature android:name="android.hardware.camera"/>
     <application
-        android:label="mms_acm"
+        android:label="MMS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

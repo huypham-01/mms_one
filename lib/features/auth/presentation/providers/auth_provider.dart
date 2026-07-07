@@ -22,6 +22,13 @@ class AuthProvider extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  bool get hasChangedPassword => _tokenManager.hasChangedPassword;
+  
+  Future<void> setHasChangedPassword(bool value) async {
+    await _tokenManager.setHasChangedPassword(value);
+    notifyListeners();
+  }
+
   String get username {
     final token = _tokenManager.getToken();
     if (token != null && token.isNotEmpty) {

@@ -66,4 +66,23 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     return false;
   }
+
+  @override
+  Future<LoginResponseEntity> setPassword(String currentPassword, String password, String confirmPassword, String otp) async {
+    // 1. Intercept for Mock Mode
+    if (_mockModeProvider.isMockMode) {
+      debugPrint('[Mock] Set Password success');
+      
+      return LoginResponseEntity(
+        status: true,
+        message: 'Mock Change Password Successful',
+        accessToken: null,
+      );
+    }
+
+    // 2. Normal Request
+    final response = await _remoteDataSource.setPassword(currentPassword, password, confirmPassword, otp);
+    
+    return response;
+  }
 }

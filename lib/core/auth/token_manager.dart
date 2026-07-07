@@ -22,4 +22,12 @@ class TokenManager {
     final token = getToken();
     return token != null && token.isNotEmpty;
   }
+
+  bool get hasChangedPassword {
+    return _prefs.getBool('has_changed_password') ?? false;
+  }
+
+  Future<void> setHasChangedPassword(bool value) async {
+    await _prefs.setBool('has_changed_password', value);
+  }
 }

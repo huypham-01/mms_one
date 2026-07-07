@@ -163,10 +163,31 @@ class _WorkflowReportDetailScreenState extends State<WorkflowReportDetailScreen>
                   const SizedBox(height: 16),
                   buildVerification(context, report),
                   const SizedBox(height: 16),
-                  buildQuantityInformation(context, report),
-                  const SizedBox(height: 16),
-                  buildLotInformation(context, report),
-                  const SizedBox(height: 16),
+
+                  if (widget.step == 'preparer') ...[
+                    buildQuantityInformation(context, report),
+                    const SizedBox(height: 16),
+                    buildLotInformation(context, report),
+                    const SizedBox(height: 16),
+                  ],
+                  if (widget.step == 'warehouse') ...[
+                    buildQuantityInformation(context, report),
+                    const SizedBox(height: 16),
+                  ],
+                  if (widget.step == 'receiver') ...[
+                    buildReceiverInformation(context, report),
+                    const SizedBox(height: 16),
+                  ],
+                  if (widget.step == 'line_leader') ...[
+                    buildLineLeaderInformation(context, report),
+                    const SizedBox(height: 16),
+                  ],
+                  if (widget.step == 'production' ||
+                      widget.step == 'consume') ...[
+                    buildProductionInformation(context, report),
+                    const SizedBox(height: 16),
+                  ],
+
                   buildPictures(context, report),
                 ],
               ),

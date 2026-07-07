@@ -20,6 +20,7 @@ class RouteNames {
   static const String materialOvertime = 'material-overtime';
   static const String transactionLog = 'transaction-log';
   static const String logHistory = 'log-history';
+  static const String changePassword = 'change-password';
 
   // ── ROUTE PATHS ──────────────────────────────────────────────────────
   static const String loginPath = '/login';
@@ -38,6 +39,7 @@ class RouteNames {
   static const String materialOvertimePath = '/material-overtime';
   static const String transactionLogPath = '/transaction-log/:mrId';
   static const String logHistoryPath = '/log-history/:mrId';
+  static const String changePasswordPath = '/change-password';
 
   // ── FUTURE MODULES ───────────────────────────────────────────────────
   // static const String cmms = 'cmms';

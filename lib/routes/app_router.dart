@@ -16,11 +16,13 @@ import '../presentation/screens/material_receiver/material_receiver_screen.dart'
 import '../presentation/screens/line_leader/line_leader_screen.dart';
 import '../presentation/screens/to_production/to_production_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
+import '../features/auth/presentation/screens/change_password_screen.dart';
 import '../features/auth/presentation/providers/auth_provider.dart';
 import '../providers/app_providers.dart';
 import 'package:provider/provider.dart';
 import 'route_names.dart';
 import '../presentation/screens/log_history/log_history_screen.dart';
+import '../core/mock/mock_mode_provider.dart';
 
 /// Application router configuration using go_router.
 /// Supports named routes, transition animations, and easy module expansion.
@@ -37,13 +39,22 @@ class AppRouter {
       redirect: (context, state) {
         final isLoggedIn = authProvider.isLoggedIn;
         final isGoingToLogin = state.uri.toString() == RouteNames.loginPath;
+        final isGoingToChangePassword = state.uri.toString() == RouteNames.changePasswordPath;
+        final isMockMode = context.read<MockModeProvider>().isMockMode;
+        
+        final hasChangedPassword = authProvider.hasChangedPassword;
 
         if (!isLoggedIn && !isGoingToLogin) {
           return RouteNames.loginPath;
         }
 
-        if (isLoggedIn && isGoingToLogin) {
-          return RouteNames.homePath;
+        if (isLoggedIn) {
+          if (!hasChangedPassword && !isMockMode && !isGoingToChangePassword) {
+            return RouteNames.changePasswordPath;
+          }
+          if (isGoingToLogin) {
+            return RouteNames.homePath;
+          }
         }
 
         return null;
@@ -214,6 +225,16 @@ class AppRouter {
           pageBuilder: (context, state) => _buildPage(
             key: state.pageKey,
             child: const MaterialOvertimeScreen(),
+          ),
+        ),
+
+        // ── CHANGE PASSWORD ────────────────────────────────
+        GoRoute(
+          name: RouteNames.changePassword,
+          path: RouteNames.changePasswordPath,
+          pageBuilder: (context, state) => _buildPage(
+            key: state.pageKey,
+            child: const ChangePasswordScreen(),
           ),
         ),
 

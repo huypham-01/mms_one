@@ -18,4 +18,23 @@ class AuthRemoteDataSource {
 
     return LoginResponseModel.fromJson(response.data);
   }
+
+  Future<LoginResponseModel> setPassword(
+    String currentPassword,
+    String password,
+    String confirmPassword,
+    String otp,
+  ) async {
+    final response = await _apiClient.post(
+      '?c=Auth&m=setPassword',
+      data: {
+        'current_password': currentPassword,
+        'password': password,
+        'confirm_password': confirmPassword,
+        'otp': otp,
+      },
+    );
+
+    return LoginResponseModel.fromJson(response.data);
+  }
 }

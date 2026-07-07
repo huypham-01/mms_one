@@ -133,15 +133,61 @@ class HomeDrawer extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: Divider(),
             ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: _DrawerTile(
                 icon: Icons.logout_rounded,
                 title: AppLocalizations.of(context)!.drawerLogout,
                 highlighted: false,
-                onTap: () {
-                  Navigator.pop(context); // Close drawer
-                  context.read<AuthProvider>().logout();
+                onTap: () async {
+                  final shouldLogout = await showDialog<bool>(
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      final l10n = AppLocalizations.of(context)!;
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        title: Text(
+                          l10n.dialogLogoutTitle,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        content: Text(l10n.dialogLogoutMessage),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text(
+                              l10n.dialogCancel,
+                              style: const TextStyle(
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                            onPressed: () =>
+                                Navigator.of(dialogContext).pop(false),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.error,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(l10n.dialogConfirm),
+                            onPressed: () =>
+                                Navigator.of(dialogContext).pop(true),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  if (shouldLogout == true) {
+                    if (context.mounted) {
+                      Navigator.pop(context); // Close drawer
+                      context.read<AuthProvider>().logout();
+                    }
+                  }
                 },
               ),
             ),
@@ -149,7 +195,7 @@ class HomeDrawer extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.all(16),
               child: Text(
-                'v1.0.3',
+                'v1.0.4',
                 style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
               ),
             ),
@@ -234,13 +280,16 @@ class _DrawerHeader extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Icon(
-              Icons.factory_rounded,
               color: Colors.white,
-              size: 28,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Center(
+              child: Image.asset(
+                'assets/icons/iconremovebg.png',
+                width: 46,
+                height: 46,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           const SizedBox(height: 14),

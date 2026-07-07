@@ -31,6 +31,14 @@ class WorkflowReportModel extends WorkflowReportEntity {
     required super.preparedQuantity,
     required super.difference,
     required super.lots,
+    super.scanResult,
+    super.warehouseKeeper,
+    super.receivedFrom,
+    super.storageLocation,
+    super.toWhere,
+    super.toWho,
+    super.toProductionNow,
+    super.fromLeader,
   });
 
   factory WorkflowReportModel.fromJson(Map<String, dynamic> json) {
@@ -113,9 +121,17 @@ class WorkflowReportModel extends WorkflowReportEntity {
               )
               .toList() ??
           [],
+      scanResult: extraData['scan_result']?.toString(),
+      warehouseKeeper: extraData['warehouse_keeper']?.toString(),
+      receivedFrom: extraData['received_from']?.toString(),
+      storageLocation: extraData['storage_location']?.toString(),
+      toWhere: extraData['to_where']?.toString(),
+      toWho: extraData['to_who']?.toString(),
+      toProductionNow: extraData['to_production_now']?.toString(),
+      fromLeader: extraData['from_leader']?.toString(),
     );
   }
-  String get displayTitle => '$requestNumber · $workOrder · $materialPn';
+  String get displayTitle => '$requestNumber - $workOrder - $materialPn';
 }
 
 class LotInformationModel extends LotInformationEntity {

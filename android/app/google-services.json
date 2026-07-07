@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "624312752659",
+    "project_id": "mms-acumen",
+    "storage_bucket": "mms-acumen.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624312752659:android:1124b1fefe6cb958d9fde6",
+        "android_client_info": {
+          "package_name": "com.example.mms_acm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgzt25lVtcDdCNUASO4Ppf4eYiX61hiCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

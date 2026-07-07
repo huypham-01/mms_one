@@ -579,6 +579,12 @@ abstract class AppLocalizations {
   /// **'Scan QR'**
   String get scanWarehouseLockerQr;
 
+  /// No description provided for @storageLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage Location'**
+  String get storageLocation;
+
   /// No description provided for @productionLocker.
   ///
   /// In en, this message translates to:
@@ -1556,6 +1562,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update'**
   String get updateUpdate;
+
+  /// No description provided for @drawerChangePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get drawerChangePassword;
+
+  /// No description provided for @changePasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePasswordTitle;
+
+  /// No description provided for @currentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get currentPassword;
+
+  /// No description provided for @currentPasswordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter current password'**
+  String get currentPasswordEmpty;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// No description provided for @newPasswordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter new password'**
+  String get newPasswordEmpty;
+
+  /// No description provided for @newPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get newPasswordTooShort;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// No description provided for @confirmPasswordEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your new password'**
+  String get confirmPasswordEmpty;
+
+  /// No description provided for @confirmPasswordNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get confirmPasswordNotMatch;
+
+  /// No description provided for @changePasswordButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get changePasswordButton;
+
+  /// No description provided for @changePasswordSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password successfully'**
+  String get changePasswordSuccess;
+
+  /// No description provided for @changePasswordFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password failed'**
+  String get changePasswordFailed;
+
+  /// No description provided for @dialogLogoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get dialogLogoutTitle;
+
+  /// No description provided for @dialogLogoutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get dialogLogoutMessage;
+
+  /// No description provided for @dialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dialogCancel;
+
+  /// No description provided for @dialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get dialogConfirm;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

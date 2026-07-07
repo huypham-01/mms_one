@@ -249,6 +249,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scanWarehouseLockerQr => 'Scan QR';
 
   @override
+  String get storageLocation => 'Storage Location';
+
+  @override
   String get productionLocker => 'Production Locker';
 
   @override
@@ -742,4 +745,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateUpdate => 'Update';
+
+  @override
+  String get drawerChangePassword => 'Change Password';
+
+  @override
+  String get changePasswordTitle => 'Change Password';
+
+  @override
+  String get currentPassword => 'Current Password';
+
+  @override
+  String get currentPasswordEmpty => 'Please enter current password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get newPasswordEmpty => 'Please enter new password';
+
+  @override
+  String get newPasswordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get confirmPasswordEmpty => 'Please confirm your new password';
+
+  @override
+  String get confirmPasswordNotMatch => 'Passwords do not match';
+
+  @override
+  String get changePasswordButton => 'Confirm';
+
+  @override
+  String get changePasswordSuccess => 'Change password successfully';
+
+  @override
+  String get changePasswordFailed => 'Change password failed';
+
+  @override
+  String get dialogLogoutTitle => 'Logout';
+
+  @override
+  String get dialogLogoutMessage => 'Are you sure you want to logout?';
+
+  @override
+  String get dialogCancel => 'Cancel';
+
+  @override
+  String get dialogConfirm => 'Confirm';
 }

@@ -34,6 +34,15 @@ class WorkflowReportEntity {
 
   final List<LotInformationEntity> lots;
 
+  final String? scanResult;
+  final String? warehouseKeeper;
+  final String? receivedFrom;
+  final String? storageLocation;
+  final String? toWhere;
+  final String? toWho;
+  final String? toProductionNow;
+  final String? fromLeader;
+
   const WorkflowReportEntity({
     required this.requestId,
     required this.batchId,
@@ -62,6 +71,14 @@ class WorkflowReportEntity {
     required this.preparedQuantity,
     required this.difference,
     required this.lots,
+    this.scanResult,
+    this.warehouseKeeper,
+    this.receivedFrom,
+    this.storageLocation,
+    this.toWhere,
+    this.toWho,
+    this.toProductionNow,
+    this.fromLeader,
   });
 }
 

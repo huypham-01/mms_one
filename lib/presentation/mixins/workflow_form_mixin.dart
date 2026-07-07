@@ -78,10 +78,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   final TextEditingController barcodeCtrl = TextEditingController();
   final TextEditingController scanResultCtrl = TextEditingController();
   final TextEditingController lockerCtrl = TextEditingController();
-  final TextEditingController scanPcnCtrl = TextEditingController();
-  final TextEditingController scanResultPcnCtrl = TextEditingController();
-  final TextEditingController scanPnCtrl = TextEditingController();
-  final TextEditingController scanResultPnCtrl = TextEditingController();
   final TextEditingController preparerNameCtrl = TextEditingController();
 
   // ── Warehouse ──────────────────────────────────────────────────────────────
@@ -95,6 +91,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   // ── Line Leader ────────────────────────────────────────────────────────────
   final TextEditingController receiverFromCtrl = TextEditingController();
   final TextEditingController leaderNameCtrl = TextEditingController();
+  final TextEditingController storageLocationCtrl = TextEditingController();
 
   // ── Production ─────────────────────────────────────────────────────────────
   final TextEditingController quantityToProductionCtrl =
@@ -254,10 +251,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     barcodeCtrl.dispose();
     scanResultCtrl.dispose();
     lockerCtrl.dispose();
-    scanPcnCtrl.dispose();
-    scanResultPcnCtrl.dispose();
-    scanPnCtrl.dispose();
-    scanResultPnCtrl.dispose();
     preparerNameCtrl.dispose();
     // Warehouse
     warehouseLockerCtrl.dispose();
@@ -268,6 +261,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     // Line Leader
     receiverFromCtrl.dispose();
     leaderNameCtrl.dispose();
+    storageLocationCtrl.dispose();
     // Production
     quantityToProductionCtrl.dispose();
     toWhereCtrl.dispose();
@@ -298,48 +292,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
       final verification = verificationCodeCtrl.text.trim();
 
       scanResultCtrl.text = barcode == verification
-          ? context.l10n.correct
-          : context.l10n.wrong;
-    });
-  }
-
-  Future<void> _scanPCN(BuildContext context) async {
-    FocusManager.instance.primaryFocus?.unfocus();
-    final code = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ModernScannerScreen(title: context.l10n.scanBarcode),
-      ),
-    );
-    if (!mounted || code == null) return;
-    setState(() {
-      scanPcnCtrl.text = code;
-
-      final barcode = code.trim();
-      final verification = pcnCtrl.text.trim();
-
-      scanResultPcnCtrl.text = barcode == verification
-          ? context.l10n.correct
-          : context.l10n.wrong;
-    });
-  }
-
-  Future<void> _scanPN(BuildContext context) async {
-    FocusManager.instance.primaryFocus?.unfocus();
-    final code = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ModernScannerScreen(title: context.l10n.scanBarcode),
-      ),
-    );
-    if (!mounted || code == null) return;
-    setState(() {
-      scanPnCtrl.text = code;
-
-      final barcode = code.trim();
-      final verification = materialPnCtrl.text.trim();
-
-      scanResultPnCtrl.text = barcode == verification
           ? context.l10n.correct
           : context.l10n.wrong;
     });
@@ -421,16 +373,11 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     }
 
     // Validate scan result khi là scan verification
-    if (isScanVerification &&
-        barcodeCtrl.text.trim().isEmpty &&
-        scanPcnCtrl.text.trim().isEmpty &&
-        scanPnCtrl.text.trim().isEmpty) {
+    if (isScanVerification && barcodeCtrl.text.trim().isEmpty) {
       return context.l10n.scanBarcodeRequired;
     }
     if (isScanVerification &&
-        barcodeCtrl.text.trim() != verificationCodeCtrl.text.trim() &&
-        scanPcnCtrl.text.trim() != pcnCtrl.text.trim() &&
-        scanPnCtrl.text.trim() != materialPnCtrl.text.trim()) {
+        barcodeCtrl.text.trim() != verificationCodeCtrl.text.trim()) {
       return context.l10n.barcodeNotMatch;
     }
 
@@ -464,12 +411,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         }
       }
     }
-    if (scanPcnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPcnRequired;
-    }
-    if (scanPnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPnRequired;
-    }
+
     if (lockerCtrl.text.trim().isEmpty) {
       return context.l10n.scanLockerRequired;
     }
@@ -477,12 +419,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   }
 
   String? _validateWarehouse() {
-    if (scanPcnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPcnRequired;
-    }
-    if (scanPnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPnRequired;
-    }
     if (warehouseLockerCtrl.text.trim().isEmpty) {
       return context.l10n.scanWarehouseLockerRequired;
     }
@@ -490,12 +426,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   }
 
   String? _validateReceiver() {
-    if (scanPcnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPcnRequired;
-    }
-    if (scanPnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPnRequired;
-    }
     if (productionLockerCtrl.text.trim().isEmpty) {
       return context.l10n.scanProductionLockerRequired;
     }
@@ -509,12 +439,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   }
 
   String? _validateLineLeader() {
-    if (scanPcnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPcnRequired;
-    }
-    if (scanPnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPnRequired;
-    }
     if (productionLockerCtrl.text.trim().isEmpty) {
       return context.l10n.scanProductionLockerRequired;
     }
@@ -533,12 +457,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     if (qty == null || qty <= 0) {
       return context.l10n.quantityMustBePositive;
     }
-    if (scanPcnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPcnRequired;
-    }
-    if (scanPnCtrl.text.trim().isEmpty) {
-      return context.l10n.scanPnRequired;
-    }
+
     if (toWhereCtrl.text.trim().isEmpty) {
       return context.l10n.enterToWhere;
     }
@@ -687,8 +606,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'verification_code': verificationCode,
           'barcode_scan': barcodeScan,
           'locker': lockerCtrl.text.trim(),
-          'pcn_scan': scanPcnCtrl.text.trim(),
-          'material_pn_scan': scanPnCtrl.text.trim(),
+
           // 'person_name': preparerNameCtrl.text
           //     .trim(), // Preparer name field (no dedicated ctrl)
           'extra_data': {
@@ -708,9 +626,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'verify_method': verifyMethod,
           'verification_code': verificationCode,
           'barcode_scan': barcodeScan,
-          'pcn_scan': scanPcnCtrl.text.trim(),
-          'material_pn_scan': scanPnCtrl.text.trim(),
-          'locker': warehouseLockerCtrl.text.trim(),
+
           'extra_data': {
             'difference': _calculateDifference(),
             'scan_result': scanResult,
@@ -726,8 +642,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'verify_method': verifyMethod,
           'verification_code': verificationCode,
           'barcode_scan': barcodeScan,
-          'pcn_scan': scanPcnCtrl.text.trim(),
-          'material_pn_scan': scanPnCtrl.text.trim(),
+
           'locker': productionLockerCtrl.text.trim(),
           'person_name': '-',
           'extra_data': {
@@ -746,13 +661,13 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'verify_method': verifyMethod,
           'verification_code': verificationCode,
           'barcode_scan': barcodeScan,
-          'pcn_scan': scanPcnCtrl.text.trim(),
-          'material_pn_scan': scanPnCtrl.text.trim(),
+
           'locker': productionLockerCtrl.text.trim(),
           'person_name': leaderNameCtrl.text.trim(),
           'extra_data': {
             'scan_result': scanResult,
             'received_from': receiverFromCtrl.text.trim(),
+            'storage_location': storageLocationCtrl.text.trim(),
           },
           'otp': otp,
           'spec_picture': uploadedPicture,
@@ -766,8 +681,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'verify_method': verifyMethod,
           'verification_code': verificationCode,
           'barcode_scan': barcodeScan,
-          'pcn_scan': scanPcnCtrl.text.trim(),
-          'material_pn_scan': scanPnCtrl.text.trim(),
+
           'locker': fromLockerCtrl.text.trim(),
           'person_name': fromNameCtrl.text.trim(),
           'extra_data': {
@@ -1351,82 +1265,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           readOnly: true,
         ),
       ],
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPcnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPCN(context),
-      ),
-      const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPcnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      // const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPN(context),
-      ),
-      // const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPcnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+
       const SizedBox(width: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.locker, required: true),
       const SizedBox(height: 6),
@@ -1514,82 +1353,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         ),
       ],
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPcnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPCN(context),
-      ),
-      const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPcnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      // const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPN(context),
-      ),
-      const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPcnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-
-      const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(
         context.l10n.warehouseLocker,
         required: true,
@@ -1656,81 +1419,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           readOnly: true,
         ),
       ],
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPcnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPCN(context),
-      ),
-      const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPcnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      // const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPN(context),
-      ),
-      const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPcnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
 
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(
@@ -1874,83 +1562,25 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           readOnly: true,
         ),
       ],
+      // mới thêm
       const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScan, required: true),
+      WorkflowComponents.buildFieldLabel(
+        context.l10n.storageLocation,
+        required: true,
+      ),
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
-        controller: scanPcnCtrl,
+        controller: storageLocationCtrl,
         hint: context.l10n.tapIconToScan,
         suffixIcon: Icons.qr_code_scanner,
         suffixIconColor: AppColors.primary,
         readOnly: true,
-        onTapSuffix: () => _scanPCN(context),
+        onTapSuffix: () => _scanLocker(
+          context,
+          storageLocationCtrl,
+          title: context.l10n.scanProductionLockerQr,
+        ),
       ),
-      // const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPcnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPN(context),
-      ),
-      const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      // const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPcnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(
         context.l10n.productionLocker,
@@ -2104,82 +1734,6 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           readOnly: true,
         ),
       ],
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pcnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPcnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPCN(context),
-      ),
-      // const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPcnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(context.l10n.pnScan, required: true),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: scanPnCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanPN(context),
-      ),
-      // const SizedBox(height: 12),
-      // WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-      // const SizedBox(height: 6),
-      // WorkflowComponents.buildTextField(
-      //   controller: scanResultPnCtrl,
-      //   hint: context.l10n.scanResult,
-      //   suffixIcon: Icons.security_outlined,
-      //   readOnly: true,
-      // ),
-      const SizedBox(height: 12),
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pcnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPcnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                WorkflowComponents.buildFieldLabel(context.l10n.pnScanResult),
-                const SizedBox(height: 6),
-                WorkflowComponents.buildTextField(
-                  controller: scanResultPnCtrl,
-                  hint: context.l10n.scanResult,
-                  suffixIcon: Icons.security_outlined,
-                  readOnly: true,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
 
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.toWhere, required: true),
@@ -2505,122 +2059,122 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                 ),
 
                 // Group & Filter Options
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        // Grouping
-                        Container(
-                          height: 36,
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: AppColors.surfaceVariant,
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: _groupBy,
-                              isDense: true,
-                              icon: const Icon(
-                                Icons.arrow_drop_down,
-                                size: 20,
-                                color: AppColors.textSecondary,
-                              ),
-                              style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.textPrimary,
-                              ),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'none',
-                                  child: Text('No Grouping'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'pcn',
-                                  child: Text('Group by PCN'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'materialPn',
-                                  child: Text('Group by Material PN'),
-                                ),
-                              ],
-                              onChanged: (val) {
-                                if (val != null) {
-                                  setState(() => _groupBy = val);
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        // Filter by currentStatus
-                        Consumer<MrWorkflowProvider>(
-                          builder: (context, provider, _) {
-                            final statuses = provider.items
-                                .map((e) => e.currentStatus)
-                                .where((e) => e.isNotEmpty)
-                                .toSet()
-                                .toList();
-                            statuses.sort();
-                            statuses.insert(0, 'All');
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 12),
+                //   child: SingleChildScrollView(
+                //     scrollDirection: Axis.horizontal,
+                //     child: Row(
+                //       children: [
+                //         // Grouping
+                //         Container(
+                //           height: 36,
+                //           padding: const EdgeInsets.symmetric(horizontal: 12),
+                //           decoration: BoxDecoration(
+                //             color: AppColors.surfaceVariant,
+                //             borderRadius: BorderRadius.circular(18),
+                //           ),
+                //           child: DropdownButtonHideUnderline(
+                //             child: DropdownButton<String>(
+                //               value: _groupBy,
+                //               isDense: true,
+                //               icon: const Icon(
+                //                 Icons.arrow_drop_down,
+                //                 size: 20,
+                //                 color: AppColors.textSecondary,
+                //               ),
+                //               style: const TextStyle(
+                //                 fontSize: 13,
+                //                 fontWeight: FontWeight.w500,
+                //                 color: AppColors.textPrimary,
+                //               ),
+                //               items: const [
+                //                 DropdownMenuItem(
+                //                   value: 'none',
+                //                   child: Text('No Grouping'),
+                //                 ),
+                //                 DropdownMenuItem(
+                //                   value: 'pcn',
+                //                   child: Text('Group by PCN'),
+                //                 ),
+                //                 DropdownMenuItem(
+                //                   value: 'materialPn',
+                //                   child: Text('Group by Material PN'),
+                //                 ),
+                //               ],
+                //               onChanged: (val) {
+                //                 if (val != null) {
+                //                   setState(() => _groupBy = val);
+                //                 }
+                //               },
+                //             ),
+                //           ),
+                //         ),
+                //         const SizedBox(width: 8),
+                //         // Filter by currentStatus
+                //         Consumer<MrWorkflowProvider>(
+                //           builder: (context, provider, _) {
+                //             final statuses = provider.items
+                //                 .map((e) => e.currentStatus)
+                //                 .where((e) => e.isNotEmpty)
+                //                 .toSet()
+                //                 .toList();
+                //             statuses.sort();
+                //             statuses.insert(0, 'All');
 
-                            // If current filter is invalid, reset to 'All'
-                            final currentValue =
-                                statuses.contains(_filterStatus)
-                                ? _filterStatus
-                                : 'All';
+                //             // If current filter is invalid, reset to 'All'
+                //             final currentValue =
+                //                 statuses.contains(_filterStatus)
+                //                 ? _filterStatus
+                //                 : 'All';
 
-                            return Container(
-                              height: 36,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.surfaceVariant,
-                                borderRadius: BorderRadius.circular(18),
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  value: currentValue,
-                                  isDense: true,
-                                  icon: const Icon(
-                                    Icons.filter_list,
-                                    size: 18,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textPrimary,
-                                  ),
-                                  items: statuses.map((status) {
-                                    return DropdownMenuItem(
-                                      value: status,
-                                      child: Text(
-                                        status == 'All'
-                                            ? 'All Statuses'
-                                            : status,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (val) {
-                                    if (val != null) {
-                                      setState(() => _filterStatus = val);
-                                    }
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
+                //             return Container(
+                //               height: 36,
+                //               padding: const EdgeInsets.symmetric(
+                //                 horizontal: 12,
+                //               ),
+                //               decoration: BoxDecoration(
+                //                 color: AppColors.surfaceVariant,
+                //                 borderRadius: BorderRadius.circular(18),
+                //               ),
+                //               child: DropdownButtonHideUnderline(
+                //                 child: DropdownButton<String>(
+                //                   value: currentValue,
+                //                   isDense: true,
+                //                   icon: const Icon(
+                //                     Icons.filter_list,
+                //                     size: 18,
+                //                     color: AppColors.textSecondary,
+                //                   ),
+                //                   style: const TextStyle(
+                //                     fontSize: 13,
+                //                     fontWeight: FontWeight.w500,
+                //                     color: AppColors.textPrimary,
+                //                   ),
+                //                   items: statuses.map((status) {
+                //                     return DropdownMenuItem(
+                //                       value: status,
+                //                       child: Text(
+                //                         status == 'All'
+                //                             ? 'All Statuses'
+                //                             : status,
+                //                       ),
+                //                     );
+                //                   }).toList(),
+                //                   onChanged: (val) {
+                //                     if (val != null) {
+                //                       setState(() => _filterStatus = val);
+                //                     }
+                //                   },
+                //                 ),
+                //               ),
+                //             );
+                //           },
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 12),
 
                 // List with states
                 Flexible(

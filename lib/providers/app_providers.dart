@@ -22,7 +22,9 @@ import '../features/auth/domain/repositories/auth_repository.dart';
 import '../features/auth/domain/usecases/login_usecase.dart';
 import '../features/auth/domain/usecases/logout_usecase.dart';
 import '../features/auth/domain/usecases/check_login_status_usecase.dart';
+import '../features/auth/domain/usecases/change_password_usecase.dart';
 import '../features/auth/presentation/providers/auth_provider.dart';
+import '../features/auth/presentation/providers/change_password_provider.dart';
 
 // --- Permission Module ---
 import '../data/datasources/permission_remote_datasource.dart';
@@ -185,6 +187,14 @@ class AppProviders {
             checkLoginStatusUseCase: context.read<CheckLoginStatusUseCase>(),
             tokenManager: context.read<TokenManager>(),
             permissionProvider: context.read<PermissionProvider>(),
+          ),
+        ),
+        Provider<ChangePasswordUseCase>(
+          create: (context) => ChangePasswordUseCase(context.read<AuthRepository>()),
+        ),
+        ChangeNotifierProvider<ChangePasswordProvider>(
+          create: (context) => ChangePasswordProvider(
+            changePasswordUseCase: context.read<ChangePasswordUseCase>(),
           ),
         ),
 

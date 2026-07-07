@@ -19,18 +19,18 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          WorkflowComponents.buildInfoRow(
-            label: l10n.requestStatus,
-            child: Text(
-              report.requestStatus.isNotEmpty ? report.requestStatus : '-',
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
-              ),
-            ),
-          ),
-          WorkflowComponents.buildDivider(),
+          // WorkflowComponents.buildInfoRow(
+          //   label: l10n.requestStatus,
+          //   child: Text(
+          //     report.requestStatus.isNotEmpty ? report.requestStatus : '-',
+          //     style: const TextStyle(
+          //       fontSize: 14,
+          //       fontWeight: FontWeight.w700,
+          //       color: AppColors.primary,
+          //     ),
+          //   ),
+          // ),
+          // WorkflowComponents.buildDivider(),
           WorkflowComponents.buildInfoRow(
             label: l10n.requestNumber,
             child: Text(
@@ -226,6 +226,168 @@ mixin WorkflowReportMixin<T extends StatefulWidget> on State<T> {
             label: l10n.locker,
             child: Text(
               report.locker.isNotEmpty ? report.locker : '-',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          // if (report.scanResult != null && report.scanResult!.isNotEmpty) ...[
+          //   WorkflowComponents.buildDivider(),
+          //   WorkflowComponents.buildInfoRow(
+          //     label: l10n.scanResult,
+          //     child: Text(
+          //       report.scanResult!,
+          //       style: TextStyle(
+          //         fontSize: 14,
+          //         fontWeight: FontWeight.w600,
+          //         color: report.scanResult!.toLowerCase() == l10n.correct.toLowerCase() || report.scanResult!.toLowerCase() == 'correct'
+          //             ? AppColors.success
+          //             : (report.scanResult!.toLowerCase() == l10n.wrong.toLowerCase() || report.scanResult!.toLowerCase() == 'wrong' ? AppColors.error : AppColors.textPrimary),
+          //       ),
+          //     ),
+          //   ),
+          // ],
+        ],
+      ),
+    );
+  }
+
+  // Build Section: Receiver Information
+  Widget buildReceiverInformation(
+    BuildContext context,
+    WorkflowReportEntity report,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    return WorkflowComponents.buildCard(
+      title: 'Receiver Information', // Fallback or could use l10n
+      icon: Icons.person_outline,
+      iconColor: AppColors.warning,
+      iconBg: AppColors.warningSurface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          WorkflowComponents.buildInfoRow(
+            label: l10n.warehouseKeeper,
+            child: Text(
+              report.warehouseKeeper?.isNotEmpty == true
+                  ? report.warehouseKeeper!
+                  : '-',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Build Section: Line Leader Information
+  Widget buildLineLeaderInformation(
+    BuildContext context,
+    WorkflowReportEntity report,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    return WorkflowComponents.buildCard(
+      title: 'Line Leader Information',
+      icon: Icons.person_outline,
+      iconColor: AppColors.warning,
+      iconBg: AppColors.warningSurface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          WorkflowComponents.buildInfoRow(
+            label: l10n.receiverFrom,
+            child: Text(
+              report.receivedFrom?.isNotEmpty == true
+                  ? report.receivedFrom!
+                  : '-',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          WorkflowComponents.buildDivider(),
+          WorkflowComponents.buildInfoRow(
+            label: l10n.storageLocation,
+            child: Text(
+              report.storageLocation?.isNotEmpty == true
+                  ? report.storageLocation!
+                  : '-',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Build Section: Production Information
+  Widget buildProductionInformation(
+    BuildContext context,
+    WorkflowReportEntity report,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    return WorkflowComponents.buildCard(
+      title: 'Production Information',
+      icon: Icons.precision_manufacturing_outlined,
+      iconColor: AppColors.warning,
+      iconBg: AppColors.warningSurface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          WorkflowComponents.buildInfoRow(
+            label: l10n.toWhere,
+            child: Text(
+              report.toWhere?.isNotEmpty == true ? report.toWhere! : '-',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          WorkflowComponents.buildDivider(),
+          WorkflowComponents.buildInfoRow(
+            label: l10n.toWho,
+            child: Text(
+              report.toWho?.isNotEmpty == true ? report.toWho! : '-',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          WorkflowComponents.buildDivider(),
+          WorkflowComponents.buildInfoRow(
+            label: l10n.quantityToProduction,
+            child: Text(
+              report.toProductionNow?.isNotEmpty == true
+                  ? report.toProductionNow!
+                  : '-',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          WorkflowComponents.buildDivider(),
+          WorkflowComponents.buildInfoRow(
+            label: l10n.fromLeader,
+            child: Text(
+              report.fromLeader?.isNotEmpty == true ? report.fromLeader! : '-',
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

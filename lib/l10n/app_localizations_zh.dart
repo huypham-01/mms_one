@@ -249,6 +249,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get scanWarehouseLockerQr => '扫描二维码';
 
   @override
+  String get storageLocation => '存储位置';
+
+  @override
   String get productionLocker => '生产储物柜';
 
   @override
@@ -742,6 +745,57 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get updateUpdate => '更新';
+
+  @override
+  String get drawerChangePassword => '更改密码';
+
+  @override
+  String get changePasswordTitle => '更改密码';
+
+  @override
+  String get currentPassword => '当前密码';
+
+  @override
+  String get currentPasswordEmpty => '请输入当前密码';
+
+  @override
+  String get newPassword => '新密码';
+
+  @override
+  String get newPasswordEmpty => '请输入新密码';
+
+  @override
+  String get newPasswordTooShort => '密码必须至少为6个字符';
+
+  @override
+  String get confirmPassword => '确认新密码';
+
+  @override
+  String get confirmPasswordEmpty => '请确认您的新密码';
+
+  @override
+  String get confirmPasswordNotMatch => '密码不匹配';
+
+  @override
+  String get changePasswordButton => '确认';
+
+  @override
+  String get changePasswordSuccess => '密码更改成功';
+
+  @override
+  String get changePasswordFailed => '密码更改失败';
+
+  @override
+  String get dialogLogoutTitle => '登出';
+
+  @override
+  String get dialogLogoutMessage => '您确定要登出吗？';
+
+  @override
+  String get dialogCancel => '取消';
+
+  @override
+  String get dialogConfirm => '确认';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -987,6 +1041,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get scanWarehouseLockerQr => '扫描二维码';
+
+  @override
+  String get storageLocation => '存储位置';
 
   @override
   String get productionLocker => '生产储物柜';
@@ -1422,6 +1479,57 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get updateUpdate => '更新';
+
+  @override
+  String get drawerChangePassword => '更改密码';
+
+  @override
+  String get changePasswordTitle => '更改密码';
+
+  @override
+  String get currentPassword => '当前密码';
+
+  @override
+  String get currentPasswordEmpty => '请输入当前密码';
+
+  @override
+  String get newPassword => '新密码';
+
+  @override
+  String get newPasswordEmpty => '请输入新密码';
+
+  @override
+  String get newPasswordTooShort => '密码必须至少为6个字符';
+
+  @override
+  String get confirmPassword => '确认新密码';
+
+  @override
+  String get confirmPasswordEmpty => '请确认您的新密码';
+
+  @override
+  String get confirmPasswordNotMatch => '密码不匹配';
+
+  @override
+  String get changePasswordButton => '确认';
+
+  @override
+  String get changePasswordSuccess => '密码更改成功';
+
+  @override
+  String get changePasswordFailed => '密码更改失败';
+
+  @override
+  String get dialogLogoutTitle => '登出';
+
+  @override
+  String get dialogLogoutMessage => '您确定要登出吗？';
+
+  @override
+  String get dialogCancel => '取消';
+
+  @override
+  String get dialogConfirm => '确认';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -1667,6 +1775,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get scanWarehouseLockerQr => '掃描二維碼';
+
+  @override
+  String get storageLocation => '儲存位置';
 
   @override
   String get productionLocker => '生產儲物櫃';
@@ -2162,4 +2273,55 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get updateUpdate => '更新';
+
+  @override
+  String get drawerChangePassword => '更改密碼';
+
+  @override
+  String get changePasswordTitle => '更改密碼';
+
+  @override
+  String get currentPassword => '目前密碼';
+
+  @override
+  String get currentPasswordEmpty => '請輸入目前密碼';
+
+  @override
+  String get newPassword => '新密碼';
+
+  @override
+  String get newPasswordEmpty => '請輸入新密碼';
+
+  @override
+  String get newPasswordTooShort => '密碼必須至少為6個字元';
+
+  @override
+  String get confirmPassword => '確認新密碼';
+
+  @override
+  String get confirmPasswordEmpty => '請確認您的新密碼';
+
+  @override
+  String get confirmPasswordNotMatch => '密碼不匹配';
+
+  @override
+  String get changePasswordButton => '確認';
+
+  @override
+  String get changePasswordSuccess => '密碼更改成功';
+
+  @override
+  String get changePasswordFailed => '密碼更改失敗';
+
+  @override
+  String get dialogLogoutTitle => '登出';
+
+  @override
+  String get dialogLogoutMessage => '您確定要登出嗎？';
+
+  @override
+  String get dialogCancel => '取消';
+
+  @override
+  String get dialogConfirm => '確認';
 }

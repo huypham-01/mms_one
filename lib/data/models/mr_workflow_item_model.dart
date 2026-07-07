@@ -29,6 +29,7 @@ class MrWorkflowItemModel {
   final String? currentStepStatus;
   final String? currentStepPersonName;
   final String? startedAt;
+  final String? updatedAt;
   final String? completedAt;
 
   const MrWorkflowItemModel({
@@ -61,6 +62,7 @@ class MrWorkflowItemModel {
     this.currentStepStatus,
     this.currentStepPersonName,
     this.startedAt,
+    this.updatedAt,
     this.completedAt,
   });
 
@@ -94,7 +96,8 @@ class MrWorkflowItemModel {
       rejectReason: json['reject_reason'],
       currentStepStatus: json['current_step_status'],
       currentStepPersonName: json['current_step_person_name'],
-      startedAt: json['started_at'],
+      startedAt: json['started_at'] ?? "-",
+      updatedAt: json['updated_at'] ?? "-",
       completedAt: json['completed_at'],
     );
   }
