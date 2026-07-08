@@ -4,6 +4,7 @@ import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
 import '../../domain/usecases/check_login_status_usecase.dart';
 import '../../../../core/auth/token_manager.dart';
+import '../../../../core/services/fcm_topic_service.dart';
 import '../../../../presentation/providers/permission_provider.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -66,6 +67,15 @@ class AuthProvider extends ChangeNotifier {
         _tokenManager = tokenManager,
         _permissionProvider = permissionProvider {
     checkLoginStatus();
+    _syncFcmTopicsOnStartup();
+  }
+
+  /// Khi mở lại app mà đã đăng nhập sẵn → subscribe lại topic theo role
+  /// (idempotent, subscribe lại không sao). Firebase đã init ở main().
+  Future<void> _syncFcmTopicsOnStartup() async {
+    if (_tokenManager.hasToken()) {
+      await FcmTopicService.subscribeForToken(_tokenManager.getToken());
+    }
   }
 
   Future<void> checkLoginStatus() async {
@@ -85,6 +95,8 @@ class AuthProvider extends ChangeNotifier {
       final response = await _loginUseCase.execute(username, password, otp);
       if (response.status && response.accessToken != null) {
         await _permissionProvider.loadPermissions();
+        // Subscribe FCM topic theo role (best-effort, không chặn login).
+        await FcmTopicService.subscribeForToken(_tokenManager.getToken());
         _isLoggedIn = true;
         _isLoading = false;
         notifyListeners();
@@ -104,6 +116,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> logout() async {
+    // Unsubscribe topic KHI token còn hiệu lực (trước khi logout xoá token).
+    await FcmTopicService.unsubscribeForToken(_tokenManager.getToken());
     await _logoutUseCase.execute();
     await _permissionProvider.clearPermissions();
     _isLoggedIn = false;

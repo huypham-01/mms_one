@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/change_password_provider.dart';
 import '../providers/auth_provider.dart';
@@ -196,6 +197,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             labelText: l10n.otpCodeLabel,
                             prefixIcon: const Icon(Icons.security_outlined),
                             border: const OutlineInputBorder(),
+                            suffixIcon: TextButton(
+                              onPressed: () async {
+                                final uri = Uri.parse('myotpapp://generate');
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                } else {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Cannot open OTP app')),
+                                    );
+                                  }
+                                }
+                              },
+                              child: const Text('Get OTP'),
+                            ),
                           ),
                           keyboardType: TextInputType.number,
                           validator: (value) {

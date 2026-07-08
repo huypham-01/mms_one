@@ -3,6 +3,7 @@ import '../../domain/entities/mr_request_entity.dart';
 class MrRequestModel extends MrRequestEntity {
   MrRequestModel({
     required super.id,
+    required super.mrNo,
     required super.requestNumber,
     required super.requestStatus,
     required super.requestDate,
@@ -21,6 +22,7 @@ class MrRequestModel extends MrRequestEntity {
   factory MrRequestModel.fromJson(Map<String, dynamic> json) {
     return MrRequestModel(
       id: json['id'] ?? '',
+      mrNo: json['mr_no'] ?? '',
       requestNumber: json['request_number'] ?? '',
       requestStatus: json['request_status'] ?? '',
       requestDate: json['request_date'] ?? '',

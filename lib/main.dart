@@ -8,6 +8,7 @@ import 'core/theme/app_theme.dart';
 import 'core/localization/app_locale.dart';
 import 'l10n/app_localizations.dart';
 import 'core/services/app_update_service.dart';
+import 'core/services/notification_navigation.dart';
 import 'providers/app_providers.dart';
 import 'presentation/providers/locale_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -45,27 +46,25 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   final messaging = FirebaseMessaging.instance;
-  
+
   // Yêu cầu quyền thông báo (iOS/Android 13+)
-  await messaging.requestPermission(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+  await messaging.requestPermission(alert: true, badge: true, sound: true);
 
   // Cấu hình channel cho Android để hiện thông báo heads-up khi app đang mở
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', 
-    'High Importance Notifications', 
+    'high_importance_channel',
+    'High Importance Notifications',
     description: 'This channel is used for important notifications.',
     importance: Importance.high,
   );
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = 
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >()
       ?.createNotificationChannel(channel);
 
   await messaging.setForegroundNotificationPresentationOptions(
@@ -96,11 +95,8 @@ void main() async {
     }
   });
 
-  // Lắng nghe sự kiện click vào thông báo từ background
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print('A new onMessageOpenedApp event was published!');
-    // TODO: Xử lý điều hướng khi bấm vào thông báo tại đây
-  });
+  // Điều hướng khi CHẠM noti (background/terminated) được xử lý trong MmsApp
+  // (nơi có sẵn GoRouter). Xem _MmsAppState.initState().
 
   // Lấy Token FCM
   try {
@@ -128,12 +124,24 @@ class _MmsAppState extends State<MmsApp> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final router = context.read<GoRouter>();
       final navContext = router.routerDelegate.navigatorKey.currentContext;
       if (navContext != null) {
         AppUpdateService.check(navContext);
       }
+
+      // App được MỞ TỪ noti khi đang bị kill:
+      final initialMessage = await FirebaseMessaging.instance
+          .getInitialMessage();
+      if (initialMessage != null) {
+        NotificationNavigation.handle(router, initialMessage.data);
+      }
+
+      // Chạm noti khi app đang chạy nền:
+      FirebaseMessaging.onMessageOpenedApp.listen((message) {
+        NotificationNavigation.handle(router, message.data);
+      });
     });
   }
 

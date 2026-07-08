@@ -57,6 +57,7 @@ class MockMaterialRequestDataSource {
 
       return MrRequestModel(
         id: 'mock-id-$index',
+        mrNo: (random.nextInt(200) + 1),
         requestNumber: reqNumber,
         requestStatus: statuses[random.nextInt(statuses.length)],
         requestDate: formattedDate,

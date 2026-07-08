@@ -298,6 +298,7 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen> {
 
               final item = filteredList[index];
               return MrRequestCard(
+                mrNo: item.mrNo,
                 requestNumber: item.requestNumber,
                 workOrder: item.workOrder,
                 demandWk: item.demandWk,

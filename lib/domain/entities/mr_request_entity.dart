@@ -1,5 +1,6 @@
 class MrRequestEntity {
   final String id;
+  final int mrNo;
   final String requestNumber;
   final String requestStatus;
   final String requestDate;
@@ -16,6 +17,7 @@ class MrRequestEntity {
 
   MrRequestEntity({
     required this.id,
+    required this.mrNo,
     required this.requestNumber,
     required this.requestStatus,
     required this.requestDate,

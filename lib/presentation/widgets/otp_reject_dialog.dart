@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/localization/localization_extensions.dart';
 import '../../core/theme/app_colors.dart';
 
@@ -271,7 +272,7 @@ class _OtpRejectDialogState extends State<OtpRejectDialog> {
           const SizedBox(height: 8),
           _buildReasonField(),
           const SizedBox(height: 20),
-          _buildSectionLabel(context.l10n.supervisorOtp),
+          _buildOtpHeader(),
           const SizedBox(height: 10),
           _buildOtpRow(),
           if (_otpError != null) ...[
@@ -398,6 +399,35 @@ class _OtpRejectDialogState extends State<OtpRejectDialog> {
         fontWeight: FontWeight.w700,
         color: Color(0xFF3A3A4C),
       ),
+    );
+  }
+
+  Widget _buildOtpHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildSectionLabel(context.l10n.supervisorOtp),
+        TextButton(
+          onPressed: () async {
+            final uri = Uri.parse('myotpapp://generate');
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+            } else {
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Cannot open OTP app')),
+                );
+              }
+            }
+          },
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: const Text('Get OTP', style: TextStyle(fontSize: 13)),
+        ),
+      ],
     );
   }
 

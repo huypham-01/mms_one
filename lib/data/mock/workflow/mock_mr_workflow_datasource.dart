@@ -85,6 +85,7 @@ class MockMrWorkflowDataSource {
 
       return MrWorkflowItemModel(
         id: 'mock-workflow-id-$step-$index',
+        mrNo: random.nextInt(800) + 1,
         batchId: 'BCH-${1000 + index}',
         requestStatus: 'OPEN',
         requestDate: formattedDate,

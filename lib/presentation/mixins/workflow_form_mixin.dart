@@ -2338,8 +2338,22 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      Text(
+                                        item.mrNo.toString(),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w500,
+                                          color: isSelected
+                                              ? AppColors.primary
+                                              : AppColors.textPrimary,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2,),
                                       Container(
-                                        padding: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           color: isSelected
                                               ? AppColors.primarySurface
@@ -2361,10 +2375,10 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                                               : item.isRejected
                                               ? AppColors.error
                                               : AppColors.textTertiary,
-                                          size: 18,
+                                          size: 16,
                                         ),
                                       ),
-                                      const SizedBox(height: 4),
+                                      const SizedBox(height: 2),
                                       Text(
                                         item.currentStatus,
                                         maxLines: 1,

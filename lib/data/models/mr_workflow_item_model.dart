@@ -1,6 +1,7 @@
 /// Model đại diện cho một MR Workflow item từ API.
 class MrWorkflowItemModel {
   final String id;
+  final int mrNo;
   final String? batchId;
   final String requestStatus;
   final String requestDate;
@@ -34,6 +35,7 @@ class MrWorkflowItemModel {
 
   const MrWorkflowItemModel({
     required this.id,
+    required this.mrNo,
     this.batchId,
     required this.requestStatus,
     required this.requestDate,
@@ -69,6 +71,7 @@ class MrWorkflowItemModel {
   factory MrWorkflowItemModel.fromJson(Map<String, dynamic> json) {
     return MrWorkflowItemModel(
       id: json['id'] ?? '',
+      mrNo: json['mr_no'] ?? 0,
       batchId: json['batch_id'],
       requestStatus: json['request_status'] ?? '',
       requestDate: json['request_date'] ?? '',

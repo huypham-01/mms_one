@@ -8,6 +8,7 @@ import '../../../../l10n/app_localizations.dart';
 class MrRequestCard extends StatefulWidget {
   const MrRequestCard({
     super.key,
+    required this.mrNo,
     required this.requestNumber,
     required this.workOrder,
     required this.demandWk,
@@ -23,6 +24,7 @@ class MrRequestCard extends StatefulWidget {
     this.onTap,
   });
 
+  final int mrNo;
   final String requestNumber;
   final String workOrder;
   final String demandWk;
@@ -94,40 +96,78 @@ class _MrRequestCardState extends State<MrRequestCard> {
                       )
                     : null,
               ),
-              child: Row(
+              child: Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.requestNumber,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary,
-                            letterSpacing: -0.2,
+                  // Nội dung chính
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 18.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.requestNumber,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                '${widget.workOrder} - ${widget.materialPn}',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          '${widget.workOrder} - ${widget.materialPn}',
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      StatusChip(label: widget.currentStatus),
+                      const SizedBox(width: 4),
+                      Icon(
+                        _isExpanded
+                            ? Icons.expand_less_rounded
+                            : Icons.expand_more_rounded,
+                        color: AppColors.textSecondary,
+                      ),
+                    ],
                   ),
-                  StatusChip(label: widget.currentStatus),
-                  const SizedBox(width: 4),
-                  Icon(
-                    _isExpanded
-                        ? Icons.expand_less_rounded
-                        : Icons.expand_more_rounded,
-                    color: AppColors.textSecondary,
+
+                  // MR No góc trái trên cùng
+                  Positioned(
+                    top: -12,
+                    left: -14,
+                    child: Container(
+                      width: 32,
+                      height: 21,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF00B4D8),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.white, width: 2),
+                          right: BorderSide(color: Colors.white, width: 2),
+                        ),
+                      ),
+                      child: Text(
+                        widget.mrNo.toString(),
+                        style: const TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
