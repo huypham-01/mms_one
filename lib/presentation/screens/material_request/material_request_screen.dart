@@ -289,7 +289,7 @@ class _MaterialRequestScreenState extends State<MaterialRequestScreen>
     final l10n = AppLocalizations.of(context)!;
     return SizeTransition(
       sizeFactor: _expandAnimation,
-      alignment: Alignment.topCenter,
+      axisAlignment: -1.0, // Tương đương với việc mở rộng từ trên xuống (top)
       child: Container(
         margin: const EdgeInsets.fromLTRB(12, 6, 12, 4),
         padding: const EdgeInsets.all(14),
