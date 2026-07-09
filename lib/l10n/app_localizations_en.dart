@@ -723,6 +723,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noRequestsFound => 'No requests found';
 
   @override
+  String get dateFilterTooltip => 'Date Filter';
+
+  @override
+  String get dateFilterTitle => 'Filter by date';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get specificDate => 'Specific date';
+
+  @override
+  String get dateRange => 'Date range';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get fromDate => 'From date';
+
+  @override
+  String get toDate => 'To date';
+
+  @override
+  String get selectDate => 'Select date';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
   String get all => 'All';
 
   @override

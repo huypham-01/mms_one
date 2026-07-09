@@ -723,6 +723,36 @@ class AppLocalizationsVi extends AppLocalizations {
   String get noRequestsFound => 'Không tìm thấy yêu cầu';
 
   @override
+  String get dateFilterTooltip => 'Lọc ngày';
+
+  @override
+  String get dateFilterTitle => 'Lọc theo ngày';
+
+  @override
+  String get clear => 'Xóa';
+
+  @override
+  String get specificDate => 'Ngày cụ thể';
+
+  @override
+  String get dateRange => 'Khoảng ngày';
+
+  @override
+  String get date => 'Ngày';
+
+  @override
+  String get fromDate => 'Từ ngày';
+
+  @override
+  String get toDate => 'Đến ngày';
+
+  @override
+  String get selectDate => 'Chọn ngày';
+
+  @override
+  String get apply => 'Áp dụng';
+
+  @override
   String get all => 'Tất cả';
 
   @override

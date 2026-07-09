@@ -16,6 +16,31 @@ class MrRequestProvider extends ChangeNotifier {
   int lastPage = 1;
   int total = 0;
 
+  // ── Date filter state ────────────────────────────────────────────────
+  String? filterDate;
+  String? filterDateFrom;
+  String? filterDateTo;
+
+  /// Apply a single-date filter and reload from page 1.
+  Future<void> applyDateFilter({
+    String? date,
+    String? dateFrom,
+    String? dateTo,
+  }) async {
+    filterDate = date;
+    filterDateFrom = dateFrom;
+    filterDateTo = dateTo;
+    await fetchMrRequests(page: 1, isRefresh: true);
+  }
+
+  /// Clear all date filters and reload.
+  Future<void> clearDateFilter() async {
+    filterDate = null;
+    filterDateFrom = null;
+    filterDateTo = null;
+    await fetchMrRequests(page: 1, isRefresh: true);
+  }
+
   Future<void> fetchMrRequests({
     int page = 1,
     bool isRefresh = false,
@@ -26,6 +51,9 @@ class MrRequestProvider extends ChangeNotifier {
 
       final response = await getMrRequestsUseCase.call(
         page: page,
+        date: filterDate,
+        dateFrom: filterDateFrom,
+        dateTo: filterDateTo,
       );
 
       currentPage = response.currentPage;

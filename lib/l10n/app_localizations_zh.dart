@@ -723,6 +723,36 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noRequestsFound => '没有找到请求';
 
   @override
+  String get dateFilterTooltip => '日期筛选';
+
+  @override
+  String get dateFilterTitle => '按日期筛选';
+
+  @override
+  String get clear => '清除';
+
+  @override
+  String get specificDate => '指定日期';
+
+  @override
+  String get dateRange => '日期范围';
+
+  @override
+  String get date => '日期';
+
+  @override
+  String get fromDate => '开始日期';
+
+  @override
+  String get toDate => '结束日期';
+
+  @override
+  String get selectDate => '选择日期';
+
+  @override
+  String get apply => '应用';
+
+  @override
   String get all => '全部';
 
   @override
@@ -1458,6 +1488,36 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get drawerLanguageLabel => '语言：';
+
+  @override
+  String get dateFilterTooltip => '日期筛选';
+
+  @override
+  String get dateFilterTitle => '按日期筛选';
+
+  @override
+  String get clear => '清除';
+
+  @override
+  String get specificDate => '指定日期';
+
+  @override
+  String get dateRange => '日期范围';
+
+  @override
+  String get date => '日期';
+
+  @override
+  String get fromDate => '开始日期';
+
+  @override
+  String get toDate => '结束日期';
+
+  @override
+  String get selectDate => '选择日期';
+
+  @override
+  String get apply => '应用';
 
   @override
   String get updateDownloadFailed => '下载失败，请重试。';
@@ -2249,6 +2309,36 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get noRequestsFound => '沒有找到請求';
+
+  @override
+  String get dateFilterTooltip => '日期篩選';
+
+  @override
+  String get dateFilterTitle => '按日期篩選';
+
+  @override
+  String get clear => '清除';
+
+  @override
+  String get specificDate => '指定日期';
+
+  @override
+  String get dateRange => '日期範圍';
+
+  @override
+  String get date => '日期';
+
+  @override
+  String get fromDate => '開始日期';
+
+  @override
+  String get toDate => '結束日期';
+
+  @override
+  String get selectDate => '選擇日期';
+
+  @override
+  String get apply => '套用';
 
   @override
   String get all => '全部';

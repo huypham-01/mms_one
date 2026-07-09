@@ -8,7 +8,15 @@ class GetMrRequestsUseCase {
 
   Future<MrRequestResponseModel> call({
     int page = 1,
+    String? date,
+    String? dateFrom,
+    String? dateTo,
   }) async {
-    return await repository.getMrRequests(page: page);
+    return await repository.getMrRequests(
+      page: page,
+      date: date,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+    );
   }
 }

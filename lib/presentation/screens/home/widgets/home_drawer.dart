@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import '../../../../presentation/providers/mr_request_provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../routes/route_names.dart';
 import '../../../../features/auth/presentation/providers/auth_provider.dart';
@@ -20,8 +21,7 @@ class HomeDrawer extends StatelessWidget {
     _DrawerModule(
       'Material Request',
       Icons.assignment_outlined,
-      RouteNames.reportPath,
-      extra: {'step': 'preparer', 'title': 'Material Request Report'},
+      RouteNames.materialRequestPath,
       requiredPermission: AppPermissions.mmsView,
     ),
     _DrawerModule(
@@ -102,6 +102,9 @@ class HomeDrawer extends StatelessWidget {
                           badge: m.badge,
                           onTap: () {
                             Navigator.pop(context);
+                            if (m.title == 'Material Request') {
+                              context.read<MrRequestProvider>().refresh();
+                            }
                             if (m.route != null) {
                               if (m.extra != null) {
                                 final localizedExtra = _getLocalizedExtra(

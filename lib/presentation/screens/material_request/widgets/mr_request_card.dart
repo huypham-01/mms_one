@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/status_chip.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/permission_provider.dart';
+import '../../../../core/permissions/app_permissions.dart';
+import '../../../../core/permissions/permission_extensions.dart';
+import '../../../../routes/route_names.dart';
 
 /// Material request card widget for the MR listing screen.
 class MrRequestCard extends StatefulWidget {
   const MrRequestCard({
     super.key,
+    required this.id,
     required this.mrNo,
     required this.requestNumber,
     required this.workOrder,
@@ -24,6 +31,7 @@ class MrRequestCard extends StatefulWidget {
     this.onTap,
   });
 
+  final String id;
   final int mrNo;
   final String requestNumber;
   final String workOrder;
@@ -48,10 +56,12 @@ class _MrRequestCardState extends State<MrRequestCard> {
 
   Color get _stepColor {
     final lower = widget.currentStep.toLowerCase();
-    if (lower.contains('urgent') || lower.contains('high'))
+    if (lower.contains('urgent') || lower.contains('high')) {
       return AppColors.error;
-    if (lower.contains('medium') || lower.contains('normal'))
+    }
+    if (lower.contains('medium') || lower.contains('normal')) {
       return AppColors.warning;
+    }
     return AppColors.info;
   }
 
@@ -277,6 +287,8 @@ class _MrRequestCardState extends State<MrRequestCard> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 12),
+                    _buildReportButtons(context),
                   ],
                 ),
               ),
@@ -288,6 +300,128 @@ class _MrRequestCardState extends State<MrRequestCard> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildReportButtons(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final currentStatusLower = widget.currentStatus.toLowerCase();
+    final isDone =
+        currentStatusLower == 'close' ||
+        currentStatusLower == 'completed' ||
+        currentStatusLower == 'done';
+
+    // The defined sequence of workflow steps
+    final workflowSteps = [
+      'preparer',
+      'warehouse',
+      'receiver',
+      'line_leader',
+      'production',
+    ];
+
+    // Title mapping
+    final stepTitles = {
+      'preparer': l10n.reportPreparerTitle,
+      'warehouse': l10n.reportWarehouseTitle,
+      'receiver': l10n.reportMaterialReceiverTitle,
+      'line_leader': l10n.reportLineLeaderTitle,
+      'production': 'Production Report', // Add l10n if exists
+    };
+
+    // Permission mapping
+    final stepPermissions = {
+      'preparer': AppPermissions.mrStepPreparer,
+      'warehouse': AppPermissions.mrStepWarehouse,
+      'receiver': AppPermissions.mrStepReceiver,
+      'line_leader': AppPermissions.mrStepLineLeader,
+      'production': AppPermissions.mrStepProduction,
+    };
+
+    final currentStepIndex = workflowSteps.indexOf(
+      widget.currentStep.toLowerCase(),
+    );
+
+    // Determine which reports are available
+    List<String> availableSteps = [];
+    if (isDone) {
+      availableSteps = List.from(workflowSteps);
+    } else if (currentStepIndex > 0) {
+      availableSteps = workflowSteps.sublist(0, currentStepIndex);
+    } else if (currentStepIndex == -1 &&
+        widget.currentStep.toLowerCase() == 'consume') {
+      // If the current step is beyond production, like 'consume'
+      availableSteps = List.from(workflowSteps);
+    }
+
+    // Filter by permissions (like home_drawer)
+    final visibleSteps = availableSteps.where((step) {
+      final perm = stepPermissions[step];
+      if (perm == null) return false;
+      return context.hasPermission(perm);
+    }).toList();
+
+    if (visibleSteps.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Divider(height: 1, color: AppColors.cardBorder),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: visibleSteps.map((step) {
+            final title = stepTitles[step] ?? step;
+            return InkWell(
+              onTap: () {
+                context.pushNamed(
+                  RouteNames.workflowReportDetail,
+                  extra: {
+                    'itemId': widget
+                        .id, // Or mrNo based on backend expectation
+                    'step': step,
+                    'title': title,
+                  },
+                );
+              },
+              borderRadius: BorderRadius.circular(6),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primarySurface,
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: AppColors.primaryBorder),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.assessment_outlined,
+                      size: 14,
+                      color: AppColors.primary,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }

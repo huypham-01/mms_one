@@ -19,11 +19,19 @@ class MrRequestRepositoryImpl implements MrRequestRepository {
   @override
   Future<MrRequestResponseModel> getMrRequests({
     int page = 1,
+    String? date,
+    String? dateFrom,
+    String? dateTo,
   }) async {
     if (mockModeProvider.isMockMode) {
       debugPrint('[Mock] MaterialRequestRepository using MOCK source');
       return await mockDataSource.getMrRequests(page: page);
     }
-    return await remoteDataSource.getMrRequests(page: page);
+    return await remoteDataSource.getMrRequests(
+      page: page,
+      date: date,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+    );
   }
 }

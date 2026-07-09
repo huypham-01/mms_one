@@ -20,7 +20,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _otpController = TextEditingController();
-  
+
   bool _isCurrentPasswordVisible = false;
   bool _isNewPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
@@ -52,7 +52,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(provider.successMessage ?? AppLocalizations.of(context)!.changePasswordSuccess),
+            content: Text(
+              provider.successMessage ??
+                  AppLocalizations.of(context)!.changePasswordSuccess,
+            ),
             backgroundColor: Colors.green,
           ),
         );
@@ -60,7 +63,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       } else if (provider.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(provider.errorMessage ?? AppLocalizations.of(context)!.changePasswordFailed),
+            content: Text(
+              provider.errorMessage ??
+                  AppLocalizations.of(context)!.changePasswordFailed,
+            ),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -72,7 +78,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Widget build(BuildContext context) {
     final provider = context.watch<ChangePasswordProvider>();
     final l10n = AppLocalizations.of(context)!;
-    
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -98,6 +104,50 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade50,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.orange.shade200),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.info_outline,
+                                color: Colors.orange.shade800,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Bạn phải đổi mật khẩu để tiếp tục sử dụng ứng dụng',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.orange.shade900,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '您必須變更密碼才能繼續使用此應用程式',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.orange.shade900,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
                         TextFormField(
                           controller: _currentPasswordController,
                           decoration: InputDecoration(
@@ -112,7 +162,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  _isCurrentPasswordVisible = !_isCurrentPasswordVisible;
+                                  _isCurrentPasswordVisible =
+                                      !_isCurrentPasswordVisible;
                                 });
                               },
                             ),
@@ -141,7 +192,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  _isNewPasswordVisible = !_isNewPasswordVisible;
+                                  _isNewPasswordVisible =
+                                      !_isNewPasswordVisible;
                                 });
                               },
                             ),
@@ -173,7 +225,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                                  _isConfirmPasswordVisible =
+                                      !_isConfirmPasswordVisible;
                                 });
                               },
                             ),
@@ -201,11 +254,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               onPressed: () async {
                                 final uri = Uri.parse('myotpapp://generate');
                                 if (await canLaunchUrl(uri)) {
-                                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                  await launchUrl(
+                                    uri,
+                                    mode: LaunchMode.externalApplication,
+                                  );
                                 } else {
                                   if (context.mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Cannot open OTP app')),
+                                      const SnackBar(
+                                        content: Text('Cannot open OTP app'),
+                                      ),
                                     );
                                   }
                                 }

@@ -1515,6 +1515,66 @@ abstract class AppLocalizations {
   /// **'No requests found'**
   String get noRequestsFound;
 
+  /// No description provided for @dateFilterTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Date Filter'**
+  String get dateFilterTooltip;
+
+  /// No description provided for @dateFilterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by date'**
+  String get dateFilterTitle;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @specificDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Specific date'**
+  String get specificDate;
+
+  /// No description provided for @dateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Date range'**
+  String get dateRange;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @fromDate.
+  ///
+  /// In en, this message translates to:
+  /// **'From date'**
+  String get fromDate;
+
+  /// No description provided for @toDate.
+  ///
+  /// In en, this message translates to:
+  /// **'To date'**
+  String get toDate;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get selectDate;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
   /// No description provided for @all.
   ///
   /// In en, this message translates to:
