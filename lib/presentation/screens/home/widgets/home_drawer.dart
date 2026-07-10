@@ -198,7 +198,7 @@ class HomeDrawer extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.all(16),
               child: Text(
-                'v1.0.4 (2)',
+                'v1.0.4 (3)',
                 style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
               ),
             ),

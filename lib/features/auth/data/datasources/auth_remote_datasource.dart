@@ -43,7 +43,7 @@ class AuthRemoteDataSource {
   Future<Map<String, dynamic>> getVerify(String username) async {
     final dio = Dio();
     final response = await dio.get(
-      'http://192.168.110.2/web_develop/iam/cip3/index.php',
+      'http://192.168.110.7/iam/cip3/index.php',
       queryParameters: {
         'c': 'AuthController',
         'm': 'getVerify',
