@@ -95,7 +95,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       final response = await _loginUseCase.execute(username, password, otp);
       if (response.status && response.accessToken != null) {
-        await _permissionProvider.loadPermissions();
+        await _permissionProvider.loadPermissions(forceReload: true);
         // Subscribe FCM topic theo role (best-effort, không chặn login).
         await FcmTopicService.subscribeForToken(_tokenManager.getToken());
         _isLoggedIn = true;

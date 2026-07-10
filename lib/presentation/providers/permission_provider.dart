@@ -26,8 +26,9 @@ class PermissionProvider extends ChangeNotifier {
   Set<String> _permissions = {};
   Set<String> get permissions => _permissions;
 
-  Future<void> loadPermissions() async {
-    if (_isLoading || _hasLoaded) return;
+  Future<void> loadPermissions({bool forceReload = false}) async {
+    if (_isLoading) return;
+    if (_hasLoaded && !forceReload) return;
     
     _isLoading = true;
     notifyListeners();
