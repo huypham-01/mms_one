@@ -240,7 +240,7 @@ class _ReportScreenState extends State<ReportScreen> {
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                item.updatedAt!,
+                                item.updatedAt ?? '-',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: AppColors.textTertiary,
