@@ -47,7 +47,7 @@ class HomeTopBar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      isMockMode ? 'MMS [MOCK]' : 'MMS',
+                      isMockMode ? 'MMS [MOCK]' : 'MMS.',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
