@@ -15,7 +15,7 @@ class HomeTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final isMockMode = context.watch<MockModeProvider>().isMockMode;
-    
+
     return AppBar(
       automaticallyImplyLeading: false,
       elevation: 0,
@@ -47,7 +47,7 @@ class HomeTopBar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      isMockMode ? 'MMS [MOCK]' : 'MMS.',
+                      isMockMode ? 'MMS [MOCK]' : 'MMS',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,

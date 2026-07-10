@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/change_password_provider.dart';
-import '../providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../routes/route_names.dart';
 
@@ -47,9 +46,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       if (!mounted) return;
 
       if (success) {
-        // Mark as changed password so it doesn't prompt again
-        await context.read<AuthProvider>().setHasChangedPassword(true);
-
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

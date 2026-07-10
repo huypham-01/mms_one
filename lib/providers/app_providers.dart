@@ -22,6 +22,7 @@ import '../features/auth/domain/repositories/auth_repository.dart';
 import '../features/auth/domain/usecases/login_usecase.dart';
 import '../features/auth/domain/usecases/logout_usecase.dart';
 import '../features/auth/domain/usecases/check_login_status_usecase.dart';
+import '../features/auth/domain/usecases/get_verify_usecase.dart';
 import '../features/auth/domain/usecases/change_password_usecase.dart';
 import '../features/auth/presentation/providers/auth_provider.dart';
 import '../features/auth/presentation/providers/change_password_provider.dart';
@@ -180,11 +181,16 @@ class AppProviders {
           create: (context) =>
               CheckLoginStatusUseCase(context.read<AuthRepository>()),
         ),
+        Provider<GetVerifyUseCase>(
+          create: (context) =>
+              GetVerifyUseCase(context.read<AuthRepository>()),
+        ),
         ChangeNotifierProvider<AuthProvider>(
           create: (context) => AuthProvider(
             loginUseCase: context.read<LoginUseCase>(),
             logoutUseCase: context.read<LogoutUseCase>(),
             checkLoginStatusUseCase: context.read<CheckLoginStatusUseCase>(),
+            getVerifyUseCase: context.read<GetVerifyUseCase>(),
             tokenManager: context.read<TokenManager>(),
             permissionProvider: context.read<PermissionProvider>(),
           ),

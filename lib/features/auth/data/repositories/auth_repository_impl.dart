@@ -85,4 +85,15 @@ class AuthRepositoryImpl implements AuthRepository {
     
     return response;
   }
+
+  @override
+  Future<bool> getVerify(String username) async {
+    try {
+      final data = await _remoteDataSource.getVerify(username);
+      return data['verify'] == '1' || data['verify'] == 1;
+    } catch (e) {
+      debugPrint('Verify API error: $e');
+      return true; // Default to true if error
+    }
+  }
 }

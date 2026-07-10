@@ -22,7 +22,6 @@ import '../providers/app_providers.dart';
 import 'package:provider/provider.dart';
 import 'route_names.dart';
 import '../presentation/screens/log_history/log_history_screen.dart';
-import '../core/mock/mock_mode_provider.dart';
 
 /// Application router configuration using go_router.
 /// Supports named routes, transition animations, and easy module expansion.
@@ -40,21 +39,18 @@ class AppRouter {
         final isLoggedIn = authProvider.isLoggedIn;
         final isGoingToLogin = state.uri.toString() == RouteNames.loginPath;
         final isGoingToChangePassword = state.uri.toString() == RouteNames.changePasswordPath;
-        final isMockMode = context.read<MockModeProvider>().isMockMode;
-        
-        final hasChangedPassword = authProvider.hasChangedPassword;
+
+        // Cho phép vào trang đổi mật khẩu dù đã đăng nhập hay chưa
+        if (isGoingToChangePassword) {
+          return null;
+        }
 
         if (!isLoggedIn && !isGoingToLogin) {
           return RouteNames.loginPath;
         }
 
-        if (isLoggedIn) {
-          if (!hasChangedPassword && !isMockMode && !isGoingToChangePassword) {
-            return RouteNames.changePasswordPath;
-          }
-          if (isGoingToLogin) {
-            return RouteNames.homePath;
-          }
+        if (isLoggedIn && isGoingToLogin) {
+          return RouteNames.homePath;
         }
 
         return null;

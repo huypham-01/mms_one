@@ -5,4 +5,5 @@ abstract class AuthRepository {
   Future<LoginResponseEntity> setPassword(String currentPassword, String password, String confirmPassword, String otp);
   Future<void> logout();
   Future<bool> checkLoginStatus();
+  Future<bool> getVerify(String username);
 }

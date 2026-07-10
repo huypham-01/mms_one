@@ -31,21 +31,34 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       final authProvider = context.read<AuthProvider>();
+
+      final isVerified = await authProvider.getVerify(_usernameController.text);
+
       final success = await authProvider.login(
         _usernameController.text,
         _passwordController.text,
         _otpController.text,
       );
 
-      if (success && mounted) {
+      if (!success) {
+        if (mounted && authProvider.errorMessage != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(authProvider.errorMessage!),
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+        }
+        return;
+      }
+
+      if (!mounted) return;
+
+      if (!isVerified) {
+        // Token đã được lưu, chuyển sang trang đổi mật khẩu
+        context.go(RouteNames.changePasswordPath);
+      } else {
         context.go(RouteNames.homePath);
-      } else if (mounted && authProvider.errorMessage != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(authProvider.errorMessage!),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
       }
     }
   }

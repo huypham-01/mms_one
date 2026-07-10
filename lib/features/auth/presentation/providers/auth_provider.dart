@@ -3,6 +3,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
 import '../../domain/usecases/check_login_status_usecase.dart';
+import '../../domain/usecases/get_verify_usecase.dart';
 import '../../../../core/auth/token_manager.dart';
 import '../../../../core/services/fcm_topic_service.dart';
 import '../../../../presentation/providers/permission_provider.dart';
@@ -11,6 +12,7 @@ class AuthProvider extends ChangeNotifier {
   final LoginUseCase _loginUseCase;
   final LogoutUseCase _logoutUseCase;
   final CheckLoginStatusUseCase _checkLoginStatusUseCase;
+  final GetVerifyUseCase _getVerifyUseCase;
   final TokenManager _tokenManager;
   final PermissionProvider _permissionProvider;
 
@@ -22,13 +24,6 @@ class AuthProvider extends ChangeNotifier {
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
-
-  bool get hasChangedPassword => _tokenManager.hasChangedPassword;
-  
-  Future<void> setHasChangedPassword(bool value) async {
-    await _tokenManager.setHasChangedPassword(value);
-    notifyListeners();
-  }
 
   String get username {
     final token = _tokenManager.getToken();
@@ -59,11 +54,13 @@ class AuthProvider extends ChangeNotifier {
     required LoginUseCase loginUseCase,
     required LogoutUseCase logoutUseCase,
     required CheckLoginStatusUseCase checkLoginStatusUseCase,
+    required GetVerifyUseCase getVerifyUseCase,
     required TokenManager tokenManager,
     required PermissionProvider permissionProvider,
   })  : _loginUseCase = loginUseCase,
         _logoutUseCase = logoutUseCase,
         _checkLoginStatusUseCase = checkLoginStatusUseCase,
+        _getVerifyUseCase = getVerifyUseCase,
         _tokenManager = tokenManager,
         _permissionProvider = permissionProvider {
     checkLoginStatus();
@@ -84,6 +81,10 @@ class AuthProvider extends ChangeNotifier {
       _isLoggedIn = isLoggedIn;
       notifyListeners();
     }
+  }
+
+  Future<bool> getVerify(String username) async {
+    return await _getVerifyUseCase.execute(username);
   }
 
   Future<bool> login(String username, String password, String otp) async {
