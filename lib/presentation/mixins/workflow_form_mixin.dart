@@ -14,6 +14,7 @@ import '../widgets/modern_scanner_screen.dart';
 import '../widgets/otp_dialog.dart';
 import '../widgets/otp_reject_dialog.dart';
 import '../widgets/photo_picker_widget.dart';
+import 'package:flutter/services.dart';
 
 // ---------------------------------------------------------------------------
 // Lot Data (không liên quan API, giữ nguyên)
@@ -1093,7 +1094,14 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
                     controller: lot.qtyController,
                     hint: '0',
                     suffixText: '#',
-                    keyboardType: isReadOnly ? null : TextInputType.number,
+                    keyboardType: isReadOnly
+                        ? null
+                        : const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      TextInputFormatter.withFunction((oldValue, newValue) =>
+                          newValue.copyWith(
+                              text: newValue.text.replaceAll(',', '.'))),
+                    ],
                     readOnly: isReadOnly,
                     rightWidget: isReadOnly
                         ? null
@@ -1198,7 +1206,14 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
                   controller: preparedQuantityCtrl,
                   hint: locker,
                   suffixIcon: Icons.numbers_outlined,
-                  keyboardType: TextInputType.number,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  inputFormatters: [
+                    TextInputFormatter.withFunction((oldValue, newValue) =>
+                        newValue.copyWith(
+                            text: newValue.text.replaceAll(',', '.'))),
+                  ],
                   readOnly: true,
                 ),
               ],
@@ -1691,7 +1706,11 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
         controller: quantityToProductionCtrl,
         hint: '0',
         suffixText: '#',
-        keyboardType: TextInputType.number,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        inputFormatters: [
+          TextInputFormatter.withFunction((oldValue, newValue) =>
+              newValue.copyWith(text: newValue.text.replaceAll(',', '.'))),
+        ],
       ),
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.verifyMethod),
@@ -2351,7 +2370,7 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                                               : AppColors.textPrimary,
                                         ),
                                       ),
-                                      const SizedBox(height: 2,),
+                                      const SizedBox(height: 2),
                                       Container(
                                         padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(

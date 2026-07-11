@@ -1,14 +1,16 @@
 import '../../domain/entities/transaction_log_entity.dart';
 
 class TransactionLogModel extends TransactionLogEntity {
-  const TransactionLogModel({
-    required super.items,
-  });
+  const TransactionLogModel({required super.items});
 
   factory TransactionLogModel.fromJson(Map<String, dynamic> json) {
     return TransactionLogModel(
-      items: (json['data'] as List<dynamic>?)
-              ?.map((e) => TransactionLogItemModel.fromJson(e as Map<String, dynamic>))
+      items:
+          (json['data'] as List<dynamic>?)
+              ?.map(
+                (e) =>
+                    TransactionLogItemModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           [],
     );
@@ -16,7 +18,9 @@ class TransactionLogModel extends TransactionLogEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'data': items.map((e) => (e as TransactionLogItemModel).toJson()).toList(),
+      'data': items
+          .map((e) => (e as TransactionLogItemModel).toJson())
+          .toList(),
     };
   }
 }
@@ -46,7 +50,8 @@ class TransactionLogItemModel extends TransactionLogItemEntity {
       personName: json['person_name']?.toString(),
       note: json['note']?.toString(),
       otpVerifiedAt: json['otp_verified_at']?.toString(),
-      toProductionNow: int.tryParse(extraData['to_production_now']?.toString() ?? '0') ?? 0,
+      toProductionNow:
+          (extraData['to_production_now'] as num?)?.toDouble() ?? 0.0,
       toWhere: extraData['to_where']?.toString(),
       toWho: extraData['to_who']?.toString(),
       createdAt: json['created_at']?.toString(),

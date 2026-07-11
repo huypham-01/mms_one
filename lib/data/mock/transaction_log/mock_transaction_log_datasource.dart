@@ -33,7 +33,7 @@ class MockTransactionLogDataSource {
         otpVerifiedAt: _formatDateTime(
           createdAt.subtract(const Duration(minutes: 2)),
         ),
-        toProductionNow: quantity,
+        toProductionNow: quantity.toDouble(),
         toWhere: _locations[index % _locations.length],
         toWho: _receivers[index % _receivers.length],
         createdAt: _formatDateTime(createdAt),

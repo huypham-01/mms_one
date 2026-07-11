@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../core/theme/app_colors.dart';
 
 class WorkflowComponents {
@@ -100,11 +101,13 @@ class WorkflowComponents {
     TextInputType? keyboardType,
     bool readOnly = false,
     VoidCallback? onTapSuffix,
+    List<TextInputFormatter>? inputFormatters,
   }) {
     Widget field = TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       readOnly: readOnly,
+      inputFormatters: inputFormatters,
 
       decoration: InputDecoration(
         hintText: hint,

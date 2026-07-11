@@ -13,7 +13,7 @@ class TransactionLogItemEntity {
   final String? personName;
   final String? note;
   final String? otpVerifiedAt;
-  final int toProductionNow;
+  final double toProductionNow;
   final String? toWhere;
   final String? toWho;
   final String? createdAt;

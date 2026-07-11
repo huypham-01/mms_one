@@ -121,13 +121,13 @@ class StorageAreaMrModel extends StorageAreaMrEntity {
       unit: json['unit']?.toString() ?? '',
       pcn: json['pcn']?.toString() ?? '',
       locker: json['locker']?.toString() ?? '',
-      preparedMaterialReceived: formatQuantity(
+      preparedMaterialReceived: formatNumber(
         json['prepared_material_received']?.toString() ?? '',
       ),
-      totalToProduction: formatQuantity(
+      totalToProduction: formatNumber(
         json['total_to_production']?.toString() ?? '',
       ),
-      currentMaterialBalance: formatQuantity(
+      currentMaterialBalance: formatNumber(
         json['current_material_balance']?.toString() ?? '',
       ),
       location: json['location']?.toString() ?? '',
@@ -198,5 +198,11 @@ class StorageAreaMrModel extends StorageAreaMrEntity {
     final number = double.tryParse(value?.toString() ?? '0') ?? 0;
 
     return NumberFormat('#,##0', 'vi_VN').format(number).replaceAll(',', '.');
+  }
+
+  static String formatNumber(dynamic value) {
+    final number = double.tryParse(value?.toString() ?? '0') ?? 0;
+
+    return NumberFormat('#,##0.##', 'en_US').format(number);
   }
 }
