@@ -70,6 +70,8 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   final TextEditingController materialNameCtrl = TextEditingController();
   final TextEditingController requestQtyCtrl = TextEditingController();
   final TextEditingController requestUnitCtrl = TextEditingController();
+  final TextEditingController preparerQuantityCtrl = TextEditingController();
+  final TextEditingController deffCtrl = TextEditingController();
 
   // ── Verification / common controllers ─────────────────────────────────────
   final TextEditingController preparedQuantityCtrl = TextEditingController();
@@ -86,21 +88,22 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
 
   // ── Receiver ──────────────────────────────────────────────────────────────
   final TextEditingController productionLockerCtrl = TextEditingController();
-  final TextEditingController warehouseKeeperCtrl = TextEditingController();
+  // final TextEditingController warehouseKeeperCtrl = TextEditingController();
   // final TextEditingController mrNameCtrl = TextEditingController();
 
   // ── Line Leader ────────────────────────────────────────────────────────────
-  final TextEditingController receiverFromCtrl = TextEditingController();
+  // final TextEditingController receiverFromCtrl = TextEditingController();
   final TextEditingController leaderNameCtrl = TextEditingController();
   final TextEditingController storageLocationCtrl = TextEditingController();
 
   // ── Production ─────────────────────────────────────────────────────────────
   final TextEditingController quantityToProductionCtrl =
       TextEditingController();
+  final TextEditingController balanceCtrl = TextEditingController();
   final TextEditingController toWhereCtrl = TextEditingController();
   final TextEditingController toWhoCtrl = TextEditingController();
   final TextEditingController fromLockerCtrl = TextEditingController();
-  final TextEditingController fromLeaderCtrl = TextEditingController();
+  // final TextEditingController fromLeaderCtrl = TextEditingController();
   final TextEditingController fromNameCtrl = TextEditingController();
 
   /// Subclass phải override để cung cấp step cho API.
@@ -169,6 +172,9 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
       materialNameCtrl.text = item.materialName;
       requestQtyCtrl.text = '${item.requestQuantity} ${item.unit}';
       requestUnitCtrl.text = item.unit;
+      preparerQuantityCtrl.text = item.preparerQuantity.toString();
+      deffCtrl.text = item.deff.toString();
+      balanceCtrl.text = item.balance.toString();
 
       if (item.verificationMethod != null) {
         verifyMethodCtrl.text = item.verificationMethod ?? '';
@@ -244,6 +250,8 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     materialNameCtrl.dispose();
     requestQtyCtrl.dispose();
     requestUnitCtrl.dispose();
+    preparerQuantityCtrl.dispose();
+    deffCtrl.dispose();
     // Common verification
     preparedQuantityCtrl.dispose();
     differenceCtrl.dispose();
@@ -257,18 +265,19 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     warehouseLockerCtrl.dispose();
     // Receiver
     productionLockerCtrl.dispose();
-    warehouseKeeperCtrl.dispose();
+    // warehouseKeeperCtrl.dispose();
     // mrNameCtrl.dispose();
     // Line Leader
-    receiverFromCtrl.dispose();
+    // receiverFromCtrl.dispose();
     leaderNameCtrl.dispose();
     storageLocationCtrl.dispose();
     // Production
     quantityToProductionCtrl.dispose();
+    balanceCtrl.dispose();
     toWhereCtrl.dispose();
     toWhoCtrl.dispose();
     fromLockerCtrl.dispose();
-    fromLeaderCtrl.dispose();
+    // fromLeaderCtrl.dispose();
     fromNameCtrl.dispose();
     super.dispose();
   }
@@ -430,9 +439,9 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     if (productionLockerCtrl.text.trim().isEmpty) {
       return context.l10n.scanProductionLockerRequired;
     }
-    if (warehouseKeeperCtrl.text.trim().isEmpty) {
-      return context.l10n.enterReceivedBy;
-    }
+    // if (warehouseKeeperCtrl.text.trim().isEmpty) {
+    //   return context.l10n.enterReceivedBy;
+    // }
     // if (mrNameCtrl.text.trim().isEmpty) {
     //   return context.l10n.enterMrName;
     // }
@@ -443,9 +452,9 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     if (productionLockerCtrl.text.trim().isEmpty) {
       return context.l10n.scanProductionLockerRequired;
     }
-    if (receiverFromCtrl.text.trim().isEmpty) {
-      return context.l10n.enterReceiverFrom;
-    }
+    // if (receiverFromCtrl.text.trim().isEmpty) {
+    //   return context.l10n.enterReceiverFrom;
+    // }
 
     return null;
   }
@@ -468,9 +477,9 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     if (fromLockerCtrl.text.trim().isEmpty) {
       return context.l10n.scanLockerRequired;
     }
-    if (fromLeaderCtrl.text.trim().isEmpty) {
-      return context.l10n.enterFromLeader;
-    }
+    // if (fromLeaderCtrl.text.trim().isEmpty) {
+    //   return context.l10n.enterFromLeader;
+    // }
     // if (fromNameCtrl.text.trim().isEmpty) {
     //   return context.l10n.enterFromName;
     // }
@@ -647,7 +656,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'locker': productionLockerCtrl.text.trim(),
           'person_name': '-',
           'extra_data': {
-            'warehouse_keeper': warehouseKeeperCtrl.text.trim(),
+            // 'warehouse_keeper': warehouseKeeperCtrl.text.trim(),
             'scan_result': scanResult,
           },
           'otp': otp,
@@ -667,7 +676,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           'person_name': leaderNameCtrl.text.trim(),
           'extra_data': {
             'scan_result': scanResult,
-            'received_from': receiverFromCtrl.text.trim(),
+            // 'received_from': receiverFromCtrl.text.trim(),
             'storage_location': storageLocationCtrl.text.trim(),
           },
           'otp': otp,
@@ -689,7 +698,7 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
             'to_where': toWhereCtrl.text.trim(),
             'to_who': toWhoCtrl.text.trim(),
             'to_production_now': quantityToProductionCtrl.text.trim(),
-            'from_leader': fromLeaderCtrl.text.trim(),
+            // 'from_leader': fromLeaderCtrl.text.trim(),
             'scan_result': scanResult,
           },
           'otp': otp,
@@ -727,6 +736,8 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
     }
     return barcode == verification ? 'correct' : 'wrong';
   }
+
+  /// Map raw status values from API to localized/translated display strings.
 
   /// Sau khi submit thành công: refresh provider rồi pop về màn hình trước.
   void _onSubmitSuccess() {
@@ -1098,9 +1109,11 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
                         ? null
                         : const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
-                      TextInputFormatter.withFunction((oldValue, newValue) =>
-                          newValue.copyWith(
-                              text: newValue.text.replaceAll(',', '.'))),
+                      TextInputFormatter.withFunction(
+                        (oldValue, newValue) => newValue.copyWith(
+                          text: newValue.text.replaceAll(',', '.'),
+                        ),
+                      ),
                     ],
                     readOnly: isReadOnly,
                     rightWidget: isReadOnly
@@ -1210,9 +1223,11 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
                     decimal: true,
                   ),
                   inputFormatters: [
-                    TextInputFormatter.withFunction((oldValue, newValue) =>
-                        newValue.copyWith(
-                            text: newValue.text.replaceAll(',', '.'))),
+                    TextInputFormatter.withFunction(
+                      (oldValue, newValue) => newValue.copyWith(
+                        text: newValue.text.replaceAll(',', '.'),
+                      ),
+                    ),
                   ],
                   readOnly: true,
                 ),
@@ -1318,14 +1333,42 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   // ── WAREHOUSE ─────────────────────────────────────────────────────────────
   List<Widget> _buildWarehouseFields(BuildContext context) {
     return [
-      WorkflowComponents.buildFieldLabel(context.l10n.difference),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: differenceCtrl,
-        hint: preparerId,
-        suffixIcon: Icons.compare_arrows,
-        readOnly: true,
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(
+                  context.l10n.preparedQuantity,
+                ),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: preparerQuantityCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.numbers_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.difference),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: deffCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.compare_arrows,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
+
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.verifyMethod),
       const SizedBox(height: 6),
@@ -1394,6 +1437,42 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   // Ẩn: buildLotInformationCard
   List<Widget> _buildReceiverFields(BuildContext context) {
     return [
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(
+                  context.l10n.preparedQuantity,
+                ),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: preparerQuantityCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.numbers_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.difference),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: deffCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.compare_arrows,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.verifyMethod),
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
@@ -1453,25 +1532,25 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           title: context.l10n.scanProductionLockerQr,
         ),
       ),
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(
-        context.l10n.warehouseKeeper,
-        required: true,
-      ),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: warehouseKeeperCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanLocker(
-          context,
-          warehouseKeeperCtrl,
-          title: context.l10n.scanProductionLockerQr,
-        ),
-      ),
-      const SizedBox(height: 12),
+      // const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(
+      //   context.l10n.warehouseKeeper,
+      //   required: true,
+      // ),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: warehouseKeeperCtrl,
+      //   hint: context.l10n.tapIconToScan,
+      //   suffixIcon: Icons.qr_code_scanner,
+      //   suffixIconColor: AppColors.primary,
+      //   readOnly: true,
+      //   onTapSuffix: () => _scanLocker(
+      //     context,
+      //     warehouseKeeperCtrl,
+      //     title: context.l10n.scanProductionLockerQr,
+      //   ),
+      // ),
+      // const SizedBox(height: 12),
       // Row(
       //   children: [
       //     Expanded(
@@ -1537,6 +1616,42 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   // ── LINE LEADER ───────────────────────────────────────────────────────────
   List<Widget> _buildLineLeaderFields(BuildContext context) {
     return [
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(
+                  context.l10n.preparedQuantity,
+                ),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: preparerQuantityCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.numbers_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.difference),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: deffCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.compare_arrows,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.verifyMethod),
       const SizedBox(height: 6),
       WorkflowComponents.buildTextField(
@@ -1614,24 +1729,24 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           title: context.l10n.scanProductionLockerQr,
         ),
       ),
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(
-        context.l10n.receiverFrom,
-        required: true,
-      ),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: receiverFromCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanLocker(
-          context,
-          receiverFromCtrl,
-          title: context.l10n.scanProductionLockerQr,
-        ),
-      ),
+      // const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(
+      //   context.l10n.receiverFrom,
+      //   required: true,
+      // ),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: receiverFromCtrl,
+      //   hint: context.l10n.tapIconToScan,
+      //   suffixIcon: Icons.qr_code_scanner,
+      //   suffixIconColor: AppColors.primary,
+      //   readOnly: true,
+      //   onTapSuffix: () => _scanLocker(
+      //     context,
+      //     receiverFromCtrl,
+      //     title: context.l10n.scanProductionLockerQr,
+      //   ),
+      // ),
       // Row(
       //   children: [
       //     Expanded(
@@ -1697,21 +1812,88 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
   // ── PRODUCTION ────────────────────────────────────────────────────────────
   List<Widget> _buildProductionFields(BuildContext context) {
     return [
-      WorkflowComponents.buildFieldLabel(
-        context.l10n.quantityToProduction,
-        required: true,
-      ),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: quantityToProductionCtrl,
-        hint: '0',
-        suffixText: '#',
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        inputFormatters: [
-          TextInputFormatter.withFunction((oldValue, newValue) =>
-              newValue.copyWith(text: newValue.text.replaceAll(',', '.'))),
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(
+                  context.l10n.preparedQuantity,
+                ),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: preparerQuantityCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.numbers_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.difference),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: deffCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.compare_arrows,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
+      const SizedBox(height: 6),
+      Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(context.l10n.balance),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: balanceCtrl,
+                  hint: preparerId,
+                  suffixIcon: Icons.numbers_outlined,
+                  readOnly: true,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              children: [
+                WorkflowComponents.buildFieldLabel(
+                  context.l10n.quantityToProduction,
+                  required: true,
+                ),
+                const SizedBox(height: 6),
+                WorkflowComponents.buildTextField(
+                  controller: quantityToProductionCtrl,
+                  hint: '0',
+                  suffixText: '#',
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  inputFormatters: [
+                    TextInputFormatter.withFunction(
+                      (oldValue, newValue) => newValue.copyWith(
+                        text: newValue.text.replaceAll(',', '.'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+
       const SizedBox(height: 12),
       WorkflowComponents.buildFieldLabel(context.l10n.verifyMethod),
       const SizedBox(height: 6),
@@ -1803,24 +1985,24 @@ mixin WorkflowFormMixin<T extends StatefulWidget> on State<T> {
           title: context.l10n.scanFromLockerQr,
         ),
       ),
-      const SizedBox(height: 12),
-      WorkflowComponents.buildFieldLabel(
-        context.l10n.fromLeader,
-        required: true,
-      ),
-      const SizedBox(height: 6),
-      WorkflowComponents.buildTextField(
-        controller: fromLeaderCtrl,
-        hint: context.l10n.tapIconToScan,
-        suffixIcon: Icons.qr_code_scanner,
-        suffixIconColor: AppColors.primary,
-        readOnly: true,
-        onTapSuffix: () => _scanLocker(
-          context,
-          fromLeaderCtrl,
-          title: context.l10n.scanFromLockerQr,
-        ),
-      ),
+      // const SizedBox(height: 12),
+      // WorkflowComponents.buildFieldLabel(
+      //   context.l10n.fromLeader,
+      //   required: true,
+      // ),
+      // const SizedBox(height: 6),
+      // WorkflowComponents.buildTextField(
+      //   controller: fromLeaderCtrl,
+      //   hint: context.l10n.tapIconToScan,
+      //   suffixIcon: Icons.qr_code_scanner,
+      //   suffixIconColor: AppColors.primary,
+      //   readOnly: true,
+      //   onTapSuffix: () => _scanLocker(
+      //     context,
+      //     fromLeaderCtrl,
+      //     title: context.l10n.scanFromLockerQr,
+      //   ),
+      // ),
       // Row(
       //   children: [
       //     Expanded(
@@ -2399,7 +2581,10 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        item.currentStatus,
+                                        _localizedStatus(
+                                          context,
+                                          item.currentStatus,
+                                        ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.center,
@@ -2472,5 +2657,22 @@ class _MrWorkflowBottomSheetState extends State<MrWorkflowBottomSheet> {
         ),
       ),
     );
+  }
+
+  String _localizedStatus(BuildContext context, String status) {
+    final s = status.trim().toLowerCase();
+    // Known mappings
+    if (s == 'in progress' || s.contains('in progress')) {
+      return context.l10n.inProgress;
+    }
+    if (s == 'in use' || s.contains('in use')) {
+      return context.l10n.statusInUse;
+    }
+    if (s == 'rejected' || s.contains('rejected') || s.contains('reject')) {
+      return context.l10n.statusRejected;
+    }
+
+    // Fallback: return original status string
+    return status;
   }
 }

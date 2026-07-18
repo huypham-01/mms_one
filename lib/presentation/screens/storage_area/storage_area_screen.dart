@@ -242,7 +242,7 @@ class _StorageAreaScreenState extends State<StorageAreaScreen> {
                         if (item is String) {
                           final label = _groupBy == _GroupBy.pcn
                               ? '${context.l10n.pcn}: $item'
-                              : 'Material PN: $item';
+                              : '${context.l10n.materialPnLabel}: $item';
                           // Count items in this group
                           int count = 0;
                           for (
@@ -379,19 +379,19 @@ class _StorageAreaScreenState extends State<StorageAreaScreen> {
                     fontWeight: FontWeight.w500,
                     color: AppColors.textPrimary,
                   ),
-                  items: const [
+                  items: [
                     DropdownMenuItem(
                       value: _GroupBy.none,
-                      child: Text('No Grouping'),
+                      child: Text(context.l10n.groupByNone),
                     ),
-            
+
                     DropdownMenuItem(
                       value: _GroupBy.pcn,
-                      child: Text('Group by PCN'),
+                      child: Text(context.l10n.groupByPcn),
                     ),
                     DropdownMenuItem(
                       value: _GroupBy.materialPn,
-                      child: Text('Group by Material PN'),
+                      child: Text(context.l10n.groupByMaterialPn),
                     ),
                   ],
                   onChanged: (val) {
@@ -408,7 +408,6 @@ class _StorageAreaScreenState extends State<StorageAreaScreen> {
                   'All',
                   'in_progress',
                   'in_use',
-                  'pending_confirm',
                   'rejected',
                   'closed',
                 ];
@@ -420,17 +419,15 @@ class _StorageAreaScreenState extends State<StorageAreaScreen> {
                 String getStatusLabel(String status) {
                   switch (status) {
                     case 'All':
-                      return 'All Statuses';
+                      return context.l10n.statusAll;
                     case 'in_progress':
-                      return 'In Progress';
+                      return context.l10n.inProgress;
                     case 'in_use':
-                      return 'In Use';
-                    case 'pending_confirm':
-                      return 'Pending Confirm';
+                      return context.l10n.statusInUse;
                     case 'rejected':
-                      return 'Rejected';
+                      return context.l10n.statusRejected;
                     case 'closed':
-                      return 'Closed';
+                      return context.l10n.statusClose;
                     default:
                       return status;
                   }

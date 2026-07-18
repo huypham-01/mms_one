@@ -32,6 +32,9 @@ class MrWorkflowItemModel {
   final String? startedAt;
   final String? updatedAt;
   final String? completedAt;
+  final double? preparerQuantity;
+  final double? deff;
+  final double? balance;
 
   const MrWorkflowItemModel({
     required this.id,
@@ -66,6 +69,9 @@ class MrWorkflowItemModel {
     this.startedAt,
     this.updatedAt,
     this.completedAt,
+    this.preparerQuantity,
+    this.deff,
+    this.balance,
   });
 
   factory MrWorkflowItemModel.fromJson(Map<String, dynamic> json) {
@@ -102,9 +108,25 @@ class MrWorkflowItemModel {
       startedAt: json['started_at'] ?? "-",
       updatedAt: json['updated_at'] ?? "-",
       completedAt: json['completed_at'],
+      preparerQuantity: _parseDouble(json['prepared_quantity']),
+      deff: _parseDouble(json['difference']),
+      balance: _parseDouble(json['balance']),
     );
   }
 
   /// Display title cho bottom sheet list
-  String get displayTitle => '$requestNumber · $workOrder · $materialPn';
+  String get displayTitle => '$requestNumber - $workOrder - $materialPn';
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+
+    if (value is num) {
+      return value.toDouble();
+    }
+
+    if (value is String) {
+      return double.tryParse(value.trim()) ?? 0.0;
+    }
+
+    return 0.0;
+  }
 }

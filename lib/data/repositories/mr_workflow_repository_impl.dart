@@ -35,4 +35,12 @@ class MrWorkflowRepositoryImpl implements MrWorkflowRepository {
     }
     return remoteDataSource.getReportDetail(id, step);
   }
+
+  @override
+  Future<void> forceClose(String id, String otp) async {
+    if (mockModeProvider.isMockMode) {
+      return mockDataSource.forceClose(id, otp);
+    }
+    return remoteDataSource.forceClose(id, otp);
+  }
 }

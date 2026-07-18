@@ -13,7 +13,9 @@ class MockMrWorkflowDataSource {
     int page = 1,
     int pageSize = 20,
   }) async {
-    debugPrint('[Mock] MockMrWorkflowDataSource getByStep called (step: $step, page: $page)');
+    debugPrint(
+      '[Mock] MockMrWorkflowDataSource getByStep called (step: $step, page: $page)',
+    );
 
     // Giả lập delay mạng
     await Future.delayed(const Duration(milliseconds: 600));
@@ -56,7 +58,9 @@ class MockMrWorkflowDataSource {
   }
 
   Future<WorkflowReportModel?> getReportDetail(String id, String step) async {
-    debugPrint('[Mock] MockMrWorkflowDataSource getReportDetail called (id: $id, step: $step)');
+    debugPrint(
+      '[Mock] MockMrWorkflowDataSource getReportDetail called (id: $id, step: $step)',
+    );
 
     await Future.delayed(const Duration(milliseconds: 500));
 
@@ -68,11 +72,18 @@ class MockMrWorkflowDataSource {
     return _mockReportDetails[cacheKey];
   }
 
+  Future<void> forceClose(String id, String otp) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (otp != '800748' && otp != '123456') {
+      throw Exception('Mã OTP không hợp lệ hoặc đã hết hạn');
+    }
+  }
+
   static List<MrWorkflowItemModel> _generateMockData(String step, int count) {
     final random = Random();
     final materials = ['PBT毛', 'OPP袋', 'RPET膠片', '外箱', '標貼', 'ABS Resin'];
     final units = ['PCS', 'KG', 'ROLL', 'BOX'];
-    
+
     // Status depends on the step roughly
     final statuses = ['PENDING CONFIRM', 'IN PROGRESS', 'COMPLETED'];
 
@@ -80,8 +91,9 @@ class MockMrWorkflowDataSource {
       final now = DateTime.now().subtract(Duration(hours: random.nextInt(48)));
       final formattedDate =
           "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
-      
-      final reqNumber = 'MR-${DateTime.now().year}${now.month.toString().padLeft(2, '0')}-${(index + 100).toString().padLeft(4, '0')}';
+
+      final reqNumber =
+          'MR-${DateTime.now().year}${now.month.toString().padLeft(2, '0')}-${(index + 100).toString().padLeft(4, '0')}';
 
       return MrWorkflowItemModel(
         id: 'mock-workflow-id-$step-$index',
@@ -91,7 +103,8 @@ class MockMrWorkflowDataSource {
         requestDate: formattedDate,
         requestNumber: reqNumber,
         workOrder: 'WO-${20000 + index}',
-        demandWk: 'WK${now.year.toString().substring(2)}${random.nextInt(52).toString().padLeft(2, '0')}',
+        demandWk:
+            'WK${now.year.toString().substring(2)}${random.nextInt(52).toString().padLeft(2, '0')}',
         pcn: 'PCN-${30000 + index}',
         finishGoodCtn: (random.nextInt(100) + 1).toString(),
         materialPn: 'PN-${40000 + random.nextInt(1000)}',
@@ -104,6 +117,8 @@ class MockMrWorkflowDataSource {
         isOvertime: random.nextDouble() > 0.8,
         daysSinceOpen: random.nextDouble() * 5,
         isRejected: false,
+        preparerQuantity: 34.5,
+        deff: 0,
       );
     });
   }
@@ -112,7 +127,7 @@ class MockMrWorkflowDataSource {
     final random = Random();
     final materials = ['PBT毛', 'OPP袋', 'RPET膠片', '外箱', '標貼'];
     final reqNumber = 'MR-MOCK-2026';
-    
+
     return WorkflowReportModel(
       requestId: id,
       batchId: 'BCH-MOCK-1',

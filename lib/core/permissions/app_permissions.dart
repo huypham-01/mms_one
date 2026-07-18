@@ -11,6 +11,7 @@
 
 class AppPermissions {
   // General
+  static const admin = 'mms.admin';
   static const mmsView = 'mms.view';
 
   // Material Request
@@ -31,6 +32,7 @@ class AppPermissions {
   static const workflowStepManage = 'mms.workflowstep.manage';
 
   static List<String> get allPermissions => [
+        admin,
         mmsView,
         mrPlanner,
         mrImport,

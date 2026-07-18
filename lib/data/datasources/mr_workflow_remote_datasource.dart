@@ -80,4 +80,20 @@ class MrWorkflowRemoteDataSource {
       return null;
     }
   }
+
+  Future<void> forceClose(String id, String otp) async {
+    final response = await _apiClient.post(
+      '?c=MrWorkflow&m=forceClose',
+      data: {
+        'mr_request_id': id,
+        'otp': otp,
+      },
+    );
+    final jsonMap = response.data as Map<String, dynamic>;
+    if (jsonMap['success'] != true) {
+      throw Exception(
+        jsonMap['message'] ?? 'API returned success=false for forceClose',
+      );
+    }
+  }
 }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/localization_extensions.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/status_chip.dart';
 import '../../../../l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import '../../../providers/permission_provider.dart';
 import '../../../../core/permissions/app_permissions.dart';
 import '../../../../core/permissions/permission_extensions.dart';
 import '../../../../routes/route_names.dart';
+import 'package:provider/provider.dart';
+import '../../../../domain/usecases/force_close_mr_workflow_usecase.dart';
+import '../../../providers/mr_request_provider.dart';
+import '../../../providers/mr_workflow_provider.dart';
+import '../../../widgets/otp_dialog.dart';
 
 /// Material request card widget for the MR listing screen.
 class MrRequestCard extends StatefulWidget {
@@ -275,7 +279,7 @@ class _MrRequestCardState extends State<MrRequestCard> {
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                widget.currentStep,
+                                _localizedStatus(context, widget.currentStep),
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
@@ -361,7 +365,15 @@ class _MrRequestCardState extends State<MrRequestCard> {
       return context.hasPermission(perm);
     }).toList();
 
-    if (visibleSteps.isEmpty) {
+    final canForceClose =
+        context.hasPermission(AppPermissions.admin) ||
+        context.hasPermission(AppPermissions.mrPlanner);
+
+    debugPrint('--- MR Card [${widget.mrNo}] ---');
+    debugPrint('canForceClose: $canForceClose');
+    debugPrint('visibleSteps.isEmpty: ${visibleSteps.isEmpty}');
+
+    if (visibleSteps.isEmpty && !canForceClose) {
       return const SizedBox.shrink();
     }
 
@@ -373,56 +385,140 @@ class _MrRequestCardState extends State<MrRequestCard> {
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: visibleSteps.map((step) {
-            final title = stepTitles[step] ?? step;
-            return InkWell(
-              onTap: () {
-                context.pushNamed(
-                  RouteNames.workflowReportDetail,
-                  extra: {
-                    'itemId': widget
-                        .id, // Or mrNo based on backend expectation
-                    'step': step,
-                    'title': title,
-                  },
-                );
-              },
-              borderRadius: BorderRadius.circular(6),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primarySurface,
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: AppColors.primaryBorder),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.assessment_outlined,
-                      size: 14,
-                      color: AppColors.primary,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
+          children: [
+            ...visibleSteps.map((step) {
+              final title = stepTitles[step] ?? step;
+              return InkWell(
+                onTap: () {
+                  context.pushNamed(
+                    RouteNames.workflowReportDetail,
+                    extra: {'itemId': widget.id, 'step': step, 'title': title},
+                  );
+                },
+                borderRadius: BorderRadius.circular(6),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.primarySurface,
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: AppColors.primaryBorder),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.assessment_outlined,
+                        size: 14,
                         color: AppColors.primary,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 4),
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+            if (canForceClose)
+              InkWell(
+                onTap: () async {
+                  final otp = await OtpDialog.showOtpSubmit(context);
+                  if (otp != null && context.mounted) {
+                    try {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Processing...')),
+                      );
+                      final forceCloseUseCase = context
+                          .read<ForceCloseMrWorkflowUseCase>();
+                      await forceCloseUseCase.call(widget.id, otp);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Closed successfully')),
+                        );
+                        try {
+                          context.read<MrRequestProvider>().refresh();
+                        } catch (_) {}
+                        try {
+                          context.read<MrWorkflowProvider>().refresh();
+                        } catch (_) {}
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+                      }
+                    }
+                  }
+                },
+                borderRadius: BorderRadius.circular(6),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.error.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: AppColors.error),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(
+                        Icons.close_rounded,
+                        size: 14,
+                        color: AppColors.error,
+                      ),
+                      SizedBox(width: 4),
+                      Text(
+                        'Close',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.error,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            );
-          }).toList(),
+          ],
         ),
       ],
     );
+  }
+
+  String _localizedStatus(BuildContext context, String status) {
+    final s = status.trim().toLowerCase();
+    // Known mappings
+    if (s == 'preparer') {
+      return context.l10n.preparer;
+    }
+    if (s == 'warehouse') {
+      return context.l10n.warehouse;
+    }
+    if (s == 'receiver') {
+      return context.l10n.receiver;
+    }
+    if (s == 'line leader') {
+      return context.l10n.lineLeader;
+    }
+    if (s == 'production') {
+      return context.l10n.production;
+    }
+
+    // Fallback: return original status string
+    return status;
   }
 }
 

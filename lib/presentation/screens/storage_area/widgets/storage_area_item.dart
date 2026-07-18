@@ -33,7 +33,7 @@ class StorageAreaItem extends StatelessWidget {
     if (lowerStatus == 'in use') return context.l10n.statusInUse;
     if (lowerStatus == 'pending confirm') return context.l10n.pendingConfirm;
     if (lowerStatus == 'open') return context.l10n.statusOpen;
-    if (lowerStatus == 'close') return context.l10n.statusClose;
+    if (lowerStatus == 'closed') return context.l10n.statusClose;
     return status;
   }
 

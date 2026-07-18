@@ -58,6 +58,7 @@ import '../domain/repositories/mr_workflow_submit_repository.dart';
 import '../domain/usecases/get_mr_requests_usecase.dart';
 import '../domain/usecases/get_mr_workflow_usecase.dart';
 import '../domain/usecases/get_workflow_report_detail_usecase.dart';
+import '../domain/usecases/force_close_mr_workflow_usecase.dart';
 
 // --- Presentation Providers ---
 import '../presentation/providers/mr_request_provider.dart';
@@ -380,6 +381,11 @@ class AppProviders {
       ),
       Provider<GetWorkflowReportDetailUseCase>(
         create: (context) => GetWorkflowReportDetailUseCase(
+          context.read<MrWorkflowRepository>(),
+        ),
+      ),
+      Provider<ForceCloseMrWorkflowUseCase>(
+        create: (context) => ForceCloseMrWorkflowUseCase(
           context.read<MrWorkflowRepository>(),
         ),
       ),

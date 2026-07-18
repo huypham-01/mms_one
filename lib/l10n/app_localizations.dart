@@ -375,6 +375,12 @@ abstract class AppLocalizations {
   /// **'PCN'**
   String get pcn;
 
+  /// No description provided for @materialPnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Material PN'**
+  String get materialPnLabel;
+
   /// No description provided for @finishGoodCtn.
   ///
   /// In en, this message translates to:
@@ -1113,6 +1119,18 @@ abstract class AppLocalizations {
   /// **'Close'**
   String get statusClose;
 
+  /// No description provided for @statusRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get statusRejected;
+
+  /// No description provided for @statusAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All Statuses'**
+  String get statusAll;
+
   /// No description provided for @transactionLogSubtitle.
   ///
   /// In en, this message translates to:
@@ -1434,7 +1452,7 @@ abstract class AppLocalizations {
   /// No description provided for @drawerMockMode.
   ///
   /// In en, this message translates to:
-  /// **'🧪 MOCK MODE'**
+  /// **'MOCK MODE'**
   String get drawerMockMode;
 
   /// No description provided for @drawerLanguageLabel.
@@ -1724,6 +1742,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get dialogConfirm;
+
+  /// No description provided for @groupByNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No Grouping'**
+  String get groupByNone;
+
+  /// No description provided for @groupByPcn.
+  ///
+  /// In en, this message translates to:
+  /// **'Group by PCN'**
+  String get groupByPcn;
+
+  /// No description provided for @groupByMaterialPn.
+  ///
+  /// In en, this message translates to:
+  /// **'Group by P/N'**
+  String get groupByMaterialPn;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

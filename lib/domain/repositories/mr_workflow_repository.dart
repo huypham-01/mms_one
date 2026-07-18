@@ -9,4 +9,6 @@ abstract class MrWorkflowRepository {
   });
 
   Future<WorkflowReportEntity?> getReportDetail(String id, String step);
+
+  Future<void> forceClose(String id, String otp);
 }

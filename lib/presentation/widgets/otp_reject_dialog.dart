@@ -115,11 +115,7 @@ class OtpRejectDialog extends StatefulWidget {
 }
 
 class _OtpRejectDialogState extends State<OtpRejectDialog> {
-  final List<TextEditingController> _controllers = List.generate(
-    6,
-    (_) => TextEditingController(),
-  );
-  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
+  final TextEditingController _otpCtrl = TextEditingController();
   final TextEditingController _reasonCtrl = TextEditingController();
   String? _otpError;
 
@@ -129,46 +125,23 @@ class _OtpRejectDialogState extends State<OtpRejectDialog> {
   @override
   void initState() {
     super.initState();
+    _otpCtrl.addListener(() {
+      if (_otpError != null) setState(() => _otpError = null);
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
-    for (final c in _controllers) {
-      c.dispose();
-    }
-    for (final f in _focusNodes) {
-      f.dispose();
-    }
+    _otpCtrl.dispose();
     _reasonCtrl.dispose();
     super.dispose();
   }
 
-  String get _otpValue => _controllers.map((c) => c.text).join();
-
-  void _onOtpChanged(int index, String value) {
-    if (_otpError != null) setState(() => _otpError = null);
-
-    // Paste nhiều ký tự
-    if (value.length > 1) {
-      final digits = value.replaceAll(RegExp(r'\D'), '');
-      for (int i = 0; i < 6 && i < digits.length; i++) {
-        _controllers[i].text = digits[i];
-      }
-      _focusNodes[digits.length < 6 ? digits.length : 5].requestFocus();
-      setState(() {});
-      return;
-    }
-
-    if (value.length == 1 && index < 5) {
-      _focusNodes[index + 1].requestFocus();
-    } else if (value.isEmpty && index > 0) {
-      _focusNodes[index - 1].requestFocus();
-    }
-    setState(() {});
-  }
+  String get _otpValue => _otpCtrl.text;
 
   void _onConfirm() {
-    final otp = _otpValue;
+    final otp = _otpValue.trim();
     if (otp.length != 6) {
       setState(() => _otpError = context.l10n.enterAllOtpDigits);
       return;
@@ -409,13 +382,29 @@ class _OtpRejectDialogState extends State<OtpRejectDialog> {
         _buildSectionLabel(context.l10n.supervisorOtp),
         TextButton(
           onPressed: () async {
-            final uri = Uri.parse('myotpapp://generate');
-            if (await canLaunchUrl(uri)) {
-              await launchUrl(uri, mode: LaunchMode.externalApplication);
-            } else {
+            final Uri uri = Uri(scheme: 'myotpapp', host: 'generate');
+            try {
+              final launched = await launchUrl(
+                uri,
+                mode: LaunchMode.externalNonBrowserApplication,
+              );
+              if (!launched && mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Không thể mở app OTP. Vui lòng kiểm tra đã cài đặt chưa.',
+                    ),
+                  ),
+                );
+              }
+            } catch (_) {
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Cannot open OTP app')),
+                  const SnackBar(
+                    content: Text(
+                      'Không thể mở app OTP. Vui lòng kiểm tra đã cài đặt chưa.',
+                    ),
+                  ),
                 );
               }
             }
@@ -463,70 +452,58 @@ class _OtpRejectDialogState extends State<OtpRejectDialog> {
   }
 
   Widget _buildOtpRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(6, _buildOtpBox),
-    );
-  }
-
-  Widget _buildOtpBox(int index) {
     final hasError = _otpError != null;
-    final hasValue = _controllers[index].text.isNotEmpty;
-
-    return SizedBox(
-      width: 44,
-      height: 52,
-      child: KeyboardListener(
-        focusNode: FocusNode(),
-        onKeyEvent: (event) {
-          if (event is KeyDownEvent &&
-              event.logicalKey == LogicalKeyboardKey.backspace &&
-              _controllers[index].text.isEmpty &&
-              index > 0) {
-            _focusNodes[index - 1].requestFocus();
-            _controllers[index - 1].clear();
-            setState(() {});
-          }
-        },
-        child: TextField(
-          controller: _controllers[index],
-          focusNode: _focusNodes[index],
-          keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
-          maxLength: 1,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          onChanged: (v) => _onOtpChanged(index, v),
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w800,
-            color: Color(0xFF1A1A2E),
-          ),
-          decoration: InputDecoration(
-            counterText: '',
-            filled: true,
-            fillColor: hasValue
+    return TextField(
+      controller: _otpCtrl,
+      keyboardType: TextInputType.number,
+      maxLength: 6,
+      textAlign: TextAlign.center,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(6),
+      ],
+      style: const TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 12,
+        color: Color(0xFF1A1A2E),
+      ),
+      decoration: InputDecoration(
+        counterText: '',
+        hintText: '------',
+        hintStyle: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 12,
+          color: Colors.grey.shade300,
+        ),
+        filled: true,
+        fillColor: hasError
+            ? Colors.red.shade50
+            : _otpCtrl.text.isNotEmpty
                 ? const Color(0xFFF0F3FF)
                 : const Color(0xFFF8F9FC),
-            contentPadding: EdgeInsets.zero,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: hasError ? Colors.red.shade400 : const Color(0xFFDDE1EE),
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: hasError ? Colors.red.shade400 : const Color(0xFFDDE1EE),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: hasError ? Colors.red.shade500 : const Color(0xFF1A2B5E),
-                width: 2,
-              ),
-            ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: hasError ? Colors.red.shade400 : const Color(0xFFDDE1EE),
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: hasError ? Colors.red.shade400 : const Color(0xFFDDE1EE),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: hasError ? Colors.red.shade500 : const Color(0xFF1A2B5E),
+            width: 2,
           ),
         ),
       ),
@@ -577,6 +554,8 @@ class _OtpRejectDialogState extends State<OtpRejectDialog> {
     );
   }
 }
+
+
 
 // ── Shell: giải quyết keyboard resize chuẩn production ────────────────────────
 //

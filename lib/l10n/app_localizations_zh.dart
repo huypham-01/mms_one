@@ -147,6 +147,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pcn => 'PCN';
 
   @override
+  String get materialPnLabel => '物料P/N';
+
+  @override
   String get finishGoodCtn => '成品/箱';
 
   @override
@@ -522,6 +525,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get statusClose => '关闭';
 
   @override
+  String get statusRejected => '已拒绝';
+
+  @override
+  String get statusAll => '所有状态';
+
+  @override
   String get transactionLogSubtitle => '消耗事件历史';
 
   @override
@@ -826,6 +835,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dialogConfirm => '确认';
+
+  @override
+  String get groupByNone => '不分组';
+
+  @override
+  String get groupByPcn => '按 PCN 分组';
+
+  @override
+  String get groupByMaterialPn => '按物料料号分组';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -969,6 +987,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get pcn => 'PCN';
+
+  @override
+  String get materialPnLabel => '物料P/N';
 
   @override
   String get finishGoodCtn => '成品/箱';
@@ -1334,6 +1355,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get statusClose => '关闭';
 
   @override
+  String get statusRejected => '已拒绝';
+
+  @override
+  String get statusAll => '所有状态';
+
+  @override
   String get transactionLogSubtitle => '消耗事件历史';
 
   @override
@@ -1590,6 +1617,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get dialogConfirm => '确认';
+
+  @override
+  String get groupByNone => '不分组';
+
+  @override
+  String get groupByPcn => '按 PCN 分组';
+
+  @override
+  String get groupByMaterialPn => '按物料料号分组';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -1733,6 +1769,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get pcn => 'PCN';
+
+  @override
+  String get materialPnLabel => '物料P/N';
 
   @override
   String get finishGoodCtn => '成品/箱';
@@ -2110,6 +2149,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get statusClose => '關閉';
 
   @override
+  String get statusRejected => '已拒絕';
+
+  @override
+  String get statusAll => '所有狀態';
+
+  @override
   String get transactionLogSubtitle => '消耗事件歷史';
 
   @override
@@ -2414,4 +2459,13 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get dialogConfirm => '確認';
+
+  @override
+  String get groupByNone => '不分組';
+
+  @override
+  String get groupByPcn => '依 PCN 分組';
+
+  @override
+  String get groupByMaterialPn => '依物料料號分組';
 }

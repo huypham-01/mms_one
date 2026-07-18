@@ -4,6 +4,24 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_colors.dart';
 import '../../l10n/app_localizations.dart';
 
+/// Formatter cho phép dán chuỗi chứa 6 chữ số (bỏ qua ký tự không phải số).
+/// Ví dụ: dán "OTP: 123 456" → "123456", dán "123456" → "123456".
+class OtpPasteFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digitsOnly = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    final trimmed =
+        digitsOnly.length > 6 ? digitsOnly.substring(0, 6) : digitsOnly;
+    return newValue.copyWith(
+      text: trimmed,
+      selection: TextSelection.collapsed(offset: trimmed.length),
+    );
+  }
+}
+
 /// Dialog nhập OTP 6 chữ số.
 /// Trả về String OTP nếu người dùng nhấn Confirm, null nếu Cancel.
 class OtpDialog extends StatefulWidget {
@@ -70,7 +88,7 @@ class _OtpDialogState extends State<OtpDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Header
+          // ── Header ──────────────────────────────────────────────────
           Container(
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
@@ -96,29 +114,25 @@ class _OtpDialogState extends State<OtpDialog> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.verifyOtpTitle,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ],
+                Text(
+                  l10n.verifyOtpTitle,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ],
             ),
           ),
 
-          // Body
+          // ── Body ─────────────────────────────────────────────────────
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Label row + Get OTP button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -133,83 +147,117 @@ class _OtpDialogState extends State<OtpDialog> {
                     ),
                     TextButton(
                       onPressed: () async {
-                        final uri = Uri.parse('myotpapp://generate');
-                        if (await canLaunchUrl(uri)) {
-                          await launchUrl(uri, mode: LaunchMode.externalApplication);
-                        } else {
+                        final Uri uri = Uri(
+                          scheme: 'myotpapp',
+                          host: 'generate',
+                        );
+                        try {
+                          final launched = await launchUrl(
+                            uri,
+                            mode: LaunchMode.externalNonBrowserApplication,
+                          );
+                          if (!launched && context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Không thể mở app OTP. Vui lòng kiểm tra đã cài đặt chưa.',
+                                ),
+                              ),
+                            );
+                          }
+                        } catch (_) {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Cannot open OTP app')),
+                              const SnackBar(
+                                content: Text(
+                                  'Không thể mở app OTP. Vui lòng kiểm tra đã cài đặt chưa.',
+                                ),
+                              ),
                             );
                           }
                         }
                       },
                       style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 0,
+                        ),
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      child: const Text('Get OTP', style: TextStyle(fontSize: 13)),
+                      child: const Text(
+                        'Get OTP',
+                        style: TextStyle(fontSize: 13),
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
+
+                // ── Ô nhập OTP duy nhất ──────────────────────────────
                 TextField(
                   controller: _otpCtrl,
                   focusNode: _focusNode,
                   keyboardType: TextInputType.number,
                   maxLength: 6,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  inputFormatters: [OtpPasteFormatter()],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 28,
                     fontWeight: FontWeight.w800,
-                    letterSpacing: 8,
+                    letterSpacing: 12,
                     color: AppColors.textPrimary,
                   ),
-                  onChanged: (_) {
+                  onChanged: (value) {
                     if (_errorText != null) {
                       setState(() => _errorText = null);
+                    }
+                    // Tự động ẩn bàn phím khi đủ 6 số
+                    if (value.length == 6) {
+                      FocusScope.of(context).unfocus();
                     }
                   },
                   onSubmitted: (_) => _onConfirm(),
                   decoration: InputDecoration(
                     counterText: '',
-                    hintText: '······',
-                    hintStyle: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 8,
-                      color: AppColors.textTertiary,
+                    hintText: '──────',
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 4,
+                      color: AppColors.textTertiary.withValues(alpha: 0.6),
                     ),
                     errorText: _errorText,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 12,
+                      vertical: 16,
                     ),
                     filled: true,
                     fillColor: AppColors.surfaceVariant,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: AppColors.cardBorder),
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide:
+                          const BorderSide(color: AppColors.cardBorder),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: AppColors.cardBorder),
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide:
+                          const BorderSide(color: AppColors.cardBorder),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
                         color: AppColors.primary,
                         width: 2,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: AppColors.error),
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide:
+                          const BorderSide(color: AppColors.error),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
                         color: AppColors.error,
                         width: 2,
@@ -217,9 +265,10 @@ class _OtpDialogState extends State<OtpDialog> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 20),
 
-                // Buttons
+                // ── Buttons ──────────────────────────────────────────
                 Row(
                   children: [
                     Expanded(

@@ -45,6 +45,7 @@
   "workOrder": "工作单",
   "demandWk": "需求周",
   "pcn": "PCN",
+  "materialPnLabel": "物料P/N",
   "finishGoodCtn": "成品/箱",
   "materialPn": "物料P/N",
   "materialName": "物料名称",
@@ -192,6 +193,8 @@
   "statusInUse": "使用中",
   "statusOpen": "打开",
   "statusClose": "关闭",
+  "statusRejected": "已拒绝",
+  "statusAll": "所有状态",
   "transactionLogSubtitle": "消耗事件历史",
   "noTransactionLogsFound": "未找到交易日志",
   "transaction": "交易",
@@ -293,5 +296,8 @@
   "dialogLogoutTitle": "登出",
   "dialogLogoutMessage": "您确定要登出吗？",
   "dialogCancel": "取消",
-  "dialogConfirm": "确认"
+  "dialogConfirm": "确认",
+  "groupByNone": "不分组",
+  "groupByPcn": "按 PCN 分组",
+  "groupByMaterialPn": "按物料料号分组"
 }

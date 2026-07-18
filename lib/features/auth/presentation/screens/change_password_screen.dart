@@ -248,18 +248,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             border: const OutlineInputBorder(),
                             suffixIcon: TextButton(
                               onPressed: () async {
-                                final uri = Uri.parse('myotpapp://generate');
-                                if (await canLaunchUrl(uri)) {
-                                  await launchUrl(
+                                final Uri uri = Uri(scheme: 'myotpapp', host: 'generate');
+                                try {
+                                  final launched = await launchUrl(
                                     uri,
-                                    mode: LaunchMode.externalApplication,
+                                    mode: LaunchMode.externalNonBrowserApplication,
                                   );
-                                } else {
+                                  if (!launched && context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Không thể mở app OTP. Vui lòng kiểm tra đã cài đặt chưa.')),
+                                    );
+                                  }
+                                } catch (_) {
                                   if (context.mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Cannot open OTP app'),
-                                      ),
+                                      const SnackBar(content: Text('Không thể mở app OTP. Vui lòng kiểm tra đã cài đặt chưa.')),
                                     );
                                   }
                                 }

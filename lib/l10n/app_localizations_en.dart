@@ -147,6 +147,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pcn => 'PCN';
 
   @override
+  String get materialPnLabel => 'Material PN';
+
+  @override
   String get finishGoodCtn => 'Finish Good/ctn';
 
   @override
@@ -522,6 +525,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statusClose => 'Close';
 
   @override
+  String get statusRejected => 'Rejected';
+
+  @override
+  String get statusAll => 'All Statuses';
+
+  @override
   String get transactionLogSubtitle => 'Consume Events History';
 
   @override
@@ -681,7 +690,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get drawerLanguage => 'Language';
 
   @override
-  String get drawerMockMode => '🧪 MOCK MODE';
+  String get drawerMockMode => 'MOCK MODE';
 
   @override
   String get drawerLanguageLabel => 'Language: ';
@@ -826,4 +835,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dialogConfirm => 'Confirm';
+
+  @override
+  String get groupByNone => 'No Grouping';
+
+  @override
+  String get groupByPcn => 'Group by PCN';
+
+  @override
+  String get groupByMaterialPn => 'Group by P/N';
 }

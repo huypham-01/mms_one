@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import '../localization/localization_extensions.dart';
 import '../theme/app_colors.dart';
 
 /// Reusable status chip widget for displaying states like
@@ -72,7 +73,8 @@ class StatusChip extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(
-            label,
+            // label,
+            _localizedStatus(context, label),
             style: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.w600,
@@ -82,5 +84,25 @@ class StatusChip extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _localizedStatus(BuildContext context, String status) {
+    final s = status.trim().toLowerCase();
+    // Known mappings
+    if (s == 'in progress' || s.contains('in progress')) {
+      return context.l10n.inProgress;
+    }
+    if (s == 'in use' || s.contains('in use')) {
+      return context.l10n.statusInUse;
+    }
+    if (s == 'rejected' || s.contains('rejected') || s.contains('reject')) {
+      return context.l10n.statusRejected;
+    }
+    if (s == 'closed' || s.contains('closed') || s.contains('CLOSED')) {
+      return context.l10n.statusClose;
+    }
+
+    // Fallback: return original status string
+    return status;
   }
 }

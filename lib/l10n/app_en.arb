@@ -45,6 +45,7 @@
   "workOrder": "Work Order",
   "demandWk": "Demand WK",
   "pcn": "PCN",
+  "materialPnLabel": "Material PN",
   "finishGoodCtn": "Finish Good/ctn",
   "materialPn": "Material P/N",
   "materialName": "Material Name",
@@ -192,6 +193,8 @@
   "statusInUse": "In Use",
   "statusOpen": "Open",
   "statusClose": "Close",
+  "statusRejected": "Rejected",
+  "statusAll": "All Statuses",
   "transactionLogSubtitle": "Consume Events History",
   "noTransactionLogsFound": "No transaction logs found",
   "transaction": "Transaction",
@@ -245,7 +248,7 @@
   "drawerReportHeader": "REPORT",
   "drawerLogout": "Logout",
   "drawerLanguage": "Language",
-  "drawerMockMode": "🧪 MOCK MODE",
+  "drawerMockMode": "MOCK MODE",
   "drawerLanguageLabel": "Language: ",
   "loginTitle": "MMS Login",
   "username": "Username",
@@ -293,5 +296,9 @@
   "dialogLogoutTitle": "Logout",
   "dialogLogoutMessage": "Are you sure you want to logout?",
   "dialogCancel": "Cancel",
-  "dialogConfirm": "Confirm"
+  "dialogConfirm": "Confirm",
+  "groupByNone": "No Grouping",
+  "groupByPcn": "Group by PCN",
+  "groupByMaterialPn": "Group by P/N"
+
 }

@@ -45,6 +45,7 @@
   "workOrder": "Lệnh công việc",
   "demandWk": "Nhu cầu WK",
   "pcn": "PCN",
+  "materialPnLabel": "Material PN",
   "finishGoodCtn": "Sản phẩm hoàn thành/ctn",
   "materialPn": "Số P/N vật liệu",
   "materialName": "Tên vật liệu",
@@ -86,7 +87,7 @@
   "mrName": "Tên",
   "receiverFrom": "Nhận từ",
   "leaderName": "Tên trưởng ca",
-  "quantityToProduction": "Số lượng cho sản xuất",
+  "quantityToProduction": "Số lượng cho SX",
   "toWhere": "Gửi tới đâu",
   "toWho": "Gửi cho ai",
   "fromLocker": "Từ tủ khóa",
@@ -192,6 +193,8 @@
   "statusInUse": "Đang dùng",
   "statusOpen": "Mở",
   "statusClose": "Đóng",
+  "statusRejected": "Từ chối",
+  "statusAll": "Tất cả",
   "transactionLogSubtitle": "Lịch sử sự kiện sử dụng",
   "noTransactionLogsFound": "Không tìm thấy nhật ký giao dịch",
   "transaction": "Giao dịch",
@@ -293,5 +296,8 @@
   "dialogLogoutTitle": "Đăng xuất",
   "dialogLogoutMessage": "Bạn có chắc chắn muốn đăng xuất không?",
   "dialogCancel": "Hủy",
-  "dialogConfirm": "Xác nhận"
+  "dialogConfirm": "Xác nhận",
+  "groupByNone": "Không nhóm",
+  "groupByPcn": "Nhóm theo PCN",
+  "groupByMaterialPn": "Nhóm theo P/N"
 }

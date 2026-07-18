@@ -147,6 +147,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get pcn => 'PCN';
 
   @override
+  String get materialPnLabel => 'Material PN';
+
+  @override
   String get finishGoodCtn => 'Sản phẩm hoàn thành/ctn';
 
   @override
@@ -270,7 +273,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get leaderName => 'Tên trưởng ca';
 
   @override
-  String get quantityToProduction => 'Số lượng cho sản xuất';
+  String get quantityToProduction => 'Số lượng cho SX';
 
   @override
   String get toWhere => 'Gửi tới đâu';
@@ -520,6 +523,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get statusClose => 'Đóng';
+
+  @override
+  String get statusRejected => 'Từ chối';
+
+  @override
+  String get statusAll => 'Tất cả';
 
   @override
   String get transactionLogSubtitle => 'Lịch sử sự kiện sử dụng';
@@ -826,4 +835,13 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get dialogConfirm => 'Xác nhận';
+
+  @override
+  String get groupByNone => 'Không nhóm';
+
+  @override
+  String get groupByPcn => 'Nhóm theo PCN';
+
+  @override
+  String get groupByMaterialPn => 'Nhóm theo P/N';
 }
